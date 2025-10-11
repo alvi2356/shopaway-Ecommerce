@@ -1,0 +1,155 @@
+/* SSL Commerz Payment Gateway Customizations */
+
+/* Override SSL Commerz styles for better appearance */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    background-color: #f8f9fa !important;
+}
+
+/* Header improvements */
+.header-section {
+    background: linear-gradient(135deg, #1baaae 0%, #4fc3f7 100%) !important;
+    color: white !important;
+    padding: 20px !important;
+    border-radius: 8px !important;
+    margin-bottom: 20px !important;
+}
+
+/* Payment summary styling */
+.payment-summary {
+    background: white !important;
+    border: 1px solid #e9ecef !important;
+    border-radius: 8px !important;
+    padding: 20px !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* Card information form styling */
+.card-info-section {
+    background: white !important;
+    border: 1px solid #e9ecef !important;
+    border-radius: 8px !important;
+    padding: 20px !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* Input field improvements */
+input[type="text"], input[type="number"], select {
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important;
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+    transition: border-color 0.2s ease !important;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, select:focus {
+    border-color: #1baaae !important;
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(27, 170, 174, 0.2) !important;
+}
+
+/* Button styling */
+button, .btn {
+    border-radius: 6px !important;
+    padding: 10px 20px !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Success button */
+button[style*="background-color: green"], .success-btn {
+    background: #28a745 !important;
+    border-color: #28a745 !important;
+    color: white !important;
+}
+
+button[style*="background-color: green"]:hover, .success-btn:hover {
+    background: #218838 !important;
+    border-color: #1e7e34 !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Failed button */
+button[style*="background-color: red"], .failed-btn {
+    background: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: white !important;
+}
+
+button[style*="background-color: red"]:hover, .failed-btn:hover {
+    background: #c82333 !important;
+    border-color: #bd2130 !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Security notice styling */
+.security-notice {
+    background: #e3f2fd !important;
+    border: 1px solid #bbdefb !important;
+    border-radius: 6px !important;
+    padding: 15px !important;
+    margin: 15px 0 !important;
+    color: #1976d2 !important;
+}
+
+/* Footer improvements */
+.footer-section {
+    background: #f8f9fa !important;
+    border-top: 1px solid #e9ecef !important;
+    padding: 20px !important;
+    margin-top: 30px !important;
+    text-align: center !important;
+}
+
+/* Payment network logos */
+.payment-logos {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 20px !important;
+    margin: 15px 0 !important;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .payment-summary, .card-info-section {
+        margin: 10px !important;
+        padding: 15px !important;
+    }
+    
+    .payment-logos {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.loading {
+    animation: pulse 2s infinite !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1baaae !important;
+    border-radius: 4px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #15969a !important;
+}

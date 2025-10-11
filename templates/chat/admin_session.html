@@ -1,0 +1,676 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Chat Session - {{ session.user_name }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0">
+                            <i class="fas fa-user"></i> {{ session.user_name }}
+                        </h4>
+                        <small class="text-muted">{{ session.user_email }}</small>
+                    </div>
+                    <div>
+                        <span class="badge bg-info">Session: {{ session.session_key }}</span>
+                        <a href="{% url 'admin_chat_dashboard' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- Chat Header -->
+                            <div class="chat-header-admin mb-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 8px;">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-comments"></i> Chat with {{ session.user_name }}
+                                        </h5>
+                                        <small class="opacity-75">{{ session.user_email }}</small>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge bg-success me-2">
+                                            <i class="fas fa-circle"></i> Online
+                                        </span>
+                                        <span class="small">Session: {{ session.session_key|truncatechars:8 }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Chat Messages -->
+                            <div id="chat-messages" style="height: 400px; overflow-y: auto; border: 1px solid #dee2e6; padding: 15px; margin-bottom: 15px; background: #f8f9fa; border-radius: 8px;">
+                                {% for message in messages %}
+                                <div class="message mb-3 {% if message.is_staff_reply %}message-staff{% else %}message-user{% endif %}">
+                                    <div class="d-flex {% if message.is_staff_reply %}justify-content-end{% else %}justify-content-start{% endif %}">
+                                        <div class="message-bubble {% if message.is_staff_reply %}bg-primary text-white{% else %}bg-white border{% endif %}" 
+                                             style="max-width: 80%; padding: 12px 16px; border-radius: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                            <div class="message-text">{{ message.message }}</div>
+                                            <div class="message-meta" style="font-size: 0.75em; opacity: 0.8; margin-top: 6px;">
+                                                {% if message.is_staff_reply %}
+                                                    <i class="fas fa-user-shield"></i> You
+                                                {% else %}
+                                                    <i class="fas fa-user"></i> {{ session.user_name }}
+                                                {% endif %}
+                                                <span class="ms-2">{{ message.timestamp|date:"M d, H:i" }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <!-- Chat Input -->
+                            <div class="chat-input-container" style="background: white; border: 1px solid #dee2e6; border-radius: 25px; padding: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                <div class="input-group">
+                                    <input type="text" class="form-control border-0" id="message-input" placeholder="Type your message..." style="background: transparent; padding: 12px 20px;">
+                                    <button class="btn btn-primary rounded-circle" id="send-message-btn" style="width: 45px; height: 45px; margin-right: 5px;">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6>Session Info</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>User:</strong> {{ session.user_name }}</p>
+                                    <p><strong>Email:</strong> {{ session.user_email }}</p>
+                                    <p><strong>Started:</strong> {{ session.created_at|date:"M d, Y H:i" }}</p>
+                                    <p><strong>Last Activity:</strong> {{ session.updated_at|date:"M d, Y H:i" }}</p>
+                                    <p><strong>Status:</strong> 
+                                        <span class="badge bg-{% if session.is_active %}success{% else %}secondary{% endif %}">
+                                            {% if session.is_active %}Active{% else %}Inactive{% endif %}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h6>Quick Actions</h6>
+                                </div>
+                                <div class="card-body">
+                                    <button class="btn btn-warning btn-sm w-100 mb-2" onclick="assignToMe()">
+                                        <i class="fas fa-user-plus"></i> Assign to Me
+                                    </button>
+                                    <button class="btn btn-info btn-sm w-100 mb-2" onclick="refreshMessages()">
+                                        <i class="fas fa-sync"></i> Refresh Messages
+                                    </button>
+                                    <button class="btn btn-secondary btn-sm w-100" onclick="closeSession()">
+                                        <i class="fas fa-times"></i> Close Session
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Enhanced Chat Styles for Admin */
+.chat-header-admin {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.message-bubble {
+    transition: all 0.3s ease;
+}
+
+.message-bubble:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.chat-input-container {
+    transition: all 0.3s ease;
+}
+
+.chat-input-container:focus-within {
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+    border-color: #667eea;
+}
+
+#chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Animation for new messages */
+@keyframes slideInMessage {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message {
+    animation: slideInMessage 0.3s ease-out;
+}
+
+/* Typing indicator */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: #666;
+    font-style: italic;
+}
+
+.typing-dots {
+    display: inline-flex;
+    margin-left: 8px;
+}
+
+.typing-dots span {
+    height: 4px;
+    width: 4px;
+    background: #666;
+    border-radius: 50%;
+    display: inline-block;
+    animation: typing 1.4s infinite ease-in-out;
+    margin: 0 1px;
+}
+
+.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typing {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+</style>
+
+<script>
+let sessionKey = '{{ session.session_key }}';
+let chatSocket = null;
+
+// Connect to WebSocket for real-time updates
+function connectWebSocket() {
+    const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+    chatSocket = new WebSocket(`${ws_scheme}://${window.location.host}/ws/chat/${sessionKey}/`);
+    
+    chatSocket.onopen = function() {
+        console.log('Admin WebSocket connected for session:', sessionKey);
+    };
+    
+    chatSocket.onmessage = function(e) {
+        console.log('Admin received WebSocket message:', e.data);
+        const data = JSON.parse(e.data);
+        console.log('Admin parsed message data:', data);
+        addMessageToChat(data.message, data.is_staff_reply, data.timestamp);
+    };
+    
+    chatSocket.onclose = function() {
+        console.log('Admin WebSocket disconnected');
+        // Attempt to reconnect after 3 seconds
+        setTimeout(connectWebSocket, 3000);
+    };
+    
+    chatSocket.onerror = function(error) {
+        console.error('Admin WebSocket error:', error);
+    };
+}
+
+// Add message to chat display
+function addMessageToChat(message, isStaffReply, timestamp) {
+    const messagesContainer = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message-item mb-3 ${isStaffReply ? 'text-end' : 'text-start'}`;
+    
+    const bubbleClass = isStaffReply ? 'bg-primary text-white' : 'bg-light';
+    const senderName = isStaffReply ? 'Staff' : '{{ session.user_name }}';
+    const icon = isStaffReply ? 'fas fa-user-shield' : 'fas fa-user';
+    
+    messageDiv.innerHTML = `
+        <div class="d-flex ${isStaffReply ? 'justify-content-end' : 'justify-content-start'}">
+            <div class="message-bubble ${bubbleClass}" style="max-width: 80%; padding: 12px 16px; border-radius: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div class="message-text">${message}</div>
+                <div class="message-meta" style="font-size: 0.75em; opacity: 0.8; margin-top: 6px;">
+                    <i class="${icon}"></i> ${senderName}
+                    <span class="ms-2">${new Date(timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+// Send message - Enhanced with better debugging
+function setupAdminSendButton() {
+    console.log('🔧 Setting up admin send button...');
+    
+    const sendBtn = document.getElementById('send-message-btn');
+    const messageInput = document.getElementById('message-input');
+    
+    console.log('Admin send button element:', sendBtn);
+    console.log('Admin message input element:', messageInput);
+    
+    if (sendBtn) {
+        // Remove any existing listeners first
+        sendBtn.replaceWith(sendBtn.cloneNode(true));
+        const newSendBtn = document.getElementById('send-message-btn');
+        
+        newSendBtn.addEventListener('click', function(e) {
+            console.log('🔥🔥🔥 ADMIN SEND BUTTON CLICKED!');
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Visual feedback
+            newSendBtn.style.transform = 'scale(0.95)';
+            newSendBtn.style.backgroundColor = '#4CAF50';
+            setTimeout(() => {
+                newSendBtn.style.transform = 'scale(1)';
+                newSendBtn.style.backgroundColor = '';
+            }, 200);
+            
+            sendAdminMessage();
+        });
+        
+        console.log('✅ Admin send button listener attached');
+    } else {
+        console.error('❌ Admin send button not found!');
+    }
+    
+    if (messageInput) {
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                console.log('⌨️ Admin Enter key pressed!');
+                e.preventDefault();
+                sendAdminMessage();
+            }
+        });
+        
+        console.log('✅ Admin message input listener attached');
+    } else {
+        console.error('❌ Admin message input not found!');
+    }
+}
+
+// Admin send message function
+function sendAdminMessage() {
+    console.log('🚀 sendAdminMessage() function called');
+    
+    const messageInput = document.getElementById('message-input');
+    if (!messageInput) {
+        console.error('❌ Admin message input not found!');
+        return;
+    }
+    
+    const message = messageInput.value.trim();
+    console.log('📝 Admin message to send:', message);
+    console.log('🔌 Admin WebSocket status:', {chatSocket: !!chatSocket, readyState: chatSocket?.readyState});
+    console.log('🔑 Admin session key:', sessionKey);
+    
+    if (!message) {
+        console.log('⚠️ No admin message to send');
+        return;
+    }
+    
+    if (!sessionKey) {
+        console.error('❌ No admin session key available!');
+        return;
+    }
+    
+    // Always add to UI immediately for better UX
+    console.log('📱 Adding admin message to UI...');
+    addMessageToChat(message, true, new Date().toISOString());
+    messageInput.value = '';
+    messageInput.focus();
+    
+    // Try WebSocket first, then fallback to HTTP
+    if (chatSocket && chatSocket.readyState === WebSocket.OPEN) {
+        console.log('🌐 Admin sending via WebSocket...');
+        try {
+            chatSocket.send(JSON.stringify({
+                message: message,
+                is_staff_reply: true
+            }));
+            console.log('✅ Admin message sent via WebSocket');
+        } catch (error) {
+            console.error('❌ Admin WebSocket send error:', error);
+            // Fallback to HTTP
+            sendAdminMessageViaHTTP(message);
+        }
+    } else {
+        console.log('🔄 Admin WebSocket not available, using HTTP fallback');
+        sendAdminMessageViaHTTP(message);
+    }
+}
+
+// HTTP fallback for admin messages
+function sendAdminMessageViaHTTP(message) {
+    console.log('📡 Admin sending message via HTTP to session:', sessionKey);
+    
+    fetch(`/chat/admin/session/${sessionKey}/send/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({message: message})
+    })
+    .then(response => {
+        console.log('📡 Admin HTTP response status:', response.status);
+        return response.json();
+    })
+    .then(data => {
+        console.log('📡 Admin HTTP response data:', data);
+        if (data.error) {
+            console.error('❌ Admin error sending message:', data.error);
+        } else {
+            console.log('✅ Admin message sent successfully via HTTP');
+        }
+    })
+    .catch(error => {
+        console.error('❌ Admin HTTP send error:', error);
+    });
+}
+
+// Show/hide typing indicator
+function showTypingIndicator(isStaff = false) {
+    const messagesContainer = document.getElementById('chat-messages');
+    const typingDiv = document.createElement('div');
+    typingDiv.id = 'typing-indicator';
+    typingDiv.className = 'typing-indicator';
+    typingDiv.innerHTML = `
+        <span>${isStaff ? 'You are' : 'Customer is'} typing</span>
+        <div class="typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    `;
+    messagesContainer.appendChild(typingDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function hideTypingIndicator() {
+    const typingIndicator = document.getElementById('typing-indicator');
+    if (typingIndicator) {
+        typingIndicator.remove();
+    }
+}
+
+// Enter key to send message
+document.getElementById('message-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        document.getElementById('send-message-btn').click();
+    }
+});
+
+// Quick action functions
+function assignToMe() {
+    /**
+     * Assign the current chat session to the logged-in admin user.
+     * This allows admins to claim ownership of chat sessions.
+     */
+    console.log('👤 Assigning session to current user...');
+    
+    fetch(`/chat/admin/session/{{ session.session_key }}/assign/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            console.log('✅ Session assigned successfully');
+            showToast('Session assigned to you!', 'success');
+            
+            // Update UI to show assignment
+            updateSessionInfo();
+        } else {
+            console.error('❌ Assignment failed:', data.error);
+            showToast('Failed to assign session', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('❌ Assignment error:', error);
+        showToast('Failed to assign session', 'error');
+    });
+}
+
+function refreshMessages() {
+    /**
+     * Refresh messages for the current chat session.
+     * This forces a reload of all messages from the database.
+     */
+    console.log('🔄 Refreshing messages...');
+    
+    fetch(`/chat/admin/session/{{ session.session_key }}/refresh/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            console.log(`✅ Refreshed ${data.message_count} messages`);
+            showToast(`Refreshed ${data.message_count} messages`, 'success');
+            
+            // Reload the page to show updated messages
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        } else {
+            console.error('❌ Refresh failed:', data.error);
+            showToast('Failed to refresh messages', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('❌ Refresh error:', error);
+        showToast('Failed to refresh messages', 'error');
+    });
+}
+
+function closeSession() {
+    /**
+     * Close the current chat session.
+     * This marks the session as inactive and prevents new messages.
+     */
+    if (confirm('Are you sure you want to close this session? This will prevent new messages from being sent.')) {
+        console.log('🔒 Closing session...');
+        
+        fetch(`/chat/admin/session/{{ session.session_key }}/close/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                console.log('✅ Session closed successfully');
+                showToast('Session closed successfully', 'success');
+                
+                // Redirect to dashboard after closing
+                setTimeout(() => {
+                    window.location.href = '/chat/admin/';
+                }, 2000);
+            } else {
+                console.error('❌ Close failed:', data.error);
+                showToast('Failed to close session', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('❌ Close error:', error);
+            showToast('Failed to close session', 'error');
+        });
+    }
+}
+
+// Helper function to get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    console.log('🍪 CSRF Token for', name + ':', cookieValue ? 'Found' : 'Not found');
+    return cookieValue;
+}
+
+// Toast notification function
+function showToast(message, type = 'info') {
+    /**
+     * Show a toast notification to the user.
+     * @param {string} message - The message to display
+     * @param {string} type - The type of notification (success, error, info, warning)
+     */
+    const toastContainer = document.getElementById('toast-container') || createToastContainer();
+    
+    const toast = document.createElement('div');
+    toast.className = `toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : type === 'warning' ? 'warning' : 'info'} border-0`;
+    toast.setAttribute('role', 'alert');
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+                ${message}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    `;
+    
+    toastContainer.appendChild(toast);
+    
+    // Show toast
+    const bsToast = new bootstrap.Toast(toast);
+    bsToast.show();
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (toast.parentNode) {
+            toast.parentNode.removeChild(toast);
+        }
+    }, 5000);
+}
+
+// Create toast container if it doesn't exist
+function createToastContainer() {
+    const container = document.createElement('div');
+    container.id = 'toast-container';
+    container.className = 'toast-container position-fixed top-0 end-0 p-3';
+    container.style.zIndex = '9999';
+    document.body.appendChild(container);
+    return container;
+}
+
+// Update session info display
+function updateSessionInfo() {
+    /**
+     * Update the session information display after assignment.
+     * This refreshes the session info to show the current assignment.
+     */
+    console.log('🔄 Updating session info...');
+    
+    // You can add logic here to update the session info display
+    // For now, we'll just show a success message
+    showToast('Session information updated', 'success');
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📄 Admin page DOM Content Loaded');
+    
+    // Setup send button listeners
+    setupAdminSendButton();
+    
+    // Connect WebSocket
+    connectWebSocket();
+    
+    // Scroll to bottom
+    const messagesContainer = document.getElementById('chat-messages');
+    if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+    // Add event delegation as fallback
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.id === 'send-message-btn') {
+            console.log('🎯 Admin send button clicked via event delegation!');
+            e.preventDefault();
+            e.stopPropagation();
+            sendAdminMessage();
+        }
+    });
+    
+    // Event delegation for Enter key
+    document.addEventListener('keypress', function(e) {
+        if (e.target && e.target.id === 'message-input' && e.key === 'Enter' && !e.shiftKey) {
+            console.log('⌨️ Admin Enter key pressed via event delegation!');
+            e.preventDefault();
+            sendAdminMessage();
+        }
+    });
+    
+    // Add debug functions
+    window.testAdminSendButton = function() {
+        console.log('🧪 Testing admin send button...');
+        const sendBtn = document.getElementById('send-message-btn');
+        if (sendBtn) {
+            console.log('✅ Admin send button found, simulating click...');
+            sendBtn.click();
+        } else {
+            console.error('❌ Admin send button not found!');
+        }
+    };
+    
+    window.testAdminMessage = function() {
+        console.log('🧪 Testing admin message...');
+        const messageInput = document.getElementById('message-input');
+        if (messageInput) {
+            messageInput.value = 'Test admin message';
+            sendAdminMessage();
+        }
+    };
+    
+    console.log('💡 Use testAdminSendButton() to test admin send button');
+    console.log('💡 Use testAdminMessage() to send test admin message');
+});
+</script>
+{% endblock %}

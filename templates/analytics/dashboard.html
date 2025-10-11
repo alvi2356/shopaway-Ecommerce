@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Sales Dashboard</h2>
+<ul>
+  <li>Sales today: {{ total_sales_today }}</li>
+  <li>Sales this month: {{ total_sales_month }}</li>
+  <li>Orders today: {{ orders_today }}</li>
+</ul>
+{% endblock %}

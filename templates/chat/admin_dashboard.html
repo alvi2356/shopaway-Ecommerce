@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Chat Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">
+                        <i class="fas fa-comments"></i> Live Chat Dashboard
+                    </h3>
+                    <span class="badge bg-primary" id="unread-count">0 unread</span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5>Active Chat Sessions</h5>
+                            <div class="list-group" id="chat-sessions">
+                                {% for session in active_sessions %}
+                                <div class="list-group-item session-item" 
+                                     data-session-key="{{ session.session_key }}"
+                                     style="border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 10px; padding: 15px; transition: all 0.3s ease; cursor: pointer;"
+                                     onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'"
+                                     onmouseout="this.style.boxShadow='none'"
+                                     onclick="openChatSession('{{ session.session_key }}')">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="avatar-circle me-3" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                                                    {{ session.user_name|first|upper }}
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0 fw-bold">{{ session.user_name }}</h6>
+                                                    <small class="text-muted">{{ session.user_email }}</small>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="badge bg-{% if session.assigned_to %}success{% else %}warning{% endif %} me-2">
+                                                    {% if session.assigned_to %}
+                                                        <i class="fas fa-user-check"></i> {{ session.assigned_to.username }}
+                                                    {% else %}
+                                                        <i class="fas fa-user-clock"></i> Unassigned
+                                                    {% endif %}
+                                                </span>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-clock"></i> {{ session.created_at|timesince }} ago
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <div class="btn-group" role="group">
+                                                <button class="btn btn-outline-primary btn-sm rounded-pill px-3 me-2" onclick="event.stopPropagation(); quickReply('{{ session.session_key }}', '{{ session.user_name }}')">
+                                                    <i class="fas fa-reply"></i> Quick Reply
+                                                </button>
+                                                <button class="btn btn-primary btn-sm rounded-pill px-3" onclick="event.stopPropagation(); openChatSession('{{ session.session_key }}')">
+                                                    <i class="fas fa-comments"></i> Full Chat
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <div class="text-center text-muted py-5">
+                                    <div class="mb-4">
+                                        <i class="fas fa-comments fa-4x text-muted"></i>
+                                    </div>
+                                    <h5 class="text-muted">No Active Chats</h5>
+                                    <p class="text-muted">When customers start chatting, their sessions will appear here.</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6>Quick Stats</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row text-center">
+                                        <div class="col-6">
+                                            <h4 class="text-primary">{{ active_sessions.count }}</h4>
+                                            <small>Active Chats</small>
+                                        </div>
+                                        <div class="col-6">
+                                            <h4 class="text-success" id="total-messages">0</h4>
+                                            <small>Total Messages</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chat Modal -->
+<div class="modal fade" id="chatModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chatModalTitle">Chat Session</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="chat-messages" style="height: 400px; overflow-y: auto; border: 1px solid #dee2e6; padding: 15px; margin-bottom: 15px;">
+                    <!-- Messages will be loaded here -->
+                </div>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="message-input" placeholder="Type your message...">
+                    <button class="btn btn-primary" id="send-message-btn">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentSessionKey = null;
+let chatSocket = null;
+
+// Load unread count
+function loadUnreadCount() {
+    fetch('/chat/admin/unread-count/')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('unread-count').textContent = data.unread_count + ' unread';
+        });
+}
+
+// Open chat session
+function openChatSession(sessionKey) {
+    // Redirect to the dedicated chat session page
+    window.location.href = `/chat/admin/session/${sessionKey}/`;
+}
+
+// Quick reply functionality
+function quickReply(sessionKey, userName) {
+    const message = prompt(`Quick reply to ${userName}:`);
+    if (message && message.trim()) {
+        fetch(`/chat/admin/session/${sessionKey}/send/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({message: message.trim()})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Show success message
+                showToast('Message sent successfully!', 'success');
+                // Refresh the page to update the UI
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showToast('Failed to send message', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showToast('Failed to send message', 'error');
+        });
+    }
+}
+
+// Show toast notification
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
+    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    toast.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(toast);
+    
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+        if (toast.parentNode) {
+            toast.parentNode.removeChild(toast);
+        }
+    }, 3000);
+}
+
+// Load messages for a session
+function loadMessages(sessionKey) {
+    fetch(`/chat/admin/session/${sessionKey}/`)
+        .then(response => response.text())
+        .then(html => {
+            // Extract messages from the response and display them
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const messages = doc.querySelectorAll('.message-item');
+            
+            const messagesContainer = document.getElementById('chat-messages');
+            messagesContainer.innerHTML = '';
+            
+            messages.forEach(message => {
+                messagesContainer.appendChild(message.cloneNode(true));
+            });
+            
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
+}
+
+// Send message
+document.getElementById('send-message-btn').addEventListener('click', function() {
+    const messageInput = document.getElementById('message-input');
+    const message = messageInput.value.trim();
+    
+    if (message && currentSessionKey) {
+        fetch(`/chat/admin/session/${currentSessionKey}/send/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({message: message})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                messageInput.value = '';
+                loadMessages(currentSessionKey);
+            }
+        });
+    }
+});
+
+// Enter key to send message
+document.getElementById('message-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        document.getElementById('send-message-btn').click();
+    }
+});
+
+// Helper function to get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Load initial data
+document.addEventListener('DOMContentLoaded', function() {
+    loadUnreadCount();
+    setInterval(loadUnreadCount, 30000); // Refresh every 30 seconds
+    
+    // Auto-refresh chat sessions every 10 seconds
+    setInterval(function() {
+        location.reload();
+    }, 10000);
+});
+
+// Show notification for new messages
+function showNotification(message, sessionName) {
+    if (Notification.permission === 'granted') {
+        new Notification(`New message from ${sessionName}`, {
+            body: message,
+            icon: '/static/admin/img/icon-addlink.svg'
+        });
+    }
+}
+
+// Request notification permission
+if (Notification.permission === 'default') {
+    Notification.requestPermission();
+}
+</script>
+{% endblock %}

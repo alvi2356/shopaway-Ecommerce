@@ -1,0 +1,65 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% block title %}Dashboard | {{ block.super }}{% endblock %}
+{% block content %}
+<div class="container-fluid">
+  <div class="row g-3">
+    <div class="col-md-3">
+      <div class="card card-hover">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="text-muted small">Total Products</div>
+              <div class="h4 fw-bold">{{ products_count }}</div>
+            </div>
+            <i class="fas fa-boxes fa-2x text-primary"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card card-hover">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="text-muted small">Orders (30d)</div>
+              <div class="h4 fw-bold">{{ orders_last_30 }}</div>
+            </div>
+            <i class="fas fa-shopping-cart fa-2x text-success"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card card-hover">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="text-muted small">Revenue (30d)</div>
+              <div class="h4 fw-bold">৳{{ revenue_last_30|default:"0.00" }}</div>
+            </div>
+            <i class="fas fa-sack-dollar fa-2x text-warning"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card card-hover">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="text-muted small">Users</div>
+              <div class="h4 fw-bold">{{ users_count }}</div>
+            </div>
+            <i class="fas fa-users fa-2x text-info"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4">
+    {{ app_list|safe }}
+  </div>
+</div>
+{% endblock %}
+

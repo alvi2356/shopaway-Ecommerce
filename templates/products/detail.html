@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block page_header %}
+<nav aria-label='breadcrumb'>
+  <ol class='breadcrumb justify-content-center mb-0'>
+    <li class='breadcrumb-item'><a href='/'>Home</a></li>
+    <li class='breadcrumb-item'><a href='/products/all/'>Products</a></li>
+    <li class='breadcrumb-item active' aria-current='page'>{{ product.name }}</li>
+  </ol>
+  <h1 class='h3 fw-bold mt-2'>{{ product.name }}</h1>
+{% endblock %}
+{% block content %}
+<div class='row g-4'>
+  <div class='col-md-6'>
+    <div class='card border-0 shadow-sm'>
+      <div class='position-relative'>
+        {% if images and images.0.image %}
+          <img id='mainImage' src='{{ images.0.image.url }}' class='img-fluid rounded-top w-100' alt='{{ product.name }}' style='transition: transform .3s ease; cursor: zoom-in;'>
+        {% elif product.image %}
+          <img id='mainImage' src='{{ product.image.url }}' class='img-fluid rounded-top w-100' alt='{{ product.name }}' style='transition: transform .3s ease; cursor: zoom-in;'>
+        {% else %}
+          <div class='ratio ratio-1x1 bg-light rounded-top'></div>
+        {% endif %}
+      </div>
+      {% if product.image or images %}
+      <div class='p-3'>
+        <div class='d-flex gap-2 overflow-auto'>
+          {% if product.image %}
+          <img data-src='{{ product.image.url }}' class='thumb border rounded' alt='{{ product.name }}'
+               style='width:72px;height:72px;object-fit:cover;cursor:pointer;'>
+          {% endif %}
+          {% for im in images %}
+            <img data-src='{{ im.image.url }}' alt='{{ im.alt_text|default:product.name }}' class='thumb border rounded'
+                 style='width:72px;height:72px;object-fit:cover;cursor:pointer;'>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='card'>
+      <div class='card-body'>
+        <div class='h4'>৳{{ product.price }}</div>
+        <div class='text-muted mb-3'>In stock: {{ product.stock }}</div>
+        <form method='post' action='{% url "cart_add" %}' class='d-flex'>
+          {% csrf_token %}
+          <input type='hidden' name='sku' value='{{ product.sku }}'>
+          <input type='hidden' name='next' value='{{ request.path }}'>
+          <div class='input-group' style='max-width:320px;'>
+            <input name='qty' value='1' class='form-control' min='1' max='99'>
+            <button class='btn btn-outline-primary'><i class='fa fa-cart-plus'></i> Add to cart</button>
+          </div>
+        </form>
+        <form method='post' action='{% url "buy_now" %}' class='mt-2'>
+          {% csrf_token %}
+          <input type='hidden' name='sku' value='{{ product.sku }}'>
+          <button class='btn btn-primary'><i class='fa fa-bolt'></i> Buy Now</button>
+        </form>
+        <div class='small text-muted'>{{ product.description }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // Thumbnail click swaps main image; main image zoom on hover
+  (function(){
+    const main = document.getElementById('mainImage');
+    if(!main) return;
+    document.querySelectorAll('.thumb').forEach(t => {
+      t.addEventListener('click', () => {
+        const src = t.getAttribute('data-src');
+        if(src){ main.style.transform = 'scale(.98)'; setTimeout(()=>{ main.src = src; main.style.transform='scale(1)'; }, 120); }
+      });
+    });
+    let zoomed=false;
+    main.addEventListener('mousemove', e => {
+      const rect = main.getBoundingClientRect();
+      const x = ((e.clientX-rect.left)/rect.width)*100;
+      const y = ((e.clientY-rect.top)/rect.height)*100;
+      main.style.transformOrigin = `${x}% ${y}%`;
+      if(zoomed){ main.style.transform = 'scale(1.8)'; }
+    });
+    main.addEventListener('mouseenter', ()=>{ zoomed=true; main.style.transform='scale(1.8)'; });
+    main.addEventListener('mouseleave', ()=>{ zoomed=false; main.style.transform=''; main.style.transformOrigin='center'; });
+  })();
+</script>
+{% endblock %}

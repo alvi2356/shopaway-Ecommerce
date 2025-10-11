@@ -1,0 +1,213 @@
+ERROR 2025-10-04 20:30:56,423 pathao_service 4360 21736 Pathao authentication failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+ERROR 2025-10-04 20:30:56,972 pathao_service 4360 21736 Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}
+ERROR 2025-10-04 20:30:56,976 pathao_service 4360 21736 Failed to create Pathao order: {'error': 'Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}', 'status_code': 400}
+ERROR 2025-10-04 20:49:27,051 pathao_service 17376 13428 Pathao authentication failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 20:50:22,558 pathao_service 2072 5632 Attempting authentication to: https://courier-api-sandbox.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 20:50:22,558 pathao_service 2072 5632 Payload: {"client_id": "7N1aMJQbWm", "client_secret": "wRcaibZkUdSNz2El9ZyuXLlNrnAv0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 20:50:22,719 pathao_service 2072 5632 JSON auth failed, trying form data...
+ERROR 2025-10-04 20:50:22,864 pathao_service 2072 5632 Pathao authentication failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 20:50:38,780 pathao_service 4492 21420 Attempting authentication to: https://api-hermes.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 20:50:38,780 pathao_service 4492 21420 Payload: {"client_id": "7N1aMJQbWm", "client_secret": "wRcaibZkUdSNz2El9ZyuXLlNrnAv0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 20:50:39,166 pathao_service 4492 21420 JSON auth failed, trying form data...
+ERROR 2025-10-04 20:50:39,512 pathao_service 4492 21420 Pathao authentication failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+ERROR 2025-10-04 20:52:31,273 pathao_service 952 21140 Pathao authentication failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+ERROR 2025-10-04 20:52:31,612 pathao_service 952 21140 Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}
+ERROR 2025-10-04 20:52:31,613 pathao_service 952 21140 Failed to create Pathao order: {'error': 'Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}', 'status_code': 400}
+INFO 2025-10-04 20:53:22,634 pathao_service 176 1816 Attempting authentication to: https://api-hermes.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 20:53:22,635 pathao_service 176 1816 Payload: {"client_id": "7N1aMJQbWm", "client_secret": "wRcaibZkUdSNz2El9ZyuXLlNrnAv0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 20:53:23,040 pathao_service 176 1816 JSON auth failed, trying form data...
+ERROR 2025-10-04 20:53:23,951 pathao_service 176 1816 Pathao authentication failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 20:55:16,451 pathao_service 16900 20704 No cached token found, attempting authentication...
+INFO 2025-10-04 20:55:16,451 pathao_service 16900 20704 Attempting authentication method 1/3 to: https://api-hermes.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 20:55:16,451 pathao_service 16900 20704 Payload: {"client_id": "7N1aMJQbWm", "client_secret": "wRcaibZkUdSNz2El9ZyuXLlNrnAv0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 20:55:16,815 pathao_service 16900 20704 JSON failed, trying form data...
+WARNING 2025-10-04 20:55:17,163 pathao_service 16900 20704 Authentication method 1 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 20:55:17,163 pathao_service 16900 20704 Attempting authentication method 2/3 to: https://api-hermes.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 20:55:17,163 pathao_service 16900 20704 Payload: {"client_id": "7N1aMJQbWm", "client_secret": "wRcaibZkUdSNz2El9ZyuXLlNrnAv0TdPUPXMnD39", "username": "test@pathao.com", "password": "***"}
+INFO 2025-10-04 20:55:17,532 pathao_service 16900 20704 JSON failed, trying form data...
+WARNING 2025-10-04 20:55:17,882 pathao_service 16900 20704 Authentication method 2 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 20:55:17,883 pathao_service 16900 20704 Attempting authentication method 3/3 to: https://api-hermes.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 20:55:17,883 pathao_service 16900 20704 Payload: {"client_id": "7N1aMJQbWm", "client_secret": "wRcaibZkUdSNz2El9ZyuXLlNrnAv0TdPUPXMnD39", "grant_type": "client_credentials"}
+INFO 2025-10-04 20:55:18,230 pathao_service 16900 20704 JSON failed, trying form data...
+WARNING 2025-10-04 20:55:18,718 pathao_service 16900 20704 Authentication method 3 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+ERROR 2025-10-04 20:55:18,718 pathao_service 16900 20704 All authentication methods failed
+ERROR 2025-10-04 20:55:18,719 pathao_service 16900 20704 Failed to authenticate with Pathao API
+ERROR 2025-10-04 20:55:18,719 pathao_service 16900 20704 Cannot make authenticated request: no valid token
+ERROR 2025-10-04 20:55:18,719 pathao_service 16900 20704 Failed to create Pathao order: {'error': 'Authentication failed - no valid token'}
+ERROR 2025-10-04 20:56:53,598 pathao_service 952 21140 Pathao authentication failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+ERROR 2025-10-04 20:56:53,937 pathao_service 952 21140 Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}
+ERROR 2025-10-04 20:56:53,937 pathao_service 952 21140 Failed to create Pathao order: {'error': 'Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}', 'status_code': 400}
+INFO 2025-10-04 20:57:57,470 pathao_service 7116 11932 Attempting authentication method 1/3 to: https://courier-api-sandbox.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 20:57:57,471 pathao_service 7116 11932 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 20:57:57,631 pathao_service 7116 11932 JSON failed, trying form data...
+WARNING 2025-10-04 20:57:57,793 pathao_service 7116 11932 Authentication method 1 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 20:57:57,794 pathao_service 7116 11932 Attempting authentication method 2/3 to: https://courier-api-sandbox.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 20:57:57,794 pathao_service 7116 11932 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***"}
+INFO 2025-10-04 20:57:57,942 pathao_service 7116 11932 JSON failed, trying form data...
+WARNING 2025-10-04 20:57:58,222 pathao_service 7116 11932 Authentication method 2 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 20:57:58,222 pathao_service 7116 11932 Attempting authentication method 3/3 to: https://courier-api-sandbox.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 20:57:58,222 pathao_service 7116 11932 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "grant_type": "client_credentials"}
+INFO 2025-10-04 20:57:58,473 pathao_service 7116 11932 JSON failed, trying form data...
+WARNING 2025-10-04 20:57:58,625 pathao_service 7116 11932 Authentication method 3 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+ERROR 2025-10-04 20:57:58,625 pathao_service 7116 11932 All authentication methods failed
+ERROR 2025-10-04 20:59:25,052 pathao_service 952 21140 Pathao authentication failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+ERROR 2025-10-04 20:59:25,417 pathao_service 952 21140 Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}
+ERROR 2025-10-04 20:59:25,417 pathao_service 952 21140 Failed to create Pathao order: {'error': 'Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}', 'status_code': 400}
+INFO 2025-10-04 21:02:55,689 pathao_service 18480 16396 Trying token endpoint: https://courier-api-sandbox.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 21:02:55,689 pathao_service 18480 16396 Attempting authentication method 1/3
+INFO 2025-10-04 21:02:55,689 pathao_service 18480 16396 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 21:02:55,841 pathao_service 18480 16396 JSON failed, trying form data...
+WARNING 2025-10-04 21:02:55,983 pathao_service 18480 16396 Authentication method 1 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:02:55,984 pathao_service 18480 16396 Attempting authentication method 2/3
+INFO 2025-10-04 21:02:55,984 pathao_service 18480 16396 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***"}
+INFO 2025-10-04 21:02:56,239 pathao_service 18480 16396 JSON failed, trying form data...
+WARNING 2025-10-04 21:02:56,392 pathao_service 18480 16396 Authentication method 2 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:02:56,393 pathao_service 18480 16396 Attempting authentication method 3/3
+INFO 2025-10-04 21:02:56,393 pathao_service 18480 16396 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "grant_type": "client_credentials"}
+INFO 2025-10-04 21:02:56,643 pathao_service 18480 16396 JSON failed, trying form data...
+WARNING 2025-10-04 21:02:56,922 pathao_service 18480 16396 Authentication method 3 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:02:56,923 pathao_service 18480 16396 Trying token endpoint: https://courier-api-sandbox.pathao.com/api/v1/issue-token
+INFO 2025-10-04 21:02:56,923 pathao_service 18480 16396 Attempting authentication method 1/3
+INFO 2025-10-04 21:02:56,923 pathao_service 18480 16396 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 21:02:57,239 pathao_service 18480 16396 Pathao authentication successful
+INFO 2025-10-04 21:02:57,239 pathao_service 18480 16396 Trying token endpoint: https://courier-api-sandbox.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 21:02:57,240 pathao_service 18480 16396 Attempting authentication method 1/3
+INFO 2025-10-04 21:02:57,240 pathao_service 18480 16396 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 21:02:57,512 pathao_service 18480 16396 JSON failed, trying form data...
+WARNING 2025-10-04 21:02:57,762 pathao_service 18480 16396 Authentication method 1 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:02:57,762 pathao_service 18480 16396 Attempting authentication method 2/3
+INFO 2025-10-04 21:02:57,762 pathao_service 18480 16396 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***"}
+INFO 2025-10-04 21:02:57,942 pathao_service 18480 16396 JSON failed, trying form data...
+WARNING 2025-10-04 21:02:58,097 pathao_service 18480 16396 Authentication method 2 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:02:58,097 pathao_service 18480 16396 Attempting authentication method 3/3
+INFO 2025-10-04 21:02:58,097 pathao_service 18480 16396 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "grant_type": "client_credentials"}
+INFO 2025-10-04 21:02:58,257 pathao_service 18480 16396 JSON failed, trying form data...
+WARNING 2025-10-04 21:02:58,419 pathao_service 18480 16396 Authentication method 3 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:02:58,419 pathao_service 18480 16396 Trying token endpoint: https://courier-api-sandbox.pathao.com/api/v1/issue-token
+INFO 2025-10-04 21:02:58,419 pathao_service 18480 16396 Attempting authentication method 1/3
+INFO 2025-10-04 21:02:58,419 pathao_service 18480 16396 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 21:02:58,622 pathao_service 18480 16396 Pathao authentication successful
+INFO 2025-10-04 21:02:58,622 pathao_service 18480 16396 No cached token found, attempting authentication...
+INFO 2025-10-04 21:02:58,623 pathao_service 18480 16396 Trying token endpoint: https://courier-api-sandbox.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 21:02:58,623 pathao_service 18480 16396 Attempting authentication method 1/3
+INFO 2025-10-04 21:02:58,623 pathao_service 18480 16396 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 21:02:58,770 pathao_service 18480 16396 JSON failed, trying form data...
+WARNING 2025-10-04 21:02:58,910 pathao_service 18480 16396 Authentication method 1 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:02:58,910 pathao_service 18480 16396 Attempting authentication method 2/3
+INFO 2025-10-04 21:02:58,911 pathao_service 18480 16396 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***"}
+INFO 2025-10-04 21:02:59,078 pathao_service 18480 16396 JSON failed, trying form data...
+WARNING 2025-10-04 21:02:59,371 pathao_service 18480 16396 Authentication method 2 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:02:59,371 pathao_service 18480 16396 Attempting authentication method 3/3
+INFO 2025-10-04 21:02:59,371 pathao_service 18480 16396 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "grant_type": "client_credentials"}
+INFO 2025-10-04 21:02:59,513 pathao_service 18480 16396 JSON failed, trying form data...
+WARNING 2025-10-04 21:02:59,767 pathao_service 18480 16396 Authentication method 3 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:02:59,767 pathao_service 18480 16396 Trying token endpoint: https://courier-api-sandbox.pathao.com/api/v1/issue-token
+INFO 2025-10-04 21:02:59,767 pathao_service 18480 16396 Attempting authentication method 1/3
+INFO 2025-10-04 21:02:59,768 pathao_service 18480 16396 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 21:03:00,028 pathao_service 18480 16396 Pathao authentication successful
+INFO 2025-10-04 21:03:07,571 pathao_service 8528 16148 Trying token endpoint: https://courier-api-sandbox.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 21:03:07,571 pathao_service 8528 16148 Attempting authentication method 1/3
+INFO 2025-10-04 21:03:07,571 pathao_service 8528 16148 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 21:03:07,741 pathao_service 8528 16148 JSON failed, trying form data...
+WARNING 2025-10-04 21:03:07,885 pathao_service 8528 16148 Authentication method 1 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:03:07,885 pathao_service 8528 16148 Attempting authentication method 2/3
+INFO 2025-10-04 21:03:07,886 pathao_service 8528 16148 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***"}
+INFO 2025-10-04 21:03:08,153 pathao_service 8528 16148 JSON failed, trying form data...
+WARNING 2025-10-04 21:03:08,295 pathao_service 8528 16148 Authentication method 2 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:03:08,295 pathao_service 8528 16148 Attempting authentication method 3/3
+INFO 2025-10-04 21:03:08,296 pathao_service 8528 16148 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "grant_type": "client_credentials"}
+INFO 2025-10-04 21:03:08,555 pathao_service 8528 16148 JSON failed, trying form data...
+WARNING 2025-10-04 21:03:08,710 pathao_service 8528 16148 Authentication method 3 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:03:08,710 pathao_service 8528 16148 Trying token endpoint: https://courier-api-sandbox.pathao.com/api/v1/issue-token
+INFO 2025-10-04 21:03:08,711 pathao_service 8528 16148 Attempting authentication method 1/3
+INFO 2025-10-04 21:03:08,711 pathao_service 8528 16148 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 21:03:09,020 pathao_service 8528 16148 Pathao authentication successful
+INFO 2025-10-04 21:03:09,021 pathao_service 8528 16148 No cached token found, attempting authentication...
+INFO 2025-10-04 21:03:09,021 pathao_service 8528 16148 Trying token endpoint: https://courier-api-sandbox.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 21:03:09,021 pathao_service 8528 16148 Attempting authentication method 1/3
+INFO 2025-10-04 21:03:09,021 pathao_service 8528 16148 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 21:03:09,170 pathao_service 8528 16148 JSON failed, trying form data...
+WARNING 2025-10-04 21:03:09,326 pathao_service 8528 16148 Authentication method 1 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:03:09,327 pathao_service 8528 16148 Attempting authentication method 2/3
+INFO 2025-10-04 21:03:09,327 pathao_service 8528 16148 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***"}
+INFO 2025-10-04 21:03:09,475 pathao_service 8528 16148 JSON failed, trying form data...
+WARNING 2025-10-04 21:03:09,621 pathao_service 8528 16148 Authentication method 2 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:03:09,621 pathao_service 8528 16148 Attempting authentication method 3/3
+INFO 2025-10-04 21:03:09,621 pathao_service 8528 16148 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "grant_type": "client_credentials"}
+INFO 2025-10-04 21:03:09,785 pathao_service 8528 16148 JSON failed, trying form data...
+WARNING 2025-10-04 21:03:09,929 pathao_service 8528 16148 Authentication method 3 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:03:09,929 pathao_service 8528 16148 Trying token endpoint: https://courier-api-sandbox.pathao.com/api/v1/issue-token
+INFO 2025-10-04 21:03:09,930 pathao_service 8528 16148 Attempting authentication method 1/3
+INFO 2025-10-04 21:03:09,930 pathao_service 8528 16148 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 21:03:10,140 pathao_service 8528 16148 Pathao authentication successful
+ERROR 2025-10-04 21:03:10,141 pathao_service 8528 16148 Cannot make authenticated request: no valid token
+ERROR 2025-10-04 21:04:04,647 pathao_service 952 21140 Pathao authentication failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+ERROR 2025-10-04 21:04:05,003 pathao_service 952 21140 Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}
+ERROR 2025-10-04 21:04:05,003 pathao_service 952 21140 Failed to create Pathao order: {'error': 'Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}', 'status_code': 400}
+ERROR 2025-10-04 21:04:30,365 pathao_service 952 21140 Pathao authentication failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+ERROR 2025-10-04 21:04:30,706 pathao_service 952 21140 Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}
+ERROR 2025-10-04 21:04:30,706 pathao_service 952 21140 Failed to create Pathao order: {'error': 'Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}', 'status_code': 400}
+INFO 2025-10-04 21:05:25,758 pathao_service 21060 2400 Trying token endpoint: https://courier-api-sandbox.pathao.com/aladdin/api/v1/issue-token
+INFO 2025-10-04 21:05:25,758 pathao_service 21060 2400 Attempting authentication method 1/3
+INFO 2025-10-04 21:05:25,759 pathao_service 21060 2400 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 21:05:25,923 pathao_service 21060 2400 JSON failed, trying form data...
+WARNING 2025-10-04 21:05:26,233 pathao_service 21060 2400 Authentication method 1 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:05:26,233 pathao_service 21060 2400 Attempting authentication method 2/3
+INFO 2025-10-04 21:05:26,233 pathao_service 21060 2400 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***"}
+INFO 2025-10-04 21:05:26,401 pathao_service 21060 2400 JSON failed, trying form data...
+WARNING 2025-10-04 21:05:26,589 pathao_service 21060 2400 Authentication method 2 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:05:26,590 pathao_service 21060 2400 Attempting authentication method 3/3
+INFO 2025-10-04 21:05:26,590 pathao_service 21060 2400 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "grant_type": "client_credentials"}
+INFO 2025-10-04 21:05:26,798 pathao_service 21060 2400 JSON failed, trying form data...
+WARNING 2025-10-04 21:05:27,008 pathao_service 21060 2400 Authentication method 3 failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+INFO 2025-10-04 21:05:27,008 pathao_service 21060 2400 Trying token endpoint: https://courier-api-sandbox.pathao.com/api/v1/issue-token
+INFO 2025-10-04 21:05:27,009 pathao_service 21060 2400 Attempting authentication method 1/3
+INFO 2025-10-04 21:05:27,009 pathao_service 21060 2400 Payload: {"client_id": "7NaMJQbWm", "client_secret": "wRcaibZkUdSNz2EI9ZyuXLINrnav0TdPUPXMnD39", "username": "test@pathao.com", "password": "***", "grant_type": "password"}
+INFO 2025-10-04 21:05:27,418 pathao_service 21060 2400 Authentication response: {
+  "error": true,
+  "success": true,
+  "message": "Unauthorized!"
+}
+ERROR 2025-10-04 21:05:27,419 pathao_service 21060 2400 No access token in response
+ERROR 2025-10-04 21:09:15,751 pathao_service 952 21140 Pathao authentication failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+ERROR 2025-10-04 21:09:16,113 pathao_service 952 21140 Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}
+ERROR 2025-10-04 21:09:16,114 pathao_service 952 21140 Failed to create Pathao order: {'error': 'Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}', 'status_code': 400}
+ERROR 2025-10-04 21:18:04,948 pathao_service 952 12372 Pathao authentication failed: 400 - {"message":"The user credentials were incorrect.","type":"error","code":400}
+
+ERROR 2025-10-04 21:18:05,292 pathao_service 952 12372 Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}
+ERROR 2025-10-04 21:18:05,294 pathao_service 952 12372 Failed to create Pathao order: {'error': 'Pathao API error: 400 - {"message":"Bad Request","type":"error","error":{"source":"verify-auth-token","description":"bearer token missing"}}', 'status_code': 400}

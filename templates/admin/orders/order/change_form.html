@@ -1,0 +1,43 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls %}
+
+{# Inject per-order action buttons into the header tools #}
+{% block object-tools-items %}
+  {{ block.super }}
+  {% if change and not is_popup and original %}
+    <li>
+      <form action="{% url 'admin:orders_order_toggle_fraud' original.pk %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        {% if fraud_flag %}
+          <button type="submit" class="button">Unflag Fraud</button>
+        {% else %}
+          <button type="submit" class="button">Flag as Fraud</button>
+        {% endif %}
+      </form>
+    </li>
+    {% if show_send_pathao %}
+      <li>
+        <form action="{% url 'admin:orders_order_send_pathao' original.pk %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="button button-success">Send via Steadfast</button>
+        </form>
+      </li>
+    {% endif %}
+    {% if show_force_send %}
+      <li>
+        <form action="{% url 'admin:orders_order_force_send_pathao' original.pk %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="button">Force Send via Steadfast</button>
+        </form>
+      </li>
+    {% endif %}
+    {% if show_refresh_status %}
+      <li>
+        <form action="{% url 'admin:orders_order_refresh_pathao' original.pk %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="button">Refresh Steadfast Status</button>
+        </form>
+      </li>
+    {% endif %}
+  {% endif %}
+{% endblock %}

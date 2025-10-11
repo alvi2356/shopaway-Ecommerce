@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        button { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>Chat System Test</h1>
+    
+    <div class="test-section">
+        <h3>1. Server Test</h3>
+        <button onclick="testServer()">Test Server</button>
+        <div id="server-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>2. Message Display Test</h3>
+        <button onclick="testMessageDisplay()">Test Message Display</button>
+        <div id="message-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>3. Admin Message Test</h3>
+        <button onclick="testAdminMessage()">Test Admin Message</button>
+        <div id="admin-result" class="result"></div>
+    </div>
+
+    <script>
+        function testServer() {
+            fetch('/chat/test-server/')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('server-result').innerHTML = 
+                        '<strong>Success:</strong> ' + JSON.stringify(data);
+                })
+                .catch(error => {
+                    document.getElementById('server-result').innerHTML = 
+                        '<strong>Error:</strong> ' + error.message;
+                });
+        }
+        
+        function testMessageDisplay() {
+            // Create a simple message display test
+            const testDiv = document.createElement('div');
+            testDiv.innerHTML = `
+                <div style="background: white; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin: 10px 0;">
+                    <strong>Test Admin Message</strong><br>
+                    <small>${new Date().toLocaleTimeString()}</small>
+                </div>
+            `;
+            document.getElementById('message-result').appendChild(testDiv);
+        }
+        
+        function testAdminMessage() {
+            // Test if we can create a session and send a message
+            fetch('/chat/start-session/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    name: 'Test User',
+                    email: 'test@example.com'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.session_key) {
+                    document.getElementById('admin-result').innerHTML = 
+                        '<strong>Session Created:</strong> ' + data.session_key;
+                    
+                    // Now test sending an admin message
+                    setTimeout(() => {
+                        fetch(`/chat/test-admin-message/${data.session_key}/`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': getCookie('csrftoken')
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            document.getElementById('admin-result').innerHTML += 
+                                '<br><strong>Admin Message Sent:</strong> ' + JSON.stringify(result);
+                        });
+                    }, 1000);
+                }
+            })
+            .catch(error => {
+                document.getElementById('admin-result').innerHTML = 
+                    '<strong>Error:</strong> ' + error.message;
+            });
+        }
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>

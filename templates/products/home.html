@@ -1,0 +1,376 @@
+{% extends 'base.html' %}
+{% block page_header %}
+<div id='hero' class='container-fluid px-0 py-3'>
+  <div id='homeCarousel' class='carousel slide hero-slider' data-bs-ride='carousel'>
+    <div class='carousel-inner rounded-4 shadow-lg'>
+      {% for slide in slides %}
+      <div class='carousel-item {% if forloop.first %}active{% endif %} hero-slide{% if slide.image %} hero-slide-with-image{% endif %}' {% if slide.image %}style="background-image:url('{{ slide.image.url }}'); background-size: cover; background-position: center;"{% endif %}>
+        <div class='hero-overlay'></div>
+      </div>
+      {% endfor %}
+    </div>
+    <button class='carousel-control-prev hero-control' type='button' data-bs-target='#homeCarousel' data-bs-slide='prev'>
+      <span class='hero-control-icon' aria-hidden='true'>&lsaquo;</span>
+      <span class='visually-hidden'>Previous</span>
+    </button>
+    <button class='carousel-control-next hero-control' type='button' data-bs-target='#homeCarousel' data-bs-slide='next'>
+      <span class='hero-control-icon' aria-hidden='true'>&rsaquo;</span>
+      <span class='visually-hidden'>Next</span>
+    </button>
+    <div class='carousel-indicators'>
+      {% for slide in slides %}
+      <button type='button' data-bs-target='#homeCarousel' data-bs-slide-to='{{ forloop.counter0 }}' {% if forloop.first %}class='active'{% endif %} aria-current='true' aria-label='Slide {{ forloop.counter }}'></button>
+      {% endfor %}
+    </div>
+  </div>
+  
+</div>
+{% endblock %}
+{% block content %}
+<!-- Categories Section -->
+<section class='container-fluid px-3 px-md-4 my-5'>
+  <div class='text-center mb-4'>
+    <h2 class='section-title mb-0'>Shop by Category</h2>
+    <div class='section-subtitle small'>Explore our wide range of products</div>
+  </div>
+  <div class='row g-3'>
+    {% for category in categories %}
+    <div class='col-6 col-sm-4 col-md-3 col-lg-2 mb-3'>
+      <a href='/products/all/?category={{ category.slug }}' class='text-decoration-none'>
+        <div class='category-card text-center p-3 rounded-3 h-100 d-flex flex-column justify-content-center'>
+          <div class='category-icon mb-2'>
+            {% if category.name == 'Trending' %}
+              <i class='fa fa-chart-line fa-2x text-dark'></i>
+            {% elif category.name == 'Gadget' %}
+              <i class='fa fa-headphones fa-2x text-dark'></i>
+            {% elif category.name == 'Books' %}
+              <i class='fa fa-book fa-2x text-dark'></i>
+            {% elif category.name == 'Fashion' %}
+              <i class='fa fa-tshirt fa-2x text-dark'></i>
+            {% elif category.name == 'Mom & Baby' %}
+              <i class='fa fa-baby fa-2x text-dark'></i>
+            {% elif category.name == 'Home & Kitchen' %}
+              <i class='fa fa-coffee fa-2x text-dark'></i>
+            {% elif category.name == 'Health & Beauty' %}
+              <i class='fa fa-first-aid fa-2x text-dark'></i>
+            {% elif category.name == 'Organic' %}
+              <i class='fa fa-leaf fa-2x text-dark'></i>
+            {% elif category.name == 'Accessories' %}
+              <i class='fa fa-cogs fa-2x text-dark'></i>
+            {% elif category.name == 'Sunglass' %}
+              <i class='fa fa-sun fa-2x text-dark'></i>
+            {% elif category.name == 'Bag' %}
+              <i class='fa fa-briefcase fa-2x text-dark'></i>
+            {% elif category.name == 'Home & Lifestyle' %}
+              <i class='fa fa-tools fa-2x text-dark'></i>
+            {% else %}
+              <i class='fa fa-tag fa-2x text-dark'></i>
+            {% endif %}
+          </div>
+          <div class='category-name'>
+            <h6 class='mb-0 text-dark fw-semibold'>{{ category.name }}</h6>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class='container-fluid px-3 px-md-4 my-5'>
+  <div class='text-center mb-3'>
+    <h2 class='section-title mb-0'>Latest Arrivals</h2>
+    <div class='section-subtitle small'>Fresh picks just for you</div>
+    <a class='btn btn-sm btn-pill btn-mint mt-2' href='/'>See All</a>
+  </div>
+  <div class='row'>
+  {% for p in latest_products %}
+    <div class='col-6 col-sm-6 col-md-4 col-lg-3 mb-4'>
+      <div class='card product-card product-card-xl h-100 border-0 shadow-sm'>
+        <div class='position-relative'>
+          {% if p.image %}
+          <img src='{{ p.image.url }}' class='card-img-top product-image' alt='{{ p.name }}'>
+          {% else %}
+          <div class='ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center'>
+            <i class='fa fa-image fa-3x text-muted'></i>
+          </div>
+          {% endif %}
+        </div>
+        <div class='card-body text-center p-3'>
+          <h6 class='card-title mb-2 text-dark fw-semibold'>
+            <a href='{% url "product_detail" p.slug %}' class='text-decoration-none text-dark'>{{ p.name }}</a>
+          </h6>
+          <p class='product-desc mb-2'>{{ p.description|default:""|truncatewords:12 }}</p>
+          <div class='price-section mb-3'>
+            {% if p.original_price and p.original_price != p.price %}
+            <span class='text-muted text-decoration-line-through small me-2'>৳{{ p.original_price }}</span>
+            {% endif %}
+            <span class='h6 text-success fw-bold mb-0'>৳{{ p.price }}</span>
+          </div>
+          <div class='d-grid gap-2'>
+            <form method='post' action='{% url "cart_add" %}' class='mb-1'>
+              {% csrf_token %}
+              <input type='hidden' name='sku' value='{{ p.sku }}'>
+              <input type='hidden' name='next' value='{{ request.path }}'>
+              <button class='btn btn-outline-dark btn-sm btn-pill w-100'>Add To Cart</button>
+            </form>
+            <form method='post' action='{% url "buy_now" %}'>
+              {% csrf_token %}
+              <input type='hidden' name='sku' value='{{ p.sku }}'>
+              <button class='btn btn-success btn-sm btn-pill w-100'>Buy Now</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</section>
+
+<section class='container-fluid px-3 px-md-4 my-5'>
+  <div class='text-center mb-3'>
+    <h2 class='section-title mb-0'>Super Sale</h2>
+    <div class='section-subtitle small'>Limited time offers</div>
+    <a class='btn btn-sm btn-pill btn-mint mt-2' href='/?sale=true'>See All</a>
+  </div>
+  <div class='row'>
+  {% for p in super_sale %}
+    <div class='col-6 col-sm-6 col-md-4 col-lg-3 mb-4'>
+      <div class='card product-card h-100 border-0 shadow-sm'>
+        <div class='position-relative'>
+          {% if p.image %}
+          <img src='{{ p.image.url }}' class='card-img-top product-image' alt='{{ p.name }}'>
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-danger'>SUPER SALE</span>
+          </div>
+          {% else %}
+          <div class='ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center'>
+            <i class='fa fa-image fa-3x text-muted'></i>
+          </div>
+          {% endif %}
+        </div>
+        <div class='card-body text-center p-3'>
+          <h6 class='card-title mb-2 text-dark fw-semibold'>
+            <a href='{% url "product_detail" p.slug %}' class='text-decoration-none text-dark'>{{ p.name }}</a>
+          </h6>
+          <p class='product-desc mb-2'>{{ p.description|default:""|truncatewords:12 }}</p>
+          <div class='price-section mb-3'>
+            {% if p.original_price and p.original_price != p.price %}
+            <span class='text-muted text-decoration-line-through small me-2'>৳{{ p.original_price }}</span>
+            {% endif %}
+            <span class='h6 text-success fw-bold mb-0'>৳{{ p.price }}</span>
+          </div>
+          <div class='d-grid gap-2'>
+            <form method='post' action='{% url "cart_add" %}' class='mb-1'>
+              {% csrf_token %}
+              <input type='hidden' name='sku' value='{{ p.sku }}'>
+              <input type='hidden' name='next' value='{{ request.path }}'>
+              <button class='btn btn-outline-dark btn-sm btn-pill w-100'>Add To Cart</button>
+            </form>
+            <form method='post' action='{% url "buy_now" %}'>
+              {% csrf_token %}
+              <input type='hidden' name='sku' value='{{ p.sku }}'>
+              <button class='btn btn-success btn-sm btn-pill w-100'>Buy Now</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</section>
+
+<section class='container-fluid px-3 px-md-4 my-5'>
+  <div class='text-center mb-2'>
+    <h2 class='section-title mb-0'>Flash Sale ⚡</h2>
+    <div class='section-subtitle small'>Limited time offers - up to 50% off!</div>
+    <a class='btn btn-sm btn-pill btn-mint mt-2' href='/?flash=true'>See All</a>
+  </div>
+  
+  <div class='row'>
+  {% for p in flash_sale %}
+    <div class='col-6 col-sm-6 col-md-4 col-lg-3 mb-4'>
+      <div class='card product-card h-100 border-0 shadow-sm'>
+        <div class='position-relative'>
+          {% if p.image %}
+          <img src='{{ p.image.url }}' class='card-img-top product-image' alt='{{ p.name }}'>
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-warning text-dark'>FLASH SALE</span>
+          </div>
+          {% else %}
+          <div class='ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center'>
+            <i class='fa fa-image fa-3x text-muted'></i>
+          </div>
+          {% endif %}
+        </div>
+        <div class='card-body text-center p-3'>
+          <h6 class='card-title mb-2 text-dark fw-semibold'>
+            <a href='{% url "product_detail" p.slug %}' class='text-decoration-none text-dark'>{{ p.name }}</a>
+          </h6>
+          <p class='product-desc mb-2'>{{ p.description|default:""|truncatewords:12 }}</p>
+          <div class='price-section mb-3'>
+            {% if p.original_price and p.original_price != p.price %}
+            <span class='text-muted text-decoration-line-through small me-2'>৳{{ p.original_price }}</span>
+            {% endif %}
+            <span class='h6 text-success fw-bold mb-0'>৳{{ p.price }}</span>
+          </div>
+          <div class='d-grid gap-2'>
+            <form method='post' action='{% url "cart_add" %}' class='mb-1'>
+              {% csrf_token %}
+              <input type='hidden' name='sku' value='{{ p.sku }}'>
+              <input type='hidden' name='next' value='{{ request.path }}'>
+              <button class='btn btn-outline-dark btn-sm w-100'>Add To Cart</button>
+            </form>
+            <form method='post' action='{% url "buy_now" %}'>
+              {% csrf_token %}
+              <input type='hidden' name='sku' value='{{ p.sku }}'>
+              <button class='btn btn-success btn-sm w-100'>Buy Now</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</section>
+
+<section class='container-fluid px-3 px-md-4 my-5'>
+  <div class='text-center mb-3'>
+    <h2 class='section-title mb-0'>All Products</h2>
+    <div class='section-subtitle small'>Browse our complete collection of products</div>
+    <a class='btn btn-sm btn-pill btn-mint mt-2' href='/products/all/'>See All</a>
+  </div>
+  <div class='row'>
+  {% for p in products %}
+    <div class='col-6 col-sm-6 col-md-4 col-lg-3 mb-4'>
+      <div class='card product-card h-100 border-0 shadow-sm'>
+        <div class='position-relative'>
+          {% if p.image %}
+          <img src='{{ p.image.url }}' class='card-img-top product-image' alt='{{ p.name }}'>
+          {% if p.is_super_sale %}
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-danger'>SUPER SALE</span>
+          </div>
+          {% elif p.is_flash_sale %}
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-warning text-dark'>FLASH SALE</span>
+          </div>
+          {% elif p.is_mega_sale %}
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-info'>MEGA SALE</span>
+          </div>
+          {% endif %}
+          {% else %}
+          <div class='ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center'>
+            <i class='fa fa-image fa-3x text-muted'></i>
+          </div>
+          {% endif %}
+        </div>
+        <div class='card-body text-center p-3'>
+          <h6 class='card-title mb-2 text-dark fw-semibold'>
+            <a href='{% url "product_detail" p.slug %}' class='text-decoration-none text-dark'>{{ p.name }}</a>
+          </h6>
+          <p class='product-desc mb-2'>{{ p.description|default:""|truncatewords:12 }}</p>
+          <div class='price-section mb-3'>
+            <span class='h6 text-success fw-bold mb-0'>৳{{ p.price }}</span>
+            {% if p.stock > 0 %}
+            <div class='small text-success'>In Stock: {{ p.stock }}</div>
+            {% else %}
+            <div class='small text-danger'>Out of Stock</div>
+            {% endif %}
+          </div>
+          <div class='d-grid gap-2'>
+            {% if p.stock > 0 %}
+            <form method='post' action='{% url "cart_add" %}' class='mb-1'>
+              {% csrf_token %}
+              <input type='hidden' name='sku' value='{{ p.sku }}'>
+              <input type='hidden' name='next' value='{{ request.path }}'>
+              <button class='btn btn-outline-dark btn-sm w-100'>Add To Cart</button>
+            </form>
+            <form method='post' action='{% url "buy_now" %}'>
+              {% csrf_token %}
+              <input type='hidden' name='sku' value='{{ p.sku }}'>
+              <button class='btn btn-success btn-sm w-100'>Buy Now</button>
+            </form>
+            {% else %}
+            <button class='btn btn-outline-secondary btn-sm w-100' disabled>Out of Stock</button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</section>
+
+<section class='container-fluid px-3 px-md-4 my-5'>
+  <div class='d-flex justify-content-between align-items-end mb-3'>
+    <div>
+      <h2 class='section-title mb-0'>Featured Products</h2>
+      <div class='section-subtitle small'>Discover our curated collection of premium items</div>
+    </div>
+    <a class='btn btn-sm btn-pill btn-mint' href='/?mega=true'>See All</a>
+  </div>
+  <div class='row'>
+  {% for p in mega_sale %}
+    <div class='col-6 col-sm-6 col-md-4 col-lg-3 mb-4'>
+      <div class='card product-card h-100 border-0 shadow-sm'>
+        <div class='position-relative'>
+          {% if p.image %}
+          <img src='{{ p.image.url }}' class='card-img-top product-image' alt='{{ p.name }}'>
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-primary'>MEGA SALE</span>
+          </div>
+          {% else %}
+          <div class='ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center'>
+            <i class='fa fa-image fa-3x text-muted'></i>
+          </div>
+          {% endif %}
+        </div>
+        <div class='card-body text-center p-3'>
+          <h6 class='card-title mb-2 text-dark fw-semibold'>
+            <a href='{% url "product_detail" p.slug %}' class='text-decoration-none text-dark'>{{ p.name }}</a>
+          </h6>
+          <div class='price-section mb-3'>
+            {% if p.original_price and p.original_price != p.price %}
+            <span class='text-muted text-decoration-line-through small me-2'>৳{{ p.original_price }}</span>
+            {% endif %}
+            <span class='h6 text-success fw-bold mb-0'>৳{{ p.price }}</span>
+          </div>
+          <div class='d-grid gap-2'>
+            <form method='post' action='{% url "cart_add" %}' class='mb-1'>
+              {% csrf_token %}
+              <input type='hidden' name='sku' value='{{ p.sku }}'>
+              <input type='hidden' name='next' value='{{ request.path }}'>
+              <button class='btn btn-outline-dark btn-sm btn-pill w-100'>Add To Cart</button>
+            </form>
+            <form method='post' action='{% url "buy_now" %}'>
+              {% csrf_token %}
+              <input type='hidden' name='sku' value='{{ p.sku }}'>
+              <button class='btn btn-success btn-sm btn-pill w-100'>Buy Now</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</section>
+
+<script>
+  // Simple countdown that starts from data-seconds (fallback to 12h)
+  (function(){
+    const el = document.getElementById('flashCountdown');
+    if(!el) return;
+    let secs = parseInt(el.getAttribute('data-seconds')|| (12*60*60), 10);
+    function render(){
+      const h = Math.floor(secs/3600); const m = Math.floor((secs%3600)/60); const s = secs%60;
+      el.querySelector('[data-unit="hours"]').textContent = String(h).padStart(2,'0');
+      el.querySelector('[data-unit="minutes"]').textContent = String(m).padStart(2,'0');
+      el.querySelector('[data-unit="seconds"]').textContent = String(s).padStart(2,'0');
+      if(secs>0){ secs--; }
+    }
+    render(); setInterval(render,1000);
+  })();
+</script>
+{% endblock %}

@@ -1,0 +1,10 @@
+Django>=4.2
+djangorestframework
+django-filter
+django-crispy-forms
+whitenoise
+gunicorn
+requests
+python-dotenv
+channels
+channels-redis

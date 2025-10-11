@@ -1,0 +1,169 @@
+{% load static %}
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+  <meta name='description' content='Shop Away - Your favorite online store'>
+  <title>{% block title %}Shop Away{% endblock %}</title>
+  <!-- SEO-friendly canonical, open graph placeholders -->
+  <link rel='canonical' href='{{ request.build_absolute_uri }}' />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <link href="/static/css/theme.css" rel="stylesheet">
+</head>
+<body>
+<div class='top-strip text-white small d-none d-lg-block'>
+  <div class='container d-flex justify-content-between py-1'>
+    <div>
+      <i class='fa fa-bolt me-1'></i> Fast delivery
+      <span class='ms-3'><i class='fa fa-rotate-left me-1'></i> Easy returns</span>
+      <span class='ms-3'><i class='fa fa-shield-halved me-1'></i> Secure checkout</span>
+    </div>
+    <div>
+      <i class='fa fa-phone me-1'></i> Hotline: <strong>09638-000000</strong>
+    </div>
+  </div>
+</div>
+<nav class='navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top border-bottom'>
+  <div class='container-fluid'>
+    <a class='navbar-brand fw-bold' style='color: var(--mint-dark);' href='/'><i class="fa-solid fa-mountain-sun me-1"></i> ShopAway</a>
+    <button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navMain'>
+      <span class='navbar-toggler-icon'></span>
+    </button>
+    <div class='collapse navbar-collapse' id='navMain'>
+      <form class='mx-lg-auto my-2 my-lg-0 flex-grow-1 nav-search' method='get' action='/'>
+        <div class='input-group nav-search-group'>
+          <input class='form-control nav-search-input' name='q' placeholder='Search products...' aria-label='Search products'>
+          <button class='btn nav-search-btn' style='background-color: var(--mint-dark); border-color: var(--mint-dark); color: white;' type='submit' aria-label='Search'>
+            <i class='fa fa-search'></i>
+          </button>
+        </div>
+      </form>
+      <ul class='navbar-nav ms-lg-3 align-items-lg-center'>
+        <li class='nav-item d-none d-lg-flex align-items-center me-3 text-muted small'>
+          <i class='fa fa-phone me-1'></i> 01991095900
+        </li>
+        <li class='nav-item dropdown position-static d-none d-lg-block'>
+          <a class='nav-link dropdown-toggle' href='#' data-bs-toggle='dropdown'>Shop</a>
+          <div class='dropdown-menu w-100 border-0 shadow-lg p-3 mega-menu'>
+            <div class='row g-3'>
+              <div class='col-6 col-md-3'>
+                <h6 class='text-uppercase small text-muted'>Categories</h6>
+                <ul class='list-unstyled mb-0 small'>
+                  <li><a class='dropdown-item' href='/?category=electronics'>Electronics</a></li>
+                  <li><a class='dropdown-item' href='/?category=fashion'>Fashion</a></li>
+                  <li><a class='dropdown-item' href='/?category=grocery'>Grocery</a></li>
+                  <li><a class='dropdown-item' href='/?category=home'>Home & Living</a></li>
+                </ul>
+              </div>
+              <div class='col-6 col-md-3'>
+                <h6 class='text-uppercase small text-muted'>Featured</h6>
+                <a class='card card-hover border-0 text-decoration-none text-dark' href='/?featured=true'>
+                  <div class='card-body py-2'>Top Deals</div>
+                </a>
+                <a class='card card-hover border-0 text-decoration-none text-dark mt-2' href='/?new=true'>
+                  <div class='card-body py-2'>New Arrivals</div>
+                </a>
+              </div>
+              <div class='col-12 col-md-6'>
+                <div class='p-3 rounded-3 promo-tile'>
+                  <div class='d-flex justify-content-between align-items-center'>
+                    <div>
+                      <div class='h5 mb-0'>Big Savings Week</div>
+                      <div class='small text-muted'>Up to 50% off selected items</div>
+                    </div>
+                    <a class='btn btn-light btn-sm' href='/?sale=true'>Shop Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul class='navbar-nav'>
+        <li class='nav-item'><a class='nav-link position-relative' href='{% url "cart_view" %}'>
+          <i class='fa-solid fa-cart-shopping'></i> <span class='d-none d-sm-inline'>Cart</span>
+          {% if cart_count > 0 %}
+          <span class='position-absolute top-0 start-100 translate-middle badge rounded-pill' style='background-color: var(--mint); color: var(--ink);'>
+            {{ cart_count }}
+            <span class='visually-hidden'>items in cart</span>
+          </span>
+          {% endif %}
+        </a></li>
+        <li class='nav-item'><a class='nav-link' href='/accounts/login/'>
+          <i class='fa-solid fa-user'></i> <span class='d-none d-sm-inline'>Login</span>
+        </a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class='bg-white border-bottom d-none d-lg-block'>
+  <div class='container d-flex align-items-stretch gap-2 py-2 nav-tabs-bar'>
+   
+</div>
+<header class='page-hero text-center py-4'>
+  {% block page_header %}{% endblock %}
+
+  </form>
+  <div class='container small text-muted mt-2'>{% block breadcrumbs %}{% endblock %}</div>
+  <div class='container'>{% if messages %}{% for message in messages %}
+    <div class='alert alert-{{ message.tags }} alert-dismissible fade show mt-3'>{{ message }}
+      <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+    </div>
+  {% endfor %}{% endif %}</div>
+</header>
+<main class='container-fluid px-3 px-md-4 my-4 reveal'>
+  {% block content %}{% endblock %}
+</main>
+<footer class='footer-gradient text-white pt-5'>
+  <div class='container'>
+    <div class='row g-4'>
+      <div class='col-12 col-sm-6 col-md-3'>
+        <h6 class='text-uppercase small'>ShopAway</h6>
+        <p class='small text-white-50'>Quality products. Fast delivery. Secure checkout.</p>
+      </div>
+      <div class='col-12 col-sm-6 col-md-3'>
+        <h6 class='text-uppercase small'>Company</h6>
+        <ul class='list-unstyled small'>
+          <li class='mb-1'><a class='text-white text-decoration-none' href='/about/'>About</a></li>
+          <li class='mb-1'><a class='text-white text-decoration-none' href='/contact/'>Contact</a></li>
+          <li class='mb-1'><a class='text-white text-decoration-none' href='/blog/'>Blog</a></li>
+        </ul>
+      </div>
+      <div class='col-12 col-sm-6 col-md-3'>
+        <h6 class='text-uppercase small'>Help</h6>
+        <ul class='list-unstyled small'>
+          <li class='mb-1'><a class='text-white text-decoration-none' href='/help/shipping/'>Shipping</a></li>
+          <li class='mb-1'><a class='text-white text-decoration-none' href='/help/returns/'>Returns</a></li>
+          <li class='mb-1'><a class='text-white text-decoration-none' href='/help/faq/'>FAQ</a></li>
+        </ul>
+      </div>
+      <div class='col-12 col-sm-6 col-md-3'>
+        <h6 class='text-uppercase small'>Newsletter</h6>
+        <form class='d-flex flex-column flex-sm-row gap-2'>
+          <input class='form-control form-control-sm' placeholder='Your email' type='email' aria-label='Email address'>
+          <button class='btn btn-sm btn-light' type='submit'>Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class='small text-white-50 py-3 border-top border-secondary mt-4'>&copy; {{ now|default:2025 }} ShopAway — All rights reserved.</div>
+  </div>
+</footer>
+<!-- Live Chat Widget -->
+{% include "chat/chat_button.html" %}
+{% include "chat/chat_window.html" %}
+<script src="/static/chat/chat.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // simple intersection observer to reveal sections as they scroll into view
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){ e.target.classList.add('reveal-visible'); }
+    })
+  }, { threshold: .1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

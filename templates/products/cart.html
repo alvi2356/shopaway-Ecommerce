@@ -1,0 +1,441 @@
+{% extends 'base.html' %}
+{% block page_header %}
+<h1 class='h3 fw-bold'>Your Cart</h1>
+{% endblock %}
+{% block content %}
+<div class='row g-3 g-md-4'>
+  <div class='col-lg-8'>
+    <!-- Desktop Table View -->
+    <div class='table-responsive card d-none d-lg-block'>
+      <table class='table mb-0 align-middle'>
+        <thead class='table-light'>
+          <tr><th>Product</th><th class='text-center'>Qty</th><th class='text-end'>Subtotal</th><th class='text-center'>Actions</th></tr>
+        </thead>
+        <tbody>
+        {% for it in items %}
+          <tr>
+            <td>
+              <div class='d-flex align-items-center'>
+                {% if it.product.image %}
+                <img src='{{ it.product.image.url }}' class='me-3' style='width:50px;height:50px;object-fit:cover;' alt='{{ it.product.name }}'>
+                {% endif %}
+                <div>
+                  <div class='fw-semibold'>{{ it.product.name }}</div>
+                  <div class='small text-muted'>SKU: {{ it.product.sku }}</div>
+                  <div class='small text-success'>৳{{ it.product.price }} each</div>
+                </div>
+              </div>
+            </td>
+            <td class='text-center'>
+              <form method='post' action='{% url "cart_update" %}' class='qty-form' data-sku='{{ it.product.sku }}'>
+                {% csrf_token %}
+                <input type='hidden' name='sku' value='{{ it.product.sku }}'>
+                <input type='hidden' name='next' value='{% url "cart_view" %}'>
+                <div class='qty-controls'>
+                  <div class='qty-buttons'>
+                    <button type='button' class='qty-btn qty-decrease' data-action='decrease'>-</button>
+                    <input name='qty' value='{{ it.qty }}' class='qty-input' min='1' max='99' readonly>
+                    <button type='button' class='qty-btn qty-increase' data-action='increase'>+</button>
+                  </div>
+                </div>
+              </form>
+            </td>
+            <td class='text-end'>
+              <div class='fw-semibold'>৳{{ it.subtotal }}</div>
+            </td>
+            <td class='text-center'>
+              <form method='post' action='{% url "cart_remove" %}' class='d-inline'>
+                {% csrf_token %}
+                <input type='hidden' name='sku' value='{{ it.product.sku }}'>
+                <input type='hidden' name='next' value='{% url "cart_view" %}'>
+                <button type='submit' class='btn btn-sm btn-outline-danger' onclick='return confirm("Remove this item from cart?")'>
+                  <i class='fa fa-trash'></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan='4' class='text-center text-muted py-5'>
+            <i class='fa fa-shopping-cart fa-3x mb-3 text-muted'></i>
+            <div>Your cart is empty</div>
+            <a href='/' class='btn btn-primary mt-2'>Continue Shopping</a>
+          </td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Mobile Card View -->
+    <div class='d-lg-none'>
+      {% for it in items %}
+      <div class='card mb-3'>
+        <div class='card-body'>
+          <div class='row align-items-center'>
+            <div class='col-3'>
+              {% if it.product.image %}
+              <img src='{{ it.product.image.url }}' class='img-fluid rounded' style='width:80px;height:80px;object-fit:cover;' alt='{{ it.product.name }}'>
+              {% else %}
+              <div class='bg-light rounded d-flex align-items-center justify-content-center' style='width:80px;height:80px;'>
+                <i class='fa fa-image text-muted'></i>
+              </div>
+              {% endif %}
+            </div>
+            <div class='col-6'>
+              <h6 class='mb-1'>{{ it.product.name }}</h6>
+              <small class='text-muted'>SKU: {{ it.product.sku }}</small>
+              <div class='text-success fw-semibold'>৳{{ it.product.price }} each</div>
+            </div>
+            <div class='col-3 text-end'>
+              <div class='fw-bold'>৳{{ it.subtotal }}</div>
+            </div>
+          </div>
+          <div class='row mt-3'>
+            <div class='col-6'>
+              <form method='post' action='{% url "cart_update" %}' class='qty-form' data-sku='{{ it.product.sku }}'>
+                {% csrf_token %}
+                <input type='hidden' name='sku' value='{{ it.product.sku }}'>
+                <input type='hidden' name='next' value='{% url "cart_view" %}'>
+                <div class='qty-controls'>
+                  <div class='qty-buttons'>
+                    <button type='button' class='qty-btn qty-decrease' data-action='decrease'>-</button>
+                    <input name='qty' value='{{ it.qty }}' class='qty-input' min='1' max='99' readonly>
+                    <button type='button' class='qty-btn qty-increase' data-action='increase'>+</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class='col-6 text-end'>
+              <form method='post' action='{% url "cart_remove" %}' class='d-inline'>
+                {% csrf_token %}
+                <input type='hidden' name='sku' value='{{ it.product.sku }}'>
+                <input type='hidden' name='next' value='{% url "cart_view" %}'>
+                <button type='submit' class='btn btn-sm btn-outline-danger' onclick='return confirm("Remove this item from cart?")'>
+                  <i class='fa fa-trash me-1'></i>Remove
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class='card text-center py-5'>
+        <div class='card-body'>
+          <i class='fa fa-shopping-cart fa-3x mb-3 text-muted'></i>
+          <h5>Your cart is empty</h5>
+          <p class='text-muted'>Add some products to get started</p>
+          <a href='/' class='btn btn-primary'>Continue Shopping</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class='col-lg-4'>
+    <div class='card sticky-top' style='top: 1rem;'>
+      <div class='card-body'>
+        <h5 class='card-title'>Order Summary</h5>
+        <div class='d-flex justify-content-between mb-2'>
+          <span>Items ({{ items|length }})</span>
+          <span>৳{{ total }}</span>
+        </div>
+        <div class='d-flex justify-content-between mb-2'>
+          <span>Shipping</span>
+          <span class='text-success'>Free</span>
+        </div>
+        <hr>
+        <div class='d-flex justify-content-between mb-3'>
+          <span class='fw-semibold'>Total</span>
+          <span class='h5 mb-0'>৳{{ total }}</span>
+        </div>
+        {% if items %}
+        <form method='post' action='/orders/create/' id='checkoutForm'>
+          {% csrf_token %}
+          <div class='mb-3'><input name='name' class='form-control' placeholder='Full Name' required></div>
+          <div class='mb-3'><input name='phone' class='form-control' placeholder='Phone Number' required></div>
+          <div class='mb-3'><textarea name='address' class='form-control' placeholder='Delivery Address' rows='3' required></textarea></div>
+          <div class='mb-3'><input name='email' type='email' class='form-control' placeholder='Email (optional)'></div>
+          
+          <!-- Payment Method Selection -->
+          <div class='mb-4'>
+            <h6 class='mb-3'>Payment Method</h6>
+            <div class='payment-methods'>
+              <div class='form-check mb-2'>
+                <input class='form-check-input' type='radio' name='payment_method' id='cod' value='cod' checked>
+                <label class='form-check-label' for='cod'>
+                  <i class='fa fa-money-bill-wave me-2'></i>Cash on Delivery (COD)
+                  <small class='d-block text-muted'>Pay when your order arrives</small>
+                </label>
+              </div>
+              <div class='form-check mb-2'>
+                <input class='form-check-input' type='radio' name='payment_method' id='online' value='online'>
+                <label class='form-check-label' for='online'>
+                  <i class='fa fa-credit-card me-2'></i>Online Payment
+                  <small class='d-block text-muted'>Pay securely with card/bank</small>
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <button type='submit' class='btn btn-success w-100 btn-lg' id='placeOrderBtn'>
+            <i class='fa fa-credit-card me-2'></i>Place Order
+          </button>
+        </form>
+        <div class='text-center mt-3'>
+          <small class='text-muted'>
+            <i class='fa fa-shield-halved me-1'></i>Secure checkout
+          </small>
+        </div>
+        {% else %}
+        <a href='/' class='btn btn-primary w-100'>Start Shopping</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Quantity Controls Styling */
+.qty-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Payment Methods Styling */
+.payment-methods {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    background: #f8f9fa;
+}
+
+.payment-methods .form-check {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.payment-methods .form-check:hover {
+    border-color: #1baaae;
+    box-shadow: 0 2px 4px rgba(27, 170, 174, 0.1);
+}
+
+.payment-methods .form-check-input:checked + .form-check-label {
+    color: #1baaae;
+    font-weight: 600;
+}
+
+.payment-methods .form-check-input:checked {
+    background-color: #1baaae;
+    border-color: #1baaae;
+}
+
+.payment-methods .form-check-label {
+    cursor: pointer;
+    width: 100%;
+    margin: 0;
+}
+
+.payment-methods .form-check-label i {
+    color: #1baaae;
+}
+
+/* Button styling */
+#placeOrderBtn {
+    background: #1baaae;
+    border-color: #1baaae;
+    transition: all 0.2s ease;
+}
+
+#placeOrderBtn:hover {
+    background: #15969a;
+    border-color: #15969a;
+    transform: translateY(-1px);
+}
+
+.qty-buttons {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    background: white;
+}
+
+.qty-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: #f8f9fa;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.qty-btn:hover {
+    background: #e9ecef;
+    color: #1baaae;
+}
+
+.qty-btn:active {
+    transform: scale(0.95);
+}
+
+.qty-decrease {
+    border-right: 1px solid #ddd;
+}
+
+.qty-increase {
+    border-left: 1px solid #ddd;
+}
+
+.qty-input {
+    width: 50px;
+    height: 32px;
+    border: none;
+    text-align: center;
+    font-weight: 500;
+    background: white;
+    color: #333;
+    outline: none;
+}
+
+.qty-input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .qty-buttons {
+        width: 100%;
+        max-width: 120px;
+    }
+    
+    .qty-btn {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .qty-input {
+        width: 60px;
+        height: 36px;
+    }
+}
+
+/* Mobile Cart Improvements */
+@media (max-width: 575.98px) {
+    .cart-item {
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    .cart-item img {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .cart-item .col-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    
+    .cart-item .col-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    
+    .qty-buttons {
+        width: 100%;
+        max-width: 100px;
+    }
+    
+    .qty-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+    
+    .qty-input {
+        width: 50px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+    
+    /* Mobile form improvements */
+    .form-control {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 0.75rem;
+    }
+    
+    .btn {
+        min-height: 44px; /* Touch-friendly */
+        padding: 0.75rem 1rem;
+    }
+}
+</style>
+
+<script>
+// Enhanced Quantity Controls
+document.addEventListener('DOMContentLoaded', function() {
+    // Quantity button functionality
+    document.querySelectorAll('.qty-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const action = this.getAttribute('data-action');
+            const form = this.closest('.qty-form');
+            const input = form.querySelector('.qty-input');
+            let currentValue = parseInt(input.value) || 1;
+            
+            if (action === 'increase') {
+                if (currentValue < 99) {
+                    input.value = currentValue + 1;
+                    updateQuantity(form);
+                }
+            } else if (action === 'decrease') {
+                if (currentValue > 1) {
+                    input.value = currentValue - 1;
+                    updateQuantity(form);
+                }
+            }
+        });
+    });
+    
+    // Input change handler
+    document.querySelectorAll('.qty-input').forEach(input => {
+        input.addEventListener('change', function() {
+            const form = this.closest('.qty-form');
+            let value = parseInt(this.value) || 1;
+            
+            // Ensure value is within bounds
+            if (value < 1) value = 1;
+            if (value > 99) value = 99;
+            
+            this.value = value;
+            updateQuantity(form);
+        });
+    });
+    
+    // Update quantity function
+    function updateQuantity(form) {
+        const input = form.querySelector('.qty-input');
+        const value = parseInt(input.value) || 1;
+        
+        // Add visual feedback to the input
+        input.style.borderColor = '#1baaae';
+        input.style.backgroundColor = '#f8f9fa';
+        
+        // Auto-submit immediately
+        form.submit();
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="auth-screen">
+  <div class="auth-card">
+    <div class="auth-inner">
+      <h2 class="mb-3">Profile</h2>
+      <p class="mb-1">Username: {{ request.user.username }}</p>
+      <p class="mb-0">Phone: {{ request.user.phone }}</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

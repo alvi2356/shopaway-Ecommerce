@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block page_header %}
+<h1 class='h3 fw-bold text-warning'>
+    <i class='fa fa-ban me-2'></i>Payment Cancelled
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class='row justify-content-center'>
+    <div class='col-lg-8'>
+        <div class='card border-warning'>
+            <div class='card-body text-center py-5'>
+                <div class='mb-4'>
+                    <i class='fa fa-ban text-warning' style='font-size: 4rem;'></i>
+                </div>
+                <h2 class='text-warning mb-3'>Payment Cancelled</h2>
+                <p class='text-muted mb-4'>You have cancelled the payment process.</p>
+                
+                <div class='row text-start'>
+                    <div class='col-md-6'>
+                        <h5>Order Details</h5>
+                        <p><strong>Order ID:</strong> #{{ order.id }}</p>
+                        <p><strong>Customer:</strong> {{ order.name }}</p>
+                        <p><strong>Phone:</strong> {{ order.phone }}</p>
+                        <p><strong>Total Amount:</strong> ৳{{ order.total }}</p>
+                    </div>
+                    <div class='col-md-6'>
+                        <h5>Payment Status</h5>
+                        <p><strong>Payment Method:</strong> Online Payment</p>
+                        <p><strong>Status:</strong> <span class='badge bg-warning'>Cancelled</span></p>
+                        <p><strong>Date:</strong> {{ order.created_at|date:"M d, Y H:i" }}</p>
+                    </div>
+                </div>
+                
+                <div class='alert alert-info mt-4'>
+                    <h5><i class='fa fa-info-circle me-2'></i>Your order is still pending</h5>
+                    <p class='mb-0'>You can complete the payment later or choose a different payment method.</p>
+                </div>
+                
+                <div class='mt-4'>
+                    <a href='{% url "orders:process_payment" order.id %}' class='btn btn-primary btn-lg me-3'>
+                        <i class='fa fa-credit-card me-2'></i>Complete Payment
+                    </a>
+                    <a href='/' class='btn btn-outline-secondary btn-lg'>
+                        <i class='fa fa-home me-2'></i>Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

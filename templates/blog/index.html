@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Blog</h1>
+{% for p in posts %}
+  <article><h3><a href='{% url "post_detail" p.slug %}'>{{ p.title }}</a></h3></article>
+{% empty %}<p>No posts yet.</p>{% endfor %}
+{% endblock %}
