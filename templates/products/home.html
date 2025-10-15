@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block page_header %}
 <div id='hero' class='container-fluid px-0 py-3'>
   <div id='homeCarousel' class='carousel slide hero-slider' data-bs-ride='carousel'>
@@ -23,11 +24,12 @@
       {% endfor %}
     </div>
   </div>
-  
 </div>
 {% endblock %}
+
 {% block content %}
 <!-- Categories Section -->
+{% if categories %}
 <section class='container-fluid px-3 px-md-4 my-5'>
   <div class='text-center mb-4'>
     <h2 class='section-title mb-0'>Shop by Category</h2>
@@ -76,7 +78,9 @@
     {% endfor %}
   </div>
 </section>
+{% endif %}
 
+{% if latest_products %}
 <section class='container-fluid px-3 px-md-4 my-5'>
   <div class='text-center mb-3'>
     <h2 class='section-title mb-0'>Latest Arrivals</h2>
@@ -126,7 +130,9 @@
   {% endfor %}
   </div>
 </section>
+{% endif %}
 
+{% if super_sale %}
 <section class='container-fluid px-3 px-md-4 my-5'>
   <div class='text-center mb-3'>
     <h2 class='section-title mb-0'>Super Sale</h2>
@@ -179,7 +185,9 @@
   {% endfor %}
   </div>
 </section>
+{% endif %}
 
+{% if flash_sale %}
 <section class='container-fluid px-3 px-md-4 my-5'>
   <div class='text-center mb-2'>
     <h2 class='section-title mb-0'>Flash Sale ⚡</h2>
@@ -233,7 +241,9 @@
   {% endfor %}
   </div>
 </section>
+{% endif %}
 
+{% if products %}
 <section class='container-fluid px-3 px-md-4 my-5'>
   <div class='text-center mb-3'>
     <h2 class='section-title mb-0'>All Products</h2>
@@ -302,14 +312,14 @@
   {% endfor %}
   </div>
 </section>
+{% endif %}
 
+{% if mega_sale %}
 <section class='container-fluid px-3 px-md-4 my-5'>
-  <div class='d-flex justify-content-between align-items-end mb-3'>
-    <div>
-      <h2 class='section-title mb-0'>Featured Products</h2>
-      <div class='section-subtitle small'>Discover our curated collection of premium items</div>
-    </div>
-    <a class='btn btn-sm btn-pill btn-mint' href='/?mega=true'>See All</a>
+  <div class='text-center mb-3'>
+    <h2 class='section-title mb-0'>Featured Products</h2>
+    <div class='section-subtitle small'>Discover our curated collection of premium items</div>
+    <a class='btn btn-sm btn-pill btn-mint mt-2' href='/?mega=true'>See All</a>
   </div>
   <div class='row'>
   {% for p in mega_sale %}
@@ -356,6 +366,7 @@
   {% endfor %}
   </div>
 </section>
+{% endif %}
 
 <script>
   // Simple countdown that starts from data-seconds (fallback to 12h)

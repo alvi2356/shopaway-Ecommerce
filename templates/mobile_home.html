@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+
+{% block page_header %}
+<div class='text-center'>
+  <h1 class='h2 h3-md h4-lg fw-bold mb-3'>Welcome to ShopAway</h1>
+  <p class='text-muted mb-0'>Your one-stop shop for everything you need</p>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class='container-fluid px-3 px-md-4'>
+  <!-- Mobile Hero Section -->
+  <div class='row mb-4'>
+    <div class='col-12'>
+      <div class='hero-slide d-flex align-items-center position-relative overflow-hidden rounded-3' style='background: linear-gradient(135deg, var(--mint-dark) 0%, var(--mint) 100%); min-height: 250px;'>
+        <div class='hero-overlay position-absolute top-0 start-0 w-100 h-100'></div>
+        <div class='hero-copy position-relative text-white p-4'>
+          <h2 class='h3 h4-md h5-lg fw-bold mb-3'>Big Savings Week</h2>
+          <p class='mb-4'>Up to 50% off on selected items. Don't miss out on these amazing deals!</p>
+          <a href='/?sale=true' class='btn btn-light btn-lg'>Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Categories -->
+  <div class='row mb-4'>
+    <div class='col-12'>
+      <h3 class='h5 fw-bold mb-3'>Shop by Category</h3>
+    </div>
+    <div class='col-6 col-md-3 mb-3'>
+      <a href='/?category=electronics' class='text-decoration-none'>
+        <div class='category-card card h-100 border-0 shadow-sm text-center'>
+          <div class='card-body d-flex flex-column justify-content-center'>
+            <div class='category-icon mb-2'>
+              <i class='fa fa-laptop fa-2x' style='color: var(--mint-dark);'></i>
+            </div>
+            <div class='category-name'>
+              <h6 class='mb-0 fw-semibold'>Electronics</h6>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class='col-6 col-md-3 mb-3'>
+      <a href='/?category=fashion' class='text-decoration-none'>
+        <div class='category-card card h-100 border-0 shadow-sm text-center'>
+          <div class='card-body d-flex flex-column justify-content-center'>
+            <div class='category-icon mb-2'>
+              <i class='fa fa-tshirt fa-2x' style='color: var(--mint-dark);'></i>
+            </div>
+            <div class='category-name'>
+              <h6 class='mb-0 fw-semibold'>Fashion</h6>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class='col-6 col-md-3 mb-3'>
+      <a href='/?category=grocery' class='text-decoration-none'>
+        <div class='category-card card h-100 border-0 shadow-sm text-center'>
+          <div class='card-body d-flex flex-column justify-content-center'>
+            <div class='category-icon mb-2'>
+              <i class='fa fa-shopping-cart fa-2x' style='color: var(--mint-dark);'></i>
+            </div>
+            <div class='category-name'>
+              <h6 class='mb-0 fw-semibold'>Grocery</h6>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class='col-6 col-md-3 mb-3'>
+      <a href='/?category=home' class='text-decoration-none'>
+        <div class='category-card card h-100 border-0 shadow-sm text-center'>
+          <div class='card-body d-flex flex-column justify-content-center'>
+            <div class='category-icon mb-2'>
+              <i class='fa fa-home fa-2x' style='color: var(--mint-dark);'></i>
+            </div>
+            <div class='category-name'>
+              <h6 class='mb-0 fw-semibold'>Home & Living</h6>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobile Featured Products -->
+  <div class='row mb-4'>
+    <div class='col-12'>
+      <div class='d-flex justify-content-between align-items-center mb-3'>
+        <h3 class='h5 fw-bold mb-0'>Featured Products</h3>
+        <a href='{% url "all_products" %}' class='btn btn-outline-primary btn-sm'>View All</a>
+      </div>
+    </div>
+    <div class='col-6 col-md-3 mb-3'>
+      <div class='card product-card h-100 border-0 shadow-sm'>
+        <div class='position-relative'>
+          <div class='ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center'>
+            <i class='fa fa-image fa-3x text-muted'></i>
+          </div>
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-success'>NEW</span>
+          </div>
+        </div>
+        <div class='card-body text-center p-3'>
+          <h6 class='card-title mb-2 text-dark fw-semibold'>
+            <a href='#' class='text-decoration-none text-dark'>Sample Product 1</a>
+          </h6>
+          <p class='product-desc mb-2 small text-muted'>This is a sample product description for testing mobile responsiveness.</p>
+          <div class='price-section mb-3'>
+            <span class='h6 text-success fw-bold mb-0'>৳299</span>
+            <div class='small text-success'>In Stock: 10</div>
+          </div>
+          <div class='d-grid gap-2'>
+            <button class='btn btn-outline-dark btn-sm w-100'>Add To Cart</button>
+            <button class='btn btn-success btn-sm w-100'>Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='col-6 col-md-3 mb-3'>
+      <div class='card product-card h-100 border-0 shadow-sm'>
+        <div class='position-relative'>
+          <div class='ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center'>
+            <i class='fa fa-image fa-3x text-muted'></i>
+          </div>
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-danger'>SUPER SALE</span>
+          </div>
+        </div>
+        <div class='card-body text-center p-3'>
+          <h6 class='card-title mb-2 text-dark fw-semibold'>
+            <a href='#' class='text-decoration-none text-dark'>Sample Product 2</a>
+          </h6>
+          <p class='product-desc mb-2 small text-muted'>Another sample product for testing mobile layout and responsiveness.</p>
+          <div class='price-section mb-3'>
+            <span class='h6 text-success fw-bold mb-0'>৳599</span>
+            <div class='small text-success'>In Stock: 5</div>
+          </div>
+          <div class='d-grid gap-2'>
+            <button class='btn btn-outline-dark btn-sm w-100'>Add To Cart</button>
+            <button class='btn btn-success btn-sm w-100'>Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='col-6 col-md-3 mb-3'>
+      <div class='card product-card h-100 border-0 shadow-sm'>
+        <div class='position-relative'>
+          <div class='ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center'>
+            <i class='fa fa-image fa-3x text-muted'></i>
+          </div>
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-warning text-dark'>FLASH SALE</span>
+          </div>
+        </div>
+        <div class='card-body text-center p-3'>
+          <h6 class='card-title mb-2 text-dark fw-semibold'>
+            <a href='#' class='text-decoration-none text-dark'>Sample Product 3</a>
+          </h6>
+          <p class='product-desc mb-2 small text-muted'>Third product for comprehensive mobile testing.</p>
+          <div class='price-section mb-3'>
+            <span class='h6 text-success fw-bold mb-0'>৳899</span>
+            <div class='small text-success'>In Stock: 15</div>
+          </div>
+          <div class='d-grid gap-2'>
+            <button class='btn btn-outline-dark btn-sm w-100'>Add To Cart</button>
+            <button class='btn btn-success btn-sm w-100'>Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='col-6 col-md-3 mb-3'>
+      <div class='card product-card h-100 border-0 shadow-sm'>
+        <div class='position-relative'>
+          <div class='ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center'>
+            <i class='fa fa-image fa-3x text-muted'></i>
+          </div>
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-info'>MEGA SALE</span>
+          </div>
+        </div>
+        <div class='card-body text-center p-3'>
+          <h6 class='card-title mb-2 text-dark fw-semibold'>
+            <a href='#' class='text-decoration-none text-dark'>Sample Product 4</a>
+          </h6>
+          <p class='product-desc mb-2 small text-muted'>Fourth product to test mobile grid layout.</p>
+          <div class='price-section mb-3'>
+            <span class='h6 text-success fw-bold mb-0'>৳1299</span>
+            <div class='small text-success'>In Stock: 8</div>
+          </div>
+          <div class='d-grid gap-2'>
+            <button class='btn btn-outline-dark btn-sm w-100'>Add To Cart</button>
+            <button class='btn btn-success btn-sm w-100'>Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Deals Section -->
+  <div class='row mb-4'>
+    <div class='col-12'>
+      <h3 class='h5 fw-bold mb-3'>Today's Deals</h3>
+    </div>
+    <div class='col-12'>
+      <div class='card border-0 shadow-sm'>
+        <div class='card-body p-4'>
+          <div class='row align-items-center'>
+            <div class='col-8'>
+              <h5 class='card-title mb-2'>Flash Sale - 50% Off</h5>
+              <p class='card-text text-muted mb-3'>Limited time offer on selected items. Hurry up!</p>
+              <div class='d-flex align-items-center'>
+                <span class='badge bg-danger me-2'>Ends in 2h 30m</span>
+                <a href='/?flash=true' class='btn btn-primary btn-sm'>Shop Now</a>
+              </div>
+            </div>
+            <div class='col-4 text-center'>
+              <i class='fa fa-bolt fa-3x text-warning'></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Newsletter -->
+  <div class='row mb-4'>
+    <div class='col-12'>
+      <div class='card border-0 shadow-sm' style='background: linear-gradient(135deg, var(--peach-soft) 0%, var(--peach) 100%);'>
+        <div class='card-body p-4 text-center'>
+          <h5 class='card-title mb-3'>Stay Updated</h5>
+          <p class='card-text text-muted mb-3'>Subscribe to our newsletter for the latest deals and updates.</p>
+          <form class='d-flex flex-column flex-sm-row gap-2'>
+            <input class='form-control' placeholder='Your email address' type='email' aria-label='Email address'>
+            <button class='btn btn-primary' type='submit'>Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

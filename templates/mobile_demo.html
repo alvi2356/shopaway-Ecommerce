@@ -1,0 +1,364 @@
+{% extends 'base.html' %}
+
+{% block page_header %}
+<nav aria-label='breadcrumb'>
+  <ol class='breadcrumb justify-content-center mb-0'>
+    <li class='breadcrumb-item'><a href='/'>Home</a></li>
+    <li class='breadcrumb-item active' aria-current='page'>Mobile Demo</li>
+  </ol>
+  <h1 class='h3 fw-bold mt-2'>Mobile Responsive Demo</h1>
+  <p class='text-muted mb-0'>Complete mobile view demonstration</p>
+{% endblock %}
+
+{% block content %}
+<div class='container-fluid px-3 px-md-4'>
+  <!-- Mobile Features Showcase -->
+  <div class='row mb-4'>
+    <div class='col-12'>
+      <div class='card'>
+        <div class='card-body'>
+          <h5 class='card-title'>📱 Mobile Features</h5>
+          <div class='row g-3'>
+            <div class='col-6 col-md-3'>
+              <div class='text-center p-3 border rounded'>
+                <i class='fa fa-mobile-alt fa-2x text-primary mb-2'></i>
+                <h6 class='mb-1'>Responsive Design</h6>
+                <small class='text-muted'>Adapts to all screen sizes</small>
+              </div>
+            </div>
+            <div class='col-6 col-md-3'>
+              <div class='text-center p-3 border rounded'>
+                <i class='fa fa-hand-pointer fa-2x text-success mb-2'></i>
+                <h6 class='mb-1'>Touch Friendly</h6>
+                <small class='text-muted'>44px minimum touch targets</small>
+              </div>
+            </div>
+            <div class='col-6 col-md-3'>
+              <div class='text-center p-3 border rounded'>
+                <i class='fa fa-search fa-2x text-info mb-2'></i>
+                <h6 class='mb-1'>Mobile Search</h6>
+                <small class='text-muted'>Optimized search experience</small>
+              </div>
+            </div>
+            <div class='col-6 col-md-3'>
+              <div class='text-center p-3 border rounded'>
+                <i class='fa fa-bars fa-2x text-warning mb-2'></i>
+                <h6 class='mb-1'>Mobile Menu</h6>
+                <small class='text-muted'>Hamburger navigation</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Test -->
+  <div class='row mb-4'>
+    <div class='col-12'>
+      <div class='card'>
+        <div class='card-body'>
+          <h5 class='card-title'>🧭 Mobile Navigation Test</h5>
+          <p class='card-text'>Test the mobile navigation by resizing your browser or viewing on mobile devices.</p>
+          <div class='alert alert-info'>
+            <i class='fa fa-info-circle me-2'></i>
+            <strong>Mobile Navigation Features:</strong>
+            <ul class='mb-0 mt-2'>
+              <li>Hamburger menu for mobile devices</li>
+              <li>Mobile-optimized search bar</li>
+              <li>Touch-friendly navigation links</li>
+              <li>Auto-close on outside click</li>
+              <li>Escape key support</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Product Grid Test -->
+  <div class='row mb-4'>
+    <div class='col-12'>
+      <h5 class='fw-bold mb-3'>🛍️ Mobile Product Grid</h5>
+    </div>
+    <div class='col-6 col-md-3 mb-3'>
+      <div class='card product-card h-100 border-0 shadow-sm'>
+        <div class='position-relative'>
+          <div class='ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center'>
+            <i class='fa fa-image fa-3x text-muted'></i>
+          </div>
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-success'>NEW</span>
+          </div>
+        </div>
+        <div class='card-body text-center p-3'>
+          <h6 class='card-title mb-2 text-dark fw-semibold'>
+            <a href='#' class='text-decoration-none text-dark'>Mobile Product 1</a>
+          </h6>
+          <p class='product-desc mb-2 small text-muted'>Perfect for mobile viewing with responsive design.</p>
+          <div class='price-section mb-3'>
+            <span class='h6 text-success fw-bold mb-0'>৳299</span>
+            <div class='small text-success'>In Stock: 10</div>
+          </div>
+          <div class='d-grid gap-2'>
+            <button class='btn btn-outline-dark btn-sm w-100'>Add To Cart</button>
+            <button class='btn btn-success btn-sm w-100'>Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='col-6 col-md-3 mb-3'>
+      <div class='card product-card h-100 border-0 shadow-sm'>
+        <div class='position-relative'>
+          <div class='ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center'>
+            <i class='fa fa-image fa-3x text-muted'></i>
+          </div>
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-danger'>SALE</span>
+          </div>
+        </div>
+        <div class='card-body text-center p-3'>
+          <h6 class='card-title mb-2 text-dark fw-semibold'>
+            <a href='#' class='text-decoration-none text-dark'>Mobile Product 2</a>
+          </h6>
+          <p class='product-desc mb-2 small text-muted'>Touch-friendly buttons and optimized layout.</p>
+          <div class='price-section mb-3'>
+            <span class='h6 text-success fw-bold mb-0'>৳599</span>
+            <div class='small text-success'>In Stock: 5</div>
+          </div>
+          <div class='d-grid gap-2'>
+            <button class='btn btn-outline-dark btn-sm w-100'>Add To Cart</button>
+            <button class='btn btn-success btn-sm w-100'>Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='col-6 col-md-3 mb-3'>
+      <div class='card product-card h-100 border-0 shadow-sm'>
+        <div class='position-relative'>
+          <div class='ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center'>
+            <i class='fa fa-image fa-3x text-muted'></i>
+          </div>
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-warning text-dark'>HOT</span>
+          </div>
+        </div>
+        <div class='card-body text-center p-3'>
+          <h6 class='card-title mb-2 text-dark fw-semibold'>
+            <a href='#' class='text-decoration-none text-dark'>Mobile Product 3</a>
+          </h6>
+          <p class='product-desc mb-2 small text-muted'>Responsive grid layout for all devices.</p>
+          <div class='price-section mb-3'>
+            <span class='h6 text-success fw-bold mb-0'>৳899</span>
+            <div class='small text-success'>In Stock: 15</div>
+          </div>
+          <div class='d-grid gap-2'>
+            <button class='btn btn-outline-dark btn-sm w-100'>Add To Cart</button>
+            <button class='btn btn-success btn-sm w-100'>Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='col-6 col-md-3 mb-3'>
+      <div class='card product-card h-100 border-0 shadow-sm'>
+        <div class='position-relative'>
+          <div class='ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center'>
+            <i class='fa fa-image fa-3x text-muted'></i>
+          </div>
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-info'>FEATURED</span>
+          </div>
+        </div>
+        <div class='card-body text-center p-3'>
+          <h6 class='card-title mb-2 text-dark fw-semibold'>
+            <a href='#' class='text-decoration-none text-dark'>Mobile Product 4</a>
+          </h6>
+          <p class='product-desc mb-2 small text-muted'>Mobile-first design approach.</p>
+          <div class='price-section mb-3'>
+            <span class='h6 text-success fw-bold mb-0'>৳1299</span>
+            <div class='small text-success'>In Stock: 8</div>
+          </div>
+          <div class='d-grid gap-2'>
+            <button class='btn btn-outline-dark btn-sm w-100'>Add To Cart</button>
+            <button class='btn btn-success btn-sm w-100'>Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Forms Test -->
+  <div class='row mb-4'>
+    <div class='col-12'>
+      <div class='card'>
+        <div class='card-body'>
+          <h5 class='card-title'>📝 Mobile Forms Test</h5>
+          <form class='row g-3'>
+            <div class='col-12'>
+              <label for='fullName' class='form-label'>Full Name</label>
+              <input type='text' class='form-control' id='fullName' placeholder='Enter your full name'>
+            </div>
+            <div class='col-12'>
+              <label for='email' class='form-label'>Email Address</label>
+              <input type='email' class='form-control' id='email' placeholder='Enter your email'>
+            </div>
+            <div class='col-12'>
+              <label for='phone' class='form-label'>Phone Number</label>
+              <input type='tel' class='form-control' id='phone' placeholder='Enter your phone number'>
+            </div>
+            <div class='col-12'>
+              <label for='message' class='form-label'>Message</label>
+              <textarea class='form-control' id='message' rows='4' placeholder='Enter your message'></textarea>
+            </div>
+            <div class='col-12'>
+              <div class='form-check'>
+                <input class='form-check-input' type='checkbox' id='agree'>
+                <label class='form-check-label' for='agree'>
+                  I agree to the terms and conditions
+                </label>
+              </div>
+            </div>
+            <div class='col-12'>
+              <button type='submit' class='btn btn-primary w-100'>Submit Form</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Buttons Test -->
+  <div class='row mb-4'>
+    <div class='col-12'>
+      <div class='card'>
+        <div class='card-body'>
+          <h5 class='card-title'>🔘 Mobile Buttons Test</h5>
+          <div class='d-grid gap-2 mb-3'>
+            <button class='btn btn-primary'>Primary Button</button>
+            <button class='btn btn-secondary'>Secondary Button</button>
+            <button class='btn btn-success'>Success Button</button>
+            <button class='btn btn-danger'>Danger Button</button>
+            <button class='btn btn-warning'>Warning Button</button>
+            <button class='btn btn-info'>Info Button</button>
+          </div>
+          <div class='d-flex flex-wrap gap-2'>
+            <button class='btn btn-outline-primary'>Outline Primary</button>
+            <button class='btn btn-outline-secondary'>Outline Secondary</button>
+            <button class='btn btn-outline-success'>Outline Success</button>
+            <button class='btn btn-outline-danger'>Outline Danger</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Alerts Test -->
+  <div class='row mb-4'>
+    <div class='col-12'>
+      <div class='card'>
+        <div class='card-body'>
+          <h5 class='card-title'>🚨 Mobile Alerts Test</h5>
+          <div class='alert alert-success alert-dismissible fade show' role='alert'>
+            <i class='fa fa-check-circle me-2'></i>
+            <strong>Success!</strong> This is a success alert optimized for mobile viewing.
+            <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+          </div>
+          <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+            <i class='fa fa-exclamation-triangle me-2'></i>
+            <strong>Error!</strong> This is an error alert with mobile-friendly dismiss button.
+            <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+          </div>
+          <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+            <i class='fa fa-exclamation-circle me-2'></i>
+            <strong>Warning!</strong> This is a warning alert with touch-friendly design.
+            <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+          </div>
+          <div class='alert alert-info alert-dismissible fade show' role='alert'>
+            <i class='fa fa-info-circle me-2'></i>
+            <strong>Info!</strong> This is an info alert with mobile-optimized spacing.
+            <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Responsive Test -->
+  <div class='row mb-4'>
+    <div class='col-12'>
+      <div class='card'>
+        <div class='card-body'>
+          <h5 class='card-title'>📐 Responsive Breakpoints</h5>
+          <div class='row g-3'>
+            <div class='col-12 col-sm-6 col-md-4 col-lg-3'>
+              <div class='p-3 bg-primary text-white rounded text-center'>
+                <strong>XS</strong><br>
+                <small>&lt; 576px</small>
+              </div>
+            </div>
+            <div class='col-12 col-sm-6 col-md-4 col-lg-3'>
+              <div class='p-3 bg-success text-white rounded text-center'>
+                <strong>SM</strong><br>
+                <small>576px+</small>
+              </div>
+            </div>
+            <div class='col-12 col-sm-6 col-md-4 col-lg-3'>
+              <div class='p-3 bg-info text-white rounded text-center'>
+                <strong>MD</strong><br>
+                <small>768px+</small>
+              </div>
+            </div>
+            <div class='col-12 col-sm-6 col-md-4 col-lg-3'>
+              <div class='p-3 bg-warning text-dark rounded text-center'>
+                <strong>LG</strong><br>
+                <small>992px+</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Performance Info -->
+  <div class='row mb-4'>
+    <div class='col-12'>
+      <div class='card'>
+        <div class='card-body'>
+          <h5 class='card-title'>⚡ Mobile Performance</h5>
+          <div class='row g-3'>
+            <div class='col-6 col-md-3'>
+              <div class='text-center'>
+                <i class='fa fa-mobile-alt fa-2x text-primary mb-2'></i>
+                <h6>Touch Optimized</h6>
+                <small class='text-muted'>44px minimum touch targets</small>
+              </div>
+            </div>
+            <div class='col-6 col-md-3'>
+              <div class='text-center'>
+                <i class='fa fa-tachometer-alt fa-2x text-success mb-2'></i>
+                <h6>Fast Loading</h6>
+                <small class='text-muted'>Optimized for mobile networks</small>
+              </div>
+            </div>
+            <div class='col-6 col-md-3'>
+              <div class='text-center'>
+                <i class='fa fa-eye fa-2x text-info mb-2'></i>
+                <h6>Accessible</h6>
+                <small class='text-muted'>Screen reader friendly</small>
+              </div>
+            </div>
+            <div class='col-6 col-md-3'>
+              <div class='text-center'>
+                <i class='fa fa-shield-alt fa-2x text-warning mb-2'></i>
+                <h6>Secure</h6>
+                <small class='text-muted'>HTTPS and secure forms</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

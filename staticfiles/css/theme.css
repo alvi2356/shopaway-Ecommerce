@@ -33,9 +33,16 @@
   min-height: 520px;
   background-size: cover;
   background-position: center right;
+  background-color: var(--mint-dark);
   position: relative;
   border-radius: 1rem;
 }
+
+/* Default gradient for slides without images */
+.hero-slide:not(.hero-slide-with-image) {
+  background-image: linear-gradient(135deg, var(--mint-dark) 0%, var(--mint) 100%);
+}
+
 .hero-overlay{
   position:absolute; inset:0; border-radius:1rem;
   /* Soft left fade for readability */
@@ -50,6 +57,30 @@
   border: 1px solid rgba(255,255,255,.25);
 }
 .hero-control:hover .hero-control-icon{ background: rgba(255,255,255,.35); }
+
+/* Carousel indicators */
+.carousel-indicators {
+  bottom: 20px;
+}
+
+.carousel-indicators button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255,255,255,.5);
+  border: none;
+  margin: 0 4px;
+  transition: all 0.3s ease;
+}
+
+.carousel-indicators button.active {
+  background-color: rgba(255,255,255,.9);
+  transform: scale(1.2);
+}
+
+.carousel-indicators button:hover {
+  background-color: rgba(255,255,255,.7);
+}
 
 /* Responsive Hero */
 @media (max-width: 575.98px) {

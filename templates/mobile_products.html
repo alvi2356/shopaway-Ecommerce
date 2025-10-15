@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block page_header %}
+<nav aria-label='breadcrumb'>
+  <ol class='breadcrumb justify-content-center mb-0'>
+    <li class='breadcrumb-item'><a href='/'>Home</a></li>
+    <li class='breadcrumb-item active' aria-current='page'>Products</li>
+  </ol>
+  <h1 class='h3 fw-bold mt-2'>All Products</h1>
+  <p class='text-muted mb-0'>Browse our complete collection</p>
+{% endblock %}
+
+{% block content %}
+<div class='container-fluid px-3 px-md-4'>
+  <!-- Mobile Search and Filter -->
+  <div class='row mb-4'>
+    <div class='col-12'>
+      <div class='card'>
+        <div class='card-body'>
+          <form method='get' class='row g-3'>
+            <div class='col-12'>
+              <label for='search' class='form-label'>Search Products</label>
+              <input type='text' class='form-control' id='search' name='q' value='{{ q }}' placeholder='Search by name, description, or SKU'>
+            </div>
+            <div class='col-6'>
+              <label for='order_by' class='form-label'>Sort By</label>
+              <select class='form-select' id='order_by' name='order_by'>
+                <option value='name' {% if order_by == 'name' %}selected{% endif %}>Name A-Z</option>
+                <option value='price' {% if order_by == 'price' %}selected{% endif %}>Price Low-High</option>
+                <option value='price_desc' {% if order_by == 'price_desc' %}selected{% endif %}>Price High-Low</option>
+                <option value='stock_desc' {% if order_by == 'stock_desc' %}selected{% endif %}>Stock</option>
+                <option value='created_at' {% if order_by == 'created_at' %}selected{% endif %}>Newest First</option>
+              </select>
+            </div>
+            <div class='col-6'>
+              <label for='stock' class='form-label'>Stock Status</label>
+              <select class='form-select' id='stock' name='stock'>
+                <option value='' {% if not stock_filter %}selected{% endif %}>All Products</option>
+                <option value='in_stock' {% if stock_filter == 'in_stock' %}selected{% endif %}>In Stock</option>
+                <option value='out_of_stock' {% if stock_filter == 'out_of_stock' %}selected{% endif %}>Out of Stock</option>
+              </select>
+            </div>
+            <div class='col-6'>
+              <label for='sale_type' class='form-label'>Sale Type</label>
+              <select class='form-select' id='sale_type' name='sale_type'>
+                <option value=''>All Types</option>
+                <option value='super' {% if request.GET.super %}selected{% endif %}>Super Sale</option>
+                <option value='flash' {% if request.GET.flash %}selected{% endif %}>Flash Sale</option>
+                <option value='mega' {% if request.GET.mega %}selected{% endif %}>Mega Sale</option>
+                <option value='latest' {% if request.GET.latest %}selected{% endif %}>Latest</option>
+              </select>
+            </div>
+            <div class='col-6 d-flex align-items-end'>
+              <button type='submit' class='btn btn-primary w-100'>Filter</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Results Summary -->
+  <div class='row mb-3'>
+    <div class='col-12'>
+      <div class='d-flex justify-content-between align-items-center'>
+        <h4 class='h6 fw-bold mb-0'>Found {{ products.count }} product{{ products.count|pluralize }}</h4>
+        {% if q %}
+        <div class='text-muted small'>Search: "{{ q }}"</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Products Grid -->
+  {% if products %}
+  <div class='row'>
+    {% for p in products %}
+    <div class='col-6 col-md-3 mb-4'>
+      <div class='card product-card h-100 border-0 shadow-sm'>
+        <div class='position-relative'>
+          {% if p.image %}
+          <img src='{{ p.image.url }}' class='card-img-top product-image' alt='{{ p.name }}'>
+          {% if p.is_super_sale %}
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-danger'>SUPER SALE</span>
+          </div>
+          {% elif p.is_flash_sale %}
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-warning text-dark'>FLASH SALE</span>
+          </div>
+          {% elif p.is_mega_sale %}
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-info'>MEGA SALE</span>
+          </div>
+          {% elif p.is_latest %}
+          <div class='position-absolute top-0 start-0 m-2'>
+            <span class='badge bg-success'>NEW</span>
+          </div>
+          {% endif %}
+          {% else %}
+          <div class='ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center'>
+            <i class='fa fa-image fa-3x text-muted'></i>
+          </div>
+          {% endif %}
+        </div>
+        <div class='card-body text-center p-3'>
+          <h6 class='card-title mb-2 text-dark fw-semibold'>
+            <a href='{% url "product_detail" p.slug %}' class='text-decoration-none text-dark'>{{ p.name }}</a>
+          </h6>
+          <p class='product-desc mb-2 small text-muted d-none d-md-block'>{{ p.description|default:""|truncatewords:12 }}</p>
+          <div class='price-section mb-3'>
+            <span class='h6 text-success fw-bold mb-0'>৳{{ p.price }}</span>
+            {% if p.stock > 0 %}
+            <div class='small text-success'>In Stock: {{ p.stock }}</div>
+            {% else %}
+            <div class='small text-danger'>Out of Stock</div>
+            {% endif %}
+          </div>
+          <div class='d-grid gap-2'>
+            {% if p.stock > 0 %}
+            <form method='post' action='{% url "cart_add" %}' class='mb-1'>
+              {% csrf_token %}
+              <input type='hidden' name='sku' value='{{ p.sku }}'>
+              <input type='hidden' name='next' value='{{ request.path }}'>
+              <button class='btn btn-outline-dark btn-sm w-100'>Add To Cart</button>
+            </form>
+            <form method='post' action='{% url "buy_now" %}'>
+              {% csrf_token %}
+              <input type='hidden' name='sku' value='{{ p.sku }}'>
+              <button class='btn btn-success btn-sm w-100'>Buy Now</button>
+            </form>
+            {% else %}
+            <button class='btn btn-outline-secondary btn-sm w-100' disabled>Out of Stock</button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class='text-center py-5'>
+    <i class='fa fa-search fa-3x text-muted mb-3'></i>
+    <h4 class='text-muted'>No products found</h4>
+    <p class='text-muted'>Try adjusting your search or filter criteria</p>
+    <a href='{% url "all_products" %}' class='btn btn-primary'>View All Products</a>
+  </div>
+  {% endif %}
+
+  <!-- Mobile Pagination -->
+  {% if products.has_other_pages %}
+  <div class='row mt-4'>
+    <div class='col-12'>
+      <nav aria-label='Product pagination'>
+        <ul class='pagination justify-content-center'>
+          {% if products.has_previous %}
+          <li class='page-item'>
+            <a class='page-link' href='?page={{ products.previous_page_number }}{% if q %}&q={{ q }}{% endif %}{% if order_by %}&order_by={{ order_by }}{% endif %}{% if stock_filter %}&stock={{ stock_filter }}{% endif %}{% if request.GET.sale_type %}&sale_type={{ request.GET.sale_type }}{% endif %}'>Previous</a>
+          </li>
+          {% endif %}
+          
+          {% for num in products.paginator.page_range %}
+            {% if products.number == num %}
+            <li class='page-item active'>
+              <span class='page-link'>{{ num }}</span>
+            </li>
+            {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+            <li class='page-item'>
+              <a class='page-link' href='?page={{ num }}{% if q %}&q={{ q }}{% endif %}{% if order_by %}&order_by={{ order_by }}{% endif %}{% if stock_filter %}&stock={{ stock_filter }}{% endif %}{% if request.GET.sale_type %}&sale_type={{ request.GET.sale_type }}{% endif %}'>{{ num }}</a>
+            </li>
+            {% endif %}
+          {% endfor %}
+          
+          {% if products.has_next %}
+          <li class='page-item'>
+            <a class='page-link' href='?page={{ products.next_page_number }}{% if q %}&q={{ q }}{% endif %}{% if order_by %}&order_by={{ order_by }}{% endif %}{% if stock_filter %}&stock={{ stock_filter }}{% endif %}{% if request.GET.sale_type %}&sale_type={{ request.GET.sale_type }}{% endif %}'>Next</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -17,6 +17,8 @@ urlpatterns = [
     path('analytics/', include('analytics.urls')),
     path('api/pathao/', include('orders.api_urls')),
     path('health/', TemplateView.as_view(template_name='health.html')),
+    path('mobile-test/', TemplateView.as_view(template_name='mobile_test_simple.html'), name='mobile_test'),
+    path('mobile-demo/', TemplateView.as_view(template_name='mobile_demo.html'), name='mobile_demo'),
 
 ]
 if settings.DEBUG:
