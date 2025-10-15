@@ -103,21 +103,21 @@ def process_payment(request, order_id):
             if 'redirect_url' in payment_result:
                 return redirect(payment_result['redirect_url'])
             else:
-                # Handle API response
-                return render(request, 'orders/payment_form.html', {
+                # Handle API response - show SSL Commerz style payment form
+                return render(request, 'orders/ssl_payment.html', {
                     'order': order,
                     'payment_data': payment_data,
                     'payment_result': payment_result
                 })
         else:
-            # If SSL Commerz fails, show fallback payment options
-            return render(request, 'orders/payment_form.html', {
+            # If SSL Commerz fails, show SSL Commerz style fallback
+            return render(request, 'orders/ssl_payment.html', {
                 'order': order,
                 'error': payment_result.get('message', 'Payment gateway temporarily unavailable')
             })
     except Exception as e:
-        # If there's any error, show fallback payment options
-        return render(request, 'orders/payment_form.html', {
+        # If there's any error, show SSL Commerz style fallback
+        return render(request, 'orders/ssl_payment.html', {
             'order': order,
             'error': f'Payment gateway error: {str(e)}'
         })
@@ -162,6 +162,17 @@ def payment_cancel(request, order_id):
     order.save()
     
     return render(request, 'orders/payment_cancel.html', {'order': order})
+
+def ssl_payment_page(request, order_id):
+    """Direct SSL Commerz style payment page."""
+    order = get_object_or_404(Order, pk=order_id)
+    
+    if order.payment_method != 'online':
+        return redirect('orders:confirm_order', pk=order.id)
+    
+    return render(request, 'orders/ssl_payment.html', {
+        'order': order
+    })
 
 
 @method_decorator(csrf_exempt, name='dispatch')

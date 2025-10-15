@@ -4,11 +4,13 @@ from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
 from shopaway.admin import admin_site
-from products.views import home
+from products.views import home, search_results, search_suggestions
 
 urlpatterns = [
     path('admin/', admin_site.urls),
     path('', home, name='homepage'),
+    path('search/', search_results, name='search_results'),
+    path('search/suggestions/', search_suggestions, name='search_suggestions'),
     path('products/', include('products.urls')),
     path('orders/', include('orders.urls')),
     path('accounts/', include('accounts.urls')),

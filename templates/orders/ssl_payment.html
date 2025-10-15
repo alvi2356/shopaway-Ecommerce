@@ -1,0 +1,527 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Payment - ShopAway{% endblock %}
+
+{% block extra_css %}
+<style>
+  body {
+    background-color: #f5f5f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .payment-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+  
+  .payment-header {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    padding: 2rem 2rem 1rem;
+    text-align: center;
+    position: relative;
+  }
+  
+  .payment-logo {
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #007bff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .payment-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .payment-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem 2rem;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  
+  .nav-item:hover {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .nav-item i {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .payment-tabs {
+    display: flex;
+    background: #e9ecef;
+    border-radius: 0;
+  }
+  
+  .payment-tab {
+    flex: 1;
+    padding: 1rem;
+    text-align: center;
+    background: #e9ecef;
+    color: white;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .payment-tab.active {
+    background: #007bff;
+  }
+  
+  .payment-tab:hover {
+    background: #0056b3;
+  }
+  
+  .payment-content {
+    padding: 2rem;
+  }
+  
+  .card-logos {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .card-logo {
+    height: 30px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: #495057;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .form-row .form-group {
+    flex: 1;
+  }
+  
+  .cvc-help {
+    position: relative;
+    display: inline-block;
+    margin-left: 0.5rem;
+  }
+  
+  .cvc-icon {
+    width: 20px;
+    height: 20px;
+    background: #ffc107;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: white;
+    cursor: help;
+  }
+  
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .checkbox-group input[type="checkbox"] {
+    margin-right: 0.5rem;
+  }
+  
+  .terms-text {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-top: 0.5rem;
+  }
+  
+  .terms-link {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .terms-link:hover {
+    text-decoration: underline;
+  }
+  
+  .pay-button {
+    width: 100%;
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+  }
+  
+  .pay-button:hover {
+    background: #218838;
+  }
+  
+  .pay-button:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  .order-summary {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .order-summary h6 {
+    margin-bottom: 0.5rem;
+    color: #495057;
+  }
+  
+  .order-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+  }
+  
+  .order-total {
+    border-top: 1px solid #dee2e6;
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+    font-weight: 600;
+    color: #28a745;
+  }
+  
+  .error-message {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    border: 1px solid #f5c6cb;
+  }
+  
+  @media (max-width: 576px) {
+    .payment-container {
+      margin: 1rem;
+      border-radius: 8px;
+    }
+    
+    .payment-header {
+      padding: 1.5rem 1rem 1rem;
+    }
+    
+    .payment-content {
+      padding: 1.5rem;
+    }
+    
+    .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="payment-container">
+  <!-- Header -->
+  <div class="payment-header">
+    <div class="payment-logo">
+      <i class="fa fa-credit-card"></i>
+    </div>
+    <h1 class="payment-title">ShopAway</h1>
+  </div>
+  
+  <!-- Navigation -->
+  <div class="payment-nav">
+    <a href="#" class="nav-item">
+      <i class="fa fa-headset"></i>
+      <span>Support</span>
+    </a>
+    <a href="#" class="nav-item">
+      <i class="fa fa-question-circle"></i>
+      <span>FAQ</span>
+    </a>
+    <a href="#" class="nav-item">
+      <i class="fa fa-gift"></i>
+      <span>Offers</span>
+    </a>
+    <a href="#" class="nav-item">
+      <i class="fa fa-sign-in-alt"></i>
+      <span>Login</span>
+    </a>
+  </div>
+  
+  <!-- Payment Tabs -->
+  <div class="payment-tabs">
+    <button class="payment-tab active" data-tab="cards">
+      CARDS
+    </button>
+    <button class="payment-tab" data-tab="mobile">
+      MOBILE BANKING
+    </button>
+    <button class="payment-tab" data-tab="net">
+      NET BANKING
+    </button>
+  </div>
+  
+  <!-- Payment Content -->
+  <div class="payment-content">
+    {% if error %}
+    <div class="error-message">
+      <i class="fa fa-exclamation-triangle me-2"></i>{{ error }}
+    </div>
+    {% endif %}
+    
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <h6>Order Summary</h6>
+      <div class="order-item">
+        <span>Order #{{ order.id }}</span>
+        <span>{{ order.name }}</span>
+      </div>
+      <div class="order-item">
+        <span>Items:</span>
+        <span>{{ order.items.count }}</span>
+      </div>
+      <div class="order-total">
+        <span>Total: ৳{{ order.total }}</span>
+      </div>
+    </div>
+    
+    <!-- Cards Tab -->
+    <div id="cards-tab" class="tab-content">
+      <!-- Supported Cards -->
+      <div class="card-logos">
+        <div class="card-logo">VISA</div>
+        <div class="card-logo">MASTERCARD</div>
+        <div class="card-logo">AMEX</div>
+        <a href="#" class="text-primary" style="margin-left: auto;">Other Cards</a>
+      </div>
+      
+      <!-- Payment Form -->
+      <form id="payment-form" method="post" action="{% url 'orders:process_payment' order.id %}">
+        {% csrf_token %}
+        
+        <div class="form-group">
+          <label class="form-label">Enter Card Number</label>
+          <input type="text" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19" id="card-number">
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">MM/YY</label>
+            <input type="text" class="form-control" placeholder="MM/YY" maxlength="5" id="expiry">
+          </div>
+          <div class="form-group">
+            <label class="form-label">CVC/CVV</label>
+            <input type="text" class="form-control" placeholder="123" maxlength="4" id="cvc">
+            <span class="cvc-help">
+              <span class="cvc-icon">?</span>
+            </span>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Card Holder Name</label>
+          <input type="text" class="form-control" placeholder="John Doe" id="cardholder-name">
+        </div>
+        
+        <div class="checkbox-group">
+          <input type="checkbox" id="save-card">
+          <label for="save-card">Save card & remember me</label>
+          <span class="cvc-help">
+            <span class="cvc-icon">?</span>
+          </span>
+        </div>
+        
+        <div class="terms-text">
+          By checking this box you agree to the <a href="#" class="terms-link">Terms of Service</a>.
+        </div>
+        
+        <button type="submit" class="pay-button" id="pay-button">
+          <i class="fa fa-hand-point-right"></i>
+          PAY ৳{{ order.total }} BDT
+        </button>
+      </form>
+    </div>
+    
+    <!-- Mobile Banking Tab -->
+    <div id="mobile-tab" class="tab-content" style="display: none;">
+      <div class="text-center py-4">
+        <i class="fa fa-mobile-alt fa-3x text-muted mb-3"></i>
+        <h5>Mobile Banking</h5>
+        <p class="text-muted">Choose your mobile banking provider</p>
+        
+        <div class="d-grid gap-2">
+          <button class="btn btn-outline-primary">bKash</button>
+          <button class="btn btn-outline-primary">Rocket</button>
+          <button class="btn btn-outline-primary">Nagad</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Net Banking Tab -->
+    <div id="net-tab" class="tab-content" style="display: none;">
+      <div class="text-center py-4">
+        <i class="fa fa-university fa-3x text-muted mb-3"></i>
+        <h5>Net Banking</h5>
+        <p class="text-muted">Choose your bank</p>
+        
+        <div class="d-grid gap-2">
+          <button class="btn btn-outline-primary">Dutch Bangla Bank</button>
+          <button class="btn btn-outline-primary">BRAC Bank</button>
+          <button class="btn btn-outline-primary">City Bank</button>
+          <button class="btn btn-outline-primary">Eastern Bank</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Tab switching
+  const tabs = document.querySelectorAll('.payment-tab');
+  const tabContents = document.querySelectorAll('.tab-content');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      const targetTab = this.getAttribute('data-tab');
+      
+      // Remove active class from all tabs
+      tabs.forEach(t => t.classList.remove('active'));
+      // Add active class to clicked tab
+      this.classList.add('active');
+      
+      // Hide all tab contents
+      tabContents.forEach(content => {
+        content.style.display = 'none';
+      });
+      
+      // Show target tab content
+      document.getElementById(targetTab + '-tab').style.display = 'block';
+    });
+  });
+  
+  // Card number formatting
+  const cardNumberInput = document.getElementById('card-number');
+  cardNumberInput.addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+    let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+    e.target.value = formattedValue;
+  });
+  
+  // Expiry date formatting
+  const expiryInput = document.getElementById('expiry');
+  expiryInput.addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length >= 2) {
+      value = value.substring(0, 2) + '/' + value.substring(2, 4);
+    }
+    e.target.value = value;
+  });
+  
+  // CVC formatting
+  const cvcInput = document.getElementById('cvc');
+  cvcInput.addEventListener('input', function(e) {
+    e.target.value = e.target.value.replace(/[^0-9]/g, '');
+  });
+  
+  // Form submission
+  const paymentForm = document.getElementById('payment-form');
+  paymentForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const cardNumber = document.getElementById('card-number').value;
+    const expiry = document.getElementById('expiry').value;
+    const cvc = document.getElementById('cvc').value;
+    const cardholderName = document.getElementById('cardholder-name').value;
+    
+    // Basic validation
+    if (!cardNumber || !expiry || !cvc || !cardholderName) {
+      alert('Please fill in all required fields');
+      return;
+    }
+    
+    // Show loading state
+    const payButton = document.getElementById('pay-button');
+    payButton.disabled = true;
+    payButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Processing...';
+    
+    // Simulate payment processing
+    setTimeout(() => {
+      // Redirect to SSL Commerz or process payment
+      window.location.href = "{% url 'orders:process_payment' order.id %}";
+    }, 2000);
+  });
+});
+</script>
+{% endblock %}

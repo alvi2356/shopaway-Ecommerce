@@ -6,7 +6,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(dotenv_path=BASE_DIR / '.env')
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-secret')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    '127.0.0.1', 
+    'localhost', 
+    'sylvester-flutier-quincuncially.ngrok-free.dev',
+    '.vercel.app',  # For Vercel deployment
+    '.herokuapp.com',  # For Heroku deployment
+    '.railway.app',  # For Railway deployment
+    '.render.com',  # For Render deployment
+    '.pythonanywhere.com',  # For PythonAnywhere
+    '*',  # Allow all hosts for development (remove in production)
+]
+
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin','django.contrib.auth','django.contrib.contenttypes',
@@ -53,6 +64,35 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom User Model
 AUTH_USER_MODEL = 'accounts.User'
+
+# CSRF Settings for Production
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.vercel.app',
+    'https://*.herokuapp.com',
+    'https://*.railway.app',
+    'https://*.render.com',
+    'https://*.pythonanywhere.com',
+    'https://sylvester-flutier-quincuncially.ngrok-free.dev',
+]
+
+# CSRF Cookie Settings
+CSRF_COOKIE_SECURE = not DEBUG  # Use secure cookies in production
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SAMESITE = 'Lax'
+
+# Session Settings
+SESSION_COOKIE_SECURE = not DEBUG  # Use secure cookies in production
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+
+# Security Settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+
+# Additional CSRF Settings
+CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
+CSRF_USE_SESSIONS = False
 
 # Crispy Forms configuration
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

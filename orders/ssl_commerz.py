@@ -32,7 +32,7 @@ class SSLCommerzClient:
             reverse('orders:payment_cancel', kwargs={'order_id': order.id})
         )
         
-        # Prepare payment data - simplified for SSL Commerz
+        # Prepare payment data - enhanced for SSL Commerz
         payment_data = {
             'store_id': self.store_id,
             'store_passwd': self.store_password,
@@ -53,6 +53,10 @@ class SSLCommerzClient:
             'product_name': f"Order #{order.id}",
             'product_category': 'General',
             'product_profile': 'general',
+            'value_a': order.id,  # Store order ID for reference
+            'value_b': order.payment_method,  # Store payment method
+            'value_c': 'ShopAway',  # Store name
+            'value_d': 'Online Store',  # Store type
         }
         
         return payment_data

@@ -1,5 +1,221 @@
 /* ===== COMPREHENSIVE MOBILE RESPONSIVE DESIGN ===== */
 
+/* Auto-Hide Mobile Search Bar - Single Line with Icon */
+.mobile-search-bar {
+  position: fixed;
+  top: 60px; /* Position under navbar */
+  left: 0;
+  right: 0;
+  z-index: 1040;
+  background-color: white;
+  border-bottom: 1px solid #e9ecef;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.3s ease, 
+              visibility 0.3s ease;
+  will-change: transform, opacity, visibility;
+}
+
+/* Hide search bar when scrolling down - Fully hidden */
+.mobile-search-bar.hidden {
+  transform: translateY(-100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Mobile Search Container - Single Line with Icon */
+.mobile-search-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.mobile-search-input {
+  border: 1px solid #1baaae;
+  border-radius: 2rem;
+  font-size: 0.9rem;
+  padding: 0.75rem 3.5rem 0.75rem 1rem;
+  color: #333;
+  background-color: white;
+  height: 48px;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.mobile-search-icon {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: #40B0A0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 2;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(64, 176, 160, 0.3), 
+              0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.mobile-search-icon:hover {
+  background-color: #36A092;
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 4px 12px rgba(64, 176, 160, 0.4), 
+              0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.mobile-search-icon:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* Show Search Button */
+.mobile-show-search {
+  position: fixed;
+  top: 70px;
+  right: 1rem;
+  z-index: 1030;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.mobile-show-search.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.mobile-show-search .btn {
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.mobile-search-input:focus {
+  border-color: #1baaae;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  color: #333;
+  background-color: white;
+  outline: none;
+}
+
+.mobile-search-input:focus + .mobile-search-icon {
+  color: #159a9e;
+}
+
+.mobile-search-input::placeholder {
+  color: #999;
+  font-weight: 400;
+}
+
+/* Adjust body and navbar for fixed search bar */
+@media (max-width: 991.98px) {
+  body {
+    padding-top: 120px; /* Space for navbar + search bar + padding (60px + 48px + 12px) */
+  }
+  
+  /* Ensure navbar is visible */
+  .navbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1050 !important;
+    background-color: white !important;
+  }
+  
+  /* Ensure search bar is positioned under navbar with auto-hide */
+  .mobile-search-bar {
+    position: fixed !important;
+    top: 60px !important; /* Under navbar */
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1040 !important;
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important, 
+                opacity 0.3s ease !important, 
+                visibility 0.3s ease !important;
+  }
+  
+  .mobile-search-bar.hidden {
+    transform: translateY(-100%) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+  
+  /* Keep search bar styled consistently with single line and icon */
+  .mobile-search-container {
+    position: relative !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  .mobile-search-input {
+    font-size: 0.9rem;
+    padding: 0.75rem 3.5rem 0.75rem 1rem !important;
+    color: #333 !important;
+    background-color: white !important;
+    height: 48px;
+    width: 100% !important;
+    border: 1px solid #1baaae !important;
+    border-radius: 2rem !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  }
+  
+  .mobile-search-icon {
+    position: absolute !important;
+    right: 0.5rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 40px !important;
+    height: 40px !important;
+    background-color: #40B0A0 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: white !important;
+    font-size: 1.1rem !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    z-index: 2 !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 8px rgba(64, 176, 160, 0.3), 
+                0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .mobile-search-icon:hover {
+    background-color: #36A092 !important;
+    transform: translateY(-50%) scale(1.05) !important;
+    box-shadow: 0 4px 12px rgba(64, 176, 160, 0.4), 
+                0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+  }
+  
+  .mobile-search-icon:active {
+    transform: translateY(-50%) scale(0.95) !important;
+  }
+}
+
 /* Critical mobile fixes */
 @media (max-width: 768px) {
   /* Ensure all content is visible on mobile */
@@ -13,7 +229,7 @@
   }
   
   /* Fix mobile viewport */
-body {
+  body {
   overflow-x: hidden;
   }
   

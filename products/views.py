@@ -1,13 +1,83 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
 from .models import Product, HeroSlide, Category
 from django.core.cache import cache
-from django.db.models import Q
+from django.db.models import Q, F, Case, When, IntegerField
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.db import connection
+import re
+
+def enhanced_search(products, query):
+    """Enhanced search with fuzzy matching and relevance scoring"""
+    if not query or not query.strip():
+        return products
+    
+    query = query.strip().lower()
+    
+    # Split query into individual words
+    query_words = re.findall(r'\b\w+\b', query)
+    
+    if not query_words:
+        return products
+    
+    # Create Q objects for different search strategies
+    search_conditions = Q()
+    
+    # 1. Exact matches (highest priority)
+    exact_match = Q(name__iexact=query) | Q(sku__iexact=query)
+    
+    # 2. Starts with matches (high priority)
+    starts_with = Q(name__istartswith=query) | Q(sku__istartswith=query)
+    
+    # 3. Contains matches (medium priority)
+    contains_match = Q(name__icontains=query) | Q(description__icontains=query) | Q(sku__icontains=query)
+    
+    # 4. Word-based matches (lower priority)
+    word_conditions = Q()
+    for word in query_words:
+        if len(word) > 2:  # Only search for words longer than 2 characters
+            word_conditions |= Q(name__icontains=word) | Q(description__icontains=word)
+    
+    # 5. Category name matches
+    category_match = Q(category__name__icontains=query)
+    
+    # Combine all conditions
+    search_conditions = exact_match | starts_with | contains_match | word_conditions | category_match
+    
+    # Apply search filter
+    filtered_products = products.filter(search_conditions)
+    
+    # Add relevance scoring
+    filtered_products = filtered_products.annotate(
+        relevance_score=Case(
+            # Exact matches get highest score
+            When(name__iexact=query, then=100),
+            When(sku__iexact=query, then=95),
+            
+            # Starts with gets high score
+            When(name__istartswith=query, then=80),
+            When(sku__istartswith=query, then=75),
+            
+            # Contains gets medium score
+            When(name__icontains=query, then=60),
+            When(description__icontains=query, then=40),
+            When(sku__icontains=query, then=50),
+            
+            # Category matches get lower score
+            When(category__name__icontains=query, then=30),
+            
+            # Default score for other matches
+            default=20
+        )
+    ).order_by('-relevance_score', 'name')
+    
+    return filtered_products
 
 def home(request):
     q = request.GET.get('q','')
     products = Product.objects.filter(active=True)
     if q:
-        products = products.filter(Q(name__icontains=q) | Q(description__icontains=q) | Q(sku__icontains=q))
+        products = enhanced_search(products, q)
     # filter by flags from navbar buttons
     if request.GET.get('super'):
         products = products.filter(is_super_sale=True)
@@ -50,9 +120,9 @@ def all_products(request):
     q = request.GET.get('q', '')
     products = Product.objects.filter(active=True)
     
-    # Search functionality
+    # Enhanced search functionality
     if q:
-        products = products.filter(Q(name__icontains=q) | Q(description__icontains=q) | Q(sku__icontains=q))
+        products = enhanced_search(products, q)
     
     # Filter by category
     category_slug = request.GET.get('category')
@@ -93,3 +163,64 @@ def all_products(request):
         'stock_filter': stock_filter,
     }
     return render(request, 'products/all_products.html', context)
+
+def search_suggestions(request):
+    """AJAX endpoint for search suggestions"""
+    query = request.GET.get('q', '').strip()
+    suggestions = []
+    
+    if len(query) >= 2:  # Only provide suggestions for queries with 2+ characters
+        # Get product name suggestions
+        product_suggestions = Product.objects.filter(
+            active=True,
+            name__icontains=query
+        ).values_list('name', flat=True)[:5]
+        
+        # Get category suggestions
+        category_suggestions = Category.objects.filter(
+            name__icontains=query
+        ).values_list('name', flat=True)[:3]
+        
+        suggestions = list(product_suggestions) + list(category_suggestions)
+        suggestions = list(set(suggestions))[:8]  # Remove duplicates and limit to 8
+    
+    return JsonResponse({'suggestions': suggestions})
+
+def search_results(request):
+    """Dedicated search results page with enhanced functionality"""
+    q = request.GET.get('q', '').strip()
+    products = Product.objects.filter(active=True)
+    search_results_count = 0
+    
+    if q:
+        products = enhanced_search(products, q)
+        search_results_count = products.count()
+        
+        # Add search analytics (optional - for tracking popular searches)
+        # You can implement search analytics here if needed
+    
+    # Get related categories for the search
+    related_categories = []
+    if q:
+        related_categories = Category.objects.filter(
+            name__icontains=q
+        )[:5]
+    
+    # Get popular products if no search results
+    popular_products = []
+    if not q or search_results_count == 0:
+        popular_products = Product.objects.filter(
+            active=True,
+            stock__gt=0
+        ).order_by('-created_at')[:12]
+    
+    context = {
+        'products': products[:50],  # Limit results for performance
+        'q': q,
+        'search_results_count': search_results_count,
+        'related_categories': related_categories,
+        'popular_products': popular_products,
+        'has_search': bool(q),
+    }
+    
+    return render(request, 'products/search_results.html', context)
