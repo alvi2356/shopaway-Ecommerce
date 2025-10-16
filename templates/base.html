@@ -1344,6 +1344,19 @@ document.addEventListener('DOMContentLoaded', function() {
     .product-card-link:hover .btn {
       transform: none;
     }
+    
+    /* Larger product card titles */
+    .product-card .card-title {
+      font-size: 1.1rem !important;
+      font-weight: 600 !important;
+      line-height: 1.3 !important;
+    }
+    
+    @media (max-width: 768px) {
+      .product-card .card-title {
+        font-size: 1rem !important;
+      }
+    }
   `;
   document.head.appendChild(style);
   
