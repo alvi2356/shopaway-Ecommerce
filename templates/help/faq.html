@@ -1,0 +1,382 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_header %}
+<h1 class='h3 fw-bold text-primary'>
+  <i class='fa fa-question-circle me-2'></i>Frequently Asked Questions
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+  <div class='row'>
+    <div class='col-12'>
+      <div class='card border-0 shadow-sm'>
+        <div class='card-body p-4'>
+          <h2 class='h4 text-primary mb-4'>Common Questions & Answers</h2>
+          
+          <!-- Search FAQ -->
+          <div class='row mb-4'>
+            <div class='col-12'>
+              <div class='bg-light rounded p-3'>
+                <div class='input-group'>
+                  <span class='input-group-text'><i class='fa fa-search'></i></span>
+                  <input type='text' class='form-control' id='faqSearch' placeholder='Search FAQ...'>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- FAQ Categories -->
+          <div class='row mb-4'>
+            <div class='col-12'>
+              <h3 class='h5 text-dark mb-3'>Browse by Category</h3>
+              <div class='row g-2'>
+                <div class='col-6 col-md-3'>
+                  <button class='btn btn-outline-primary w-100 category-btn' data-category='general'>
+                    <i class='fa fa-info-circle me-2'></i>General
+                  </button>
+                </div>
+                <div class='col-6 col-md-3'>
+                  <button class='btn btn-outline-success w-100 category-btn' data-category='orders'>
+                    <i class='fa fa-shopping-cart me-2'></i>Orders
+                  </button>
+                </div>
+                <div class='col-6 col-md-3'>
+                  <button class='btn btn-outline-warning w-100 category-btn' data-category='shipping'>
+                    <i class='fa fa-shipping-fast me-2'></i>Shipping
+                  </button>
+                </div>
+                <div class='col-6 col-md-3'>
+                  <button class='btn btn-outline-info w-100 category-btn' data-category='payment'>
+                    <i class='fa fa-credit-card me-2'></i>Payment
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- FAQ Accordion -->
+          <div class='accordion' id='faqAccordion'>
+            <!-- General Questions -->
+            <div class='faq-item' data-category='general'>
+              <div class='accordion-item'>
+                <h2 class='accordion-header' id='general1'>
+                  <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapseGeneral1' aria-expanded='false' aria-controls='collapseGeneral1'>
+                    <i class='fa fa-info-circle text-primary me-2'></i>What is ShopAway?
+                  </button>
+                </h2>
+                <div id='collapseGeneral1' class='accordion-collapse collapse' aria-labelledby='general1' data-bs-parent='#faqAccordion'>
+                  <div class='accordion-body'>
+                    ShopAway is your trusted online shopping destination offering quality products with fast delivery. We provide a wide range of products including electronics, fashion, home goods, and more at competitive prices.
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class='faq-item' data-category='general'>
+              <div class='accordion-item'>
+                <h2 class='accordion-header' id='general2'>
+                  <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapseGeneral2' aria-expanded='false' aria-controls='collapseGeneral2'>
+                    <i class='fa fa-shield-alt text-primary me-2'></i>Is ShopAway safe and secure?
+                  </button>
+                </h2>
+                <div id='collapseGeneral2' class='accordion-collapse collapse' aria-labelledby='general2' data-bs-parent='#faqAccordion'>
+                  <div class='accordion-body'>
+                    Yes, absolutely! We use SSL encryption to protect your personal information and payment details. All transactions are processed through secure payment gateways, and we never store your credit card information.
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class='faq-item' data-category='general'>
+              <div class='accordion-item'>
+                <h2 class='accordion-header' id='general3'>
+                  <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapseGeneral3' aria-expanded='false' aria-controls='collapseGeneral3'>
+                    <i class='fa fa-user-plus text-primary me-2'></i>How do I create an account?
+                  </button>
+                </h2>
+                <div id='collapseGeneral3' class='accordion-collapse collapse' aria-labelledby='general3' data-bs-parent='#faqAccordion'>
+                  <div class='accordion-body'>
+                    Creating an account is easy! Click on "Sign Up" in the top navigation, fill in your details including name, email, and phone number, and verify your account through the confirmation email or SMS.
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Order Questions -->
+            <div class='faq-item' data-category='orders'>
+              <div class='accordion-item'>
+                <h2 class='accordion-header' id='order1'>
+                  <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapseOrder1' aria-expanded='false' aria-controls='collapseOrder1'>
+                    <i class='fa fa-shopping-bag text-success me-2'></i>How do I place an order?
+                  </button>
+                </h2>
+                <div id='collapseOrder1' class='accordion-collapse collapse' aria-labelledby='order1' data-bs-parent='#faqAccordion'>
+                  <div class='accordion-body'>
+                    <ol>
+                      <li>Browse our products and add items to your cart</li>
+                      <li>Review your cart and click "Proceed to Checkout"</li>
+                      <li>Enter your shipping details</li>
+                      <li>Choose your payment method</li>
+                      <li>Complete the payment</li>
+                      <li>You'll receive an order confirmation via email/SMS</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class='faq-item' data-category='orders'>
+              <div class='accordion-item'>
+                <h2 class='accordion-header' id='order2'>
+                  <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapseOrder2' aria-expanded='false' aria-controls='collapseOrder2'>
+                    <i class='fa fa-edit text-success me-2'></i>Can I modify or cancel my order?
+                  </button>
+                </h2>
+                <div id='collapseOrder2' class='accordion-collapse collapse' aria-labelledby='order2' data-bs-parent='#faqAccordion'>
+                  <div class='accordion-body'>
+                    You can modify or cancel your order within 1 hour of placing it, provided it hasn't been processed yet. Contact our customer support at 01991095900 or email support@shopaway.com for assistance.
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class='faq-item' data-category='orders'>
+              <div class='accordion-item'>
+                <h2 class='accordion-header' id='order3'>
+                  <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapseOrder3' aria-expanded='false' aria-controls='collapseOrder3'>
+                    <i class='fa fa-undo text-success me-2'></i>What is your return policy?
+                  </button>
+                </h2>
+                <div id='collapseOrder3' class='accordion-collapse collapse' aria-labelledby='order3' data-bs-parent='#faqAccordion'>
+                  <div class='accordion-body'>
+                    We offer a 7-day return policy for unused items in their original packaging. Items must be in the same condition as received. Contact us within 7 days of delivery to initiate a return. Some items like electronics and personal care products may have different return policies.
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Shipping Questions -->
+            <div class='faq-item' data-category='shipping'>
+              <div class='accordion-item'>
+                <h2 class='accordion-header' id='shipping1'>
+                  <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapseShipping1' aria-expanded='false' aria-controls='collapseShipping1'>
+                    <i class='fa fa-truck text-warning me-2'></i>How long does delivery take?
+                  </button>
+                </h2>
+                <div id='collapseShipping1' class='accordion-collapse collapse' aria-labelledby='shipping1' data-bs-parent='#faqAccordion'>
+                  <div class='accordion-body'>
+                    <strong>Standard Delivery:</strong> 3-5 business days<br>
+                    <strong>Express Delivery:</strong> 1-2 business days<br>
+                    <strong>Same Day Delivery:</strong> Within 6 hours (Dhaka only)<br>
+                    <strong>Free shipping:</strong> Available for orders above ৳2000
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class='faq-item' data-category='shipping'>
+              <div class='accordion-item'>
+                <h2 class='accordion-header' id='shipping2'>
+                  <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapseShipping2' aria-expanded='false' aria-controls='collapseShipping2'>
+                    <i class='fa fa-map-marker-alt text-warning me-2'></i>Do you deliver to my area?
+                  </button>
+                </h2>
+                <div id='collapseShipping2' class='accordion-collapse collapse' aria-labelledby='shipping2' data-bs-parent='#faqAccordion'>
+                  <div class='accordion-body'>
+                    We deliver to most areas in Bangladesh including Dhaka, Chittagong, Sylhet, and other major cities. During checkout, enter your address to see if delivery is available to your location. For remote areas, delivery may take longer or have additional charges.
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class='faq-item' data-category='shipping'>
+              <div class='accordion-item'>
+                <h2 class='accordion-header' id='shipping3'>
+                  <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapseShipping3' aria-expanded='false' aria-controls='collapseShipping3'>
+                    <i class='fa fa-search text-warning me-2'></i>How can I track my order?
+                  </button>
+                </h2>
+                <div id='collapseShipping3' class='accordion-collapse collapse' aria-labelledby='shipping3' data-bs-parent='#faqAccordion'>
+                  <div class='accordion-body'>
+                    Once your order is shipped, you'll receive a tracking number via SMS and email. You can track your order status in real-time using this tracking number. You can also check your order status by logging into your account.
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Payment Questions -->
+            <div class='faq-item' data-category='payment'>
+              <div class='accordion-item'>
+                <h2 class='accordion-header' id='payment1'>
+                  <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapsePayment1' aria-expanded='false' aria-controls='collapsePayment1'>
+                    <i class='fa fa-credit-card text-info me-2'></i>What payment methods do you accept?
+                  </button>
+                </h2>
+                <div id='collapsePayment1' class='accordion-collapse collapse' aria-labelledby='payment1' data-bs-parent='#faqAccordion'>
+                  <div class='accordion-body'>
+                    We accept various payment methods including:
+                    <ul>
+                      <li>Credit/Debit Cards (Visa, Mastercard, American Express)</li>
+                      <li>Mobile Banking (bKash, Nagad, Rocket)</li>
+                      <li>Bank Transfer (DBBL, City Bank, IFIC Bank, and others)</li>
+                      <li>Cash on Delivery (COD) for select areas</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class='faq-item' data-category='payment'>
+              <div class='accordion-item'>
+                <h2 class='accordion-header' id='payment2'>
+                  <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapsePayment2' aria-expanded='false' aria-controls='collapsePayment2'>
+                    <i class='fa fa-shield-alt text-info me-2'></i>Is my payment information secure?
+                  </button>
+                </h2>
+                <div id='collapsePayment2' class='accordion-collapse collapse' aria-labelledby='payment2' data-bs-parent='#faqAccordion'>
+                  <div class='accordion-body'>
+                    Yes, your payment information is completely secure. We use SSL encryption and work with trusted payment gateways like SSL Commerz. We never store your credit card details on our servers. All transactions are processed through secure, encrypted channels.
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class='faq-item' data-category='payment'>
+              <div class='accordion-item'>
+                <h2 class='accordion-header' id='payment3'>
+                  <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapsePayment3' aria-expanded='false' aria-controls='collapsePayment3'>
+                    <i class='fa fa-money-bill-wave text-info me-2'></i>Do you offer Cash on Delivery?
+                  </button>
+                </h2>
+                <div id='collapsePayment3' class='accordion-collapse collapse' aria-labelledby='payment3' data-bs-parent='#faqAccordion'>
+                  <div class='accordion-body'>
+                    Yes, we offer Cash on Delivery (COD) for select areas in Bangladesh. COD is available for orders up to ৳5000. There may be a small COD charge depending on your location. You can select COD as your payment method during checkout if it's available for your area.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <hr class='my-4'>
+          
+          <!-- Contact Information -->
+          <div class='row'>
+            <div class='col-12'>
+              <div class='bg-light rounded p-4'>
+                <h3 class='h5 text-dark mb-3'>
+                  <i class='fa fa-headset text-primary me-2'></i>Still Have Questions?
+                </h3>
+                <p class='text-muted mb-3'>Can't find the answer you're looking for? Our customer support team is here to help!</p>
+                <div class='row g-3'>
+                  <div class='col-md-4'>
+                    <div class='d-flex align-items-center'>
+                      <i class='fa fa-phone text-primary me-3'></i>
+                      <div>
+                        <h6 class='mb-0'>Phone Support</h6>
+                        <small class='text-muted'>01991095900</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-md-4'>
+                    <div class='d-flex align-items-center'>
+                      <i class='fa fa-envelope text-primary me-3'></i>
+                      <div>
+                        <h6 class='mb-0'>Email Support</h6>
+                        <small class='text-muted'>support@shopaway.com</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-md-4'>
+                    <div class='d-flex align-items-center'>
+                      <i class='fa fa-clock text-primary me-3'></i>
+                      <div>
+                        <h6 class='mb-0'>Support Hours</h6>
+                        <small class='text-muted'>9 AM - 6 PM (Daily)</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // FAQ Search functionality
+  const searchInput = document.getElementById('faqSearch');
+  const faqItems = document.querySelectorAll('.faq-item');
+  
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase();
+      
+      faqItems.forEach(function(item) {
+        const question = item.querySelector('.accordion-button').textContent.toLowerCase();
+        const answer = item.querySelector('.accordion-body').textContent.toLowerCase();
+        
+        if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  }
+  
+  // Category filter functionality
+  const categoryBtns = document.querySelectorAll('.category-btn');
+  
+  categoryBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const category = this.getAttribute('data-category');
+      
+      // Remove active class from all buttons
+      categoryBtns.forEach(function(b) {
+        b.classList.remove('active');
+        b.classList.add('btn-outline-primary', 'btn-outline-success', 'btn-outline-warning', 'btn-outline-info');
+      });
+      
+      // Add active class to clicked button
+      this.classList.add('active');
+      this.classList.remove('btn-outline-primary', 'btn-outline-success', 'btn-outline-warning', 'btn-outline-info');
+      
+      // Show/hide FAQ items based on category
+      faqItems.forEach(function(item) {
+        if (category === 'all' || item.getAttribute('data-category') === category) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+</script>
+
+<style>
+.category-btn.active {
+  background-color: var(--bs-primary) !important;
+  color: white !important;
+}
+
+.faq-item {
+  transition: all 0.3s ease;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: rgba(27, 170, 158, 0.1);
+  border-color: rgba(27, 170, 158, 0.2);
+}
+
+.accordion-button:focus {
+  box-shadow: 0 0 0 0.25rem rgba(27, 170, 158, 0.25);
+}
+</style>
+{% endblock %}

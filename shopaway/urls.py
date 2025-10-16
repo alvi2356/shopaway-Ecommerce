@@ -19,6 +19,11 @@ urlpatterns = [
     path('analytics/', include('analytics.urls')),
     path('api/pathao/', include('orders.api_urls')),
     path('health/', TemplateView.as_view(template_name='health.html')),
+    path('about/', TemplateView.as_view(template_name='help/about.html'), name='about'),
+    path('contact/', TemplateView.as_view(template_name='help/contact.html'), name='contact'),
+    path('help/shipping/', TemplateView.as_view(template_name='help/shipping.html'), name='shipping_help'),
+    path('help/returns/', TemplateView.as_view(template_name='help/returns.html'), name='returns_help'),
+    path('help/faq/', TemplateView.as_view(template_name='help/faq.html'), name='faq_help'),
     path('mobile-test/', TemplateView.as_view(template_name='mobile_test_simple.html'), name='mobile_test'),
     path('mobile-demo/', TemplateView.as_view(template_name='mobile_demo.html'), name='mobile_demo'),
 

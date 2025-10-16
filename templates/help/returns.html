@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_header %}
+<h1 class='h3 fw-bold text-primary'>
+  <i class='fa fa-undo me-2'></i>Returns & Refunds
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+  <div class='row'>
+    <div class='col-12'>
+      <div class='card border-0 shadow-sm'>
+        <div class='card-body p-4'>
+          <h2 class='h4 text-primary mb-4'>Return & Refund Policy</h2>
+          
+          <!-- Return Policy Overview -->
+          <div class='row g-4 mb-4'>
+            <div class='col-md-4'>
+              <div class='text-center'>
+                <div class='bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3' style='width: 60px; height: 60px;'>
+                  <i class='fa fa-calendar text-primary fa-2x'></i>
+                </div>
+                <h5 class='h6 text-dark mb-2'>7-Day Return Window</h5>
+                <p class='text-muted small mb-0'>Return unused items within 7 days of delivery for a full refund.</p>
+              </div>
+            </div>
+            
+            <div class='col-md-4'>
+              <div class='text-center'>
+                <div class='bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3' style='width: 60px; height: 60px;'>
+                  <i class='fa fa-box text-success fa-2x'></i>
+                </div>
+                <h5 class='h6 text-dark mb-2'>Original Packaging</h5>
+                <p class='text-muted small mb-0'>Items must be in original packaging with all tags and accessories.</p>
+              </div>
+            </div>
+            
+            <div class='col-md-4'>
+              <div class='text-center'>
+                <div class='bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3' style='width: 60px; height: 60px;'>
+                  <i class='fa fa-shield-alt text-warning fa-2x'></i>
+                </div>
+                <h5 class='h6 text-dark mb-2'>Quality Guarantee</h5>
+                <p class='text-muted small mb-0'>We guarantee the quality of all our products or your money back.</p>
+              </div>
+            </div>
+          </div>
+          
+          <hr class='my-4'>
+          
+          <!-- Return Process -->
+          <div class='row g-4'>
+            <div class='col-md-6'>
+              <h3 class='h5 text-dark mb-3'>How to Return an Item</h3>
+              <div class='list-group list-group-flush'>
+                <div class='list-group-item border-0 px-0'>
+                  <div class='d-flex align-items-start'>
+                    <span class='badge bg-primary rounded-circle me-3' style='width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;'>1</span>
+                    <div>
+                      <h6 class='mb-1'>Contact Support</h6>
+                      <p class='text-muted small mb-0'>Call us at 01991095900 or email support@shopaway.com within 7 days of delivery.</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class='list-group-item border-0 px-0'>
+                  <div class='d-flex align-items-start'>
+                    <span class='badge bg-primary rounded-circle me-3' style='width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;'>2</span>
+                    <div>
+                      <h6 class='mb-1'>Get Return Authorization</h6>
+                      <p class='text-muted small mb-0'>We'll provide you with a return authorization number and instructions.</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class='list-group-item border-0 px-0'>
+                  <div class='d-flex align-items-start'>
+                    <span class='badge bg-primary rounded-circle me-3' style='width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;'>3</span>
+                    <div>
+                      <h6 class='mb-1'>Package the Item</h6>
+                      <p class='text-muted small mb-0'>Pack the item securely in its original packaging with all accessories.</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class='list-group-item border-0 px-0'>
+                  <div class='d-flex align-items-start'>
+                    <span class='badge bg-primary rounded-circle me-3' style='width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;'>4</span>
+                    <div>
+                      <h6 class='mb-1'>Schedule Pickup</h6>
+                      <p class='text-muted small mb-0'>We'll arrange for pickup or provide you with return shipping instructions.</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class='list-group-item border-0 px-0'>
+                  <div class='d-flex align-items-start'>
+                    <span class='badge bg-primary rounded-circle me-3' style='width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;'>5</span>
+                    <div>
+                      <h6 class='mb-1'>Receive Refund</h6>
+                      <p class='text-muted small mb-0'>Once we receive and inspect the item, we'll process your refund within 3-5 business days.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class='col-md-6'>
+              <h3 class='h5 text-dark mb-3'>Return Conditions</h3>
+              
+              <div class='mb-4'>
+                <h6 class='text-success mb-2'>
+                  <i class='fa fa-check-circle me-2'></i>Items Eligible for Return
+                </h6>
+                <ul class='list-unstyled small text-muted'>
+                  <li class='mb-1'>• Unused items in original packaging</li>
+                  <li class='mb-1'>• Items with all original tags and accessories</li>
+                  <li class='mb-1'>• Items not damaged by customer</li>
+                  <li class='mb-1'>• Items returned within 7 days of delivery</li>
+                </ul>
+              </div>
+              
+              <div class='mb-4'>
+                <h6 class='text-danger mb-2'>
+                  <i class='fa fa-times-circle me-2'></i>Items NOT Eligible for Return
+                </h6>
+                <ul class='list-unstyled small text-muted'>
+                  <li class='mb-1'>• Used or damaged items</li>
+                  <li class='mb-1'>• Items without original packaging</li>
+                  <li class='mb-1'>• Personal care items (opened)</li>
+                  <li class='mb-1'>• Customized or personalized items</li>
+                  <li class='mb-1'>• Items returned after 7 days</li>
+                </ul>
+              </div>
+              
+              <div class='bg-light rounded p-3'>
+                <h6 class='text-info mb-2'>
+                  <i class='fa fa-info-circle me-2'></i>Special Cases
+                </h6>
+                <p class='text-muted small mb-0'>For defective items or wrong products delivered, we offer free return shipping and immediate replacement or full refund.</p>
+              </div>
+            </div>
+          </div>
+          
+          <hr class='my-4'>
+          
+          <!-- Refund Information -->
+          <div class='row g-4'>
+            <div class='col-md-6'>
+              <h3 class='h5 text-dark mb-3'>Refund Process</h3>
+              <div class='row g-3'>
+                <div class='col-12'>
+                  <div class='d-flex align-items-center p-3 bg-light rounded'>
+                    <i class='fa fa-clock text-primary me-3'></i>
+                    <div>
+                      <h6 class='mb-1'>Processing Time</h6>
+                      <p class='text-muted small mb-0'>3-5 business days after we receive the returned item</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class='col-12'>
+                  <div class='d-flex align-items-center p-3 bg-light rounded'>
+                    <i class='fa fa-credit-card text-success me-3'></i>
+                    <div>
+                      <h6 class='mb-1'>Refund Method</h6>
+                      <p class='text-muted small mb-0'>Refunded to the original payment method used for purchase</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class='col-12'>
+                  <div class='d-flex align-items-center p-3 bg-light rounded'>
+                    <i class='fa fa-money-bill-wave text-warning me-3'></i>
+                    <div>
+                      <h6 class='mb-1'>Refund Amount</h6>
+                      <p class='text-muted small mb-0'>Full refund minus any shipping charges (if applicable)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class='col-md-6'>
+              <h3 class='h5 text-dark mb-3'>Exchange Policy</h3>
+              <div class='bg-light rounded p-4'>
+                <h6 class='text-primary mb-3'>Need a Different Size or Color?</h6>
+                <p class='text-muted small mb-3'>We offer free exchanges for items in different sizes or colors, subject to availability.</p>
+                
+                <div class='row g-2'>
+                  <div class='col-6'>
+                    <div class='text-center p-2 bg-white rounded'>
+                      <i class='fa fa-sync text-success fa-2x mb-2'></i>
+                      <h6 class='small mb-1'>Free Exchange</h6>
+                      <small class='text-muted'>Same item, different size/color</small>
+                    </div>
+                  </div>
+                  <div class='col-6'>
+                    <div class='text-center p-2 bg-white rounded'>
+                      <i class='fa fa-truck text-info fa-2x mb-2'></i>
+                      <h6 class='small mb-1'>Free Shipping</h6>
+                      <small class='text-muted'>On exchange orders</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <hr class='my-4'>
+          
+          <!-- Contact Information -->
+          <div class='row'>
+            <div class='col-12'>
+              <div class='bg-primary bg-opacity-10 rounded p-4'>
+                <h3 class='h5 text-primary mb-3'>
+                  <i class='fa fa-headset me-2'></i>Need Help with Returns?
+                </h3>
+                <p class='text-muted mb-3'>Our customer support team is here to help you with any return or refund questions.</p>
+                <div class='row g-3'>
+                  <div class='col-md-4'>
+                    <div class='d-flex align-items-center'>
+                      <i class='fa fa-phone text-primary me-3'></i>
+                      <div>
+                        <h6 class='mb-0'>Phone Support</h6>
+                        <small class='text-muted'>01991095900</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-md-4'>
+                    <div class='d-flex align-items-center'>
+                      <i class='fa fa-envelope text-primary me-3'></i>
+                      <div>
+                        <h6 class='mb-0'>Email Support</h6>
+                        <small class='text-muted'>support@shopaway.com</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-md-4'>
+                    <div class='d-flex align-items-center'>
+                      <i class='fa fa-clock text-primary me-3'></i>
+                      <div>
+                        <h6 class='mb-0'>Support Hours</h6>
+                        <small class='text-muted'>9 AM - 6 PM (Daily)</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_header %}
+<h1 class='h3 fw-bold text-primary'>
+  <i class='fa fa-shipping-fast me-2'></i>Shipping Information
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+  <div class='row'>
+    <div class='col-12'>
+      <div class='card border-0 shadow-sm'>
+        <div class='card-body p-4'>
+          <h2 class='h4 text-primary mb-4'>Shipping & Delivery Information</h2>
+          
+          <div class='row g-4'>
+            <!-- Shipping Methods -->
+            <div class='col-md-6'>
+              <div class='h-100'>
+                <h3 class='h5 text-dark mb-3'>
+                  <i class='fa fa-truck text-primary me-2'></i>Shipping Methods
+                </h3>
+                <div class='list-group list-group-flush'>
+                  <div class='list-group-item border-0 px-0'>
+                    <div class='d-flex align-items-center'>
+                      <div class='me-3'>
+                        <i class='fa fa-motorcycle text-success fa-2x'></i>
+                      </div>
+                      <div>
+                        <h6 class='mb-1'>Standard Delivery</h6>
+                        <p class='mb-1 text-muted small'>3-5 business days</p>
+                        <span class='badge bg-success'>৳60</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class='list-group-item border-0 px-0'>
+                    <div class='d-flex align-items-center'>
+                      <div class='me-3'>
+                        <i class='fa fa-shipping-fast text-warning fa-2x'></i>
+                      </div>
+                      <div>
+                        <h6 class='mb-1'>Express Delivery</h6>
+                        <p class='mb-1 text-muted small'>1-2 business days</p>
+                        <span class='badge bg-warning text-dark'>৳120</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class='list-group-item border-0 px-0'>
+                    <div class='d-flex align-items-center'>
+                      <div class='me-3'>
+                        <i class='fa fa-rocket text-danger fa-2x'></i>
+                      </div>
+                      <div>
+                        <h6 class='mb-1'>Same Day Delivery</h6>
+                        <p class='mb-1 text-muted small'>Within 6 hours (Dhaka only)</p>
+                        <span class='badge bg-danger'>৳200</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Delivery Areas -->
+            <div class='col-md-6'>
+              <div class='h-100'>
+                <h3 class='h5 text-dark mb-3'>
+                  <i class='fa fa-map-marker-alt text-primary me-2'></i>Delivery Areas
+                </h3>
+                <div class='row g-2'>
+                  <div class='col-6'>
+                    <div class='card border border-primary h-100'>
+                      <div class='card-body p-3 text-center'>
+                        <i class='fa fa-city text-primary fa-2x mb-2'></i>
+                        <h6 class='card-title mb-1'>Dhaka</h6>
+                        <small class='text-muted'>All areas</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-6'>
+                    <div class='card border border-success h-100'>
+                      <div class='card-body p-3 text-center'>
+                        <i class='fa fa-building text-success fa-2x mb-2'></i>
+                        <h6 class='card-title mb-1'>Chittagong</h6>
+                        <small class='text-muted'>Main areas</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-6'>
+                    <div class='card border border-info h-100'>
+                      <div class='card-body p-3 text-center'>
+                        <i class='fa fa-home text-info fa-2x mb-2'></i>
+                        <h6 class='card-title mb-1'>Sylhet</h6>
+                        <small class='text-muted'>City areas</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-6'>
+                    <div class='card border border-warning h-100'>
+                      <div class='card-body p-3 text-center'>
+                        <i class='fa fa-map text-warning fa-2x mb-2'></i>
+                        <h6 class='card-title mb-1'>Other Cities</h6>
+                        <small class='text-muted'>Limited areas</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <hr class='my-4'>
+          
+          <!-- Shipping Policies -->
+          <div class='row g-4'>
+            <div class='col-md-4'>
+              <div class='text-center'>
+                <div class='bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3' style='width: 60px; height: 60px;'>
+                  <i class='fa fa-clock text-primary fa-2x'></i>
+                </div>
+                <h5 class='h6 text-dark mb-2'>Processing Time</h5>
+                <p class='text-muted small mb-0'>Orders are processed within 24 hours of payment confirmation.</p>
+              </div>
+            </div>
+            
+            <div class='col-md-4'>
+              <div class='text-center'>
+                <div class='bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3' style='width: 60px; height: 60px;'>
+                  <i class='fa fa-shield-alt text-success fa-2x'></i>
+                </div>
+                <h5 class='h6 text-dark mb-2'>Secure Packaging</h5>
+                <p class='text-muted small mb-0'>All items are carefully packaged to ensure safe delivery.</p>
+              </div>
+            </div>
+            
+            <div class='col-md-4'>
+              <div class='text-center'>
+                <div class='bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3' style='width: 60px; height: 60px;'>
+                  <i class='fa fa-undo text-warning fa-2x'></i>
+                </div>
+                <h5 class='h6 text-dark mb-2'>Easy Returns</h5>
+                <p class='text-muted small mb-0'>7-day return policy for unused items in original packaging.</p>
+              </div>
+            </div>
+          </div>
+          
+          <hr class='my-4'>
+          
+          <!-- FAQ Section -->
+          <div class='row'>
+            <div class='col-12'>
+              <h3 class='h5 text-dark mb-3'>
+                <i class='fa fa-question-circle text-primary me-2'></i>Frequently Asked Questions
+              </h3>
+              
+              <div class='accordion' id='shippingFAQ'>
+                <div class='accordion-item'>
+                  <h2 class='accordion-header' id='faq1'>
+                    <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapse1' aria-expanded='false' aria-controls='collapse1'>
+                      How long does delivery take?
+                    </button>
+                  </h2>
+                  <div id='collapse1' class='accordion-collapse collapse' aria-labelledby='faq1' data-bs-parent='#shippingFAQ'>
+                    <div class='accordion-body'>
+                      <strong>Standard delivery:</strong> 3-5 business days<br>
+                      <strong>Express delivery:</strong> 1-2 business days<br>
+                      <strong>Same day delivery:</strong> Within 6 hours (Dhaka only)
+                    </div>
+                  </div>
+                </div>
+                
+                <div class='accordion-item'>
+                  <h2 class='accordion-header' id='faq2'>
+                    <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapse2' aria-expanded='false' aria-controls='collapse2'>
+                      What are the shipping charges?
+                    </button>
+                  </h2>
+                  <div id='collapse2' class='accordion-collapse collapse' aria-labelledby='faq2' data-bs-parent='#shippingFAQ'>
+                    <div class='accordion-body'>
+                      <strong>Standard Delivery:</strong> ৳60<br>
+                      <strong>Express Delivery:</strong> ৳120<br>
+                      <strong>Same Day Delivery:</strong> ৳200<br>
+                      <strong>Free shipping:</strong> Orders above ৳2000
+                    </div>
+                  </div>
+                </div>
+                
+                <div class='accordion-item'>
+                  <h2 class='accordion-header' id='faq3'>
+                    <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapse3' aria-expanded='false' aria-controls='collapse3'>
+                      Can I track my order?
+                    </button>
+                  </h2>
+                  <div id='collapse3' class='accordion-collapse collapse' aria-labelledby='faq3' data-bs-parent='#shippingFAQ'>
+                    <div class='accordion-body'>
+                      Yes! Once your order is shipped, you'll receive a tracking number via SMS and email. You can track your order status in real-time.
+                    </div>
+                  </div>
+                </div>
+                
+                <div class='accordion-item'>
+                  <h2 class='accordion-header' id='faq4'>
+                    <button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#collapse4' aria-expanded='false' aria-controls='collapse4'>
+                      What if I'm not available for delivery?
+                    </button>
+                  </h2>
+                  <div id='collapse4' class='accordion-collapse collapse' aria-labelledby='faq4' data-bs-parent='#shippingFAQ'>
+                    <div class='accordion-body'>
+                      Our delivery team will attempt delivery 3 times. If you're not available, the package will be returned to our warehouse and you can reschedule delivery or pick it up from our office.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <hr class='my-4'>
+          
+          <!-- Contact Information -->
+          <div class='row'>
+            <div class='col-12'>
+              <div class='bg-light rounded p-4'>
+                <h3 class='h5 text-dark mb-3'>
+                  <i class='fa fa-headset text-primary me-2'></i>Need Help?
+                </h3>
+                <div class='row g-3'>
+                  <div class='col-md-4'>
+                    <div class='d-flex align-items-center'>
+                      <i class='fa fa-phone text-primary me-3'></i>
+                      <div>
+                        <h6 class='mb-0'>Phone Support</h6>
+                        <small class='text-muted'>01991095900</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-md-4'>
+                    <div class='d-flex align-items-center'>
+                      <i class='fa fa-envelope text-primary me-3'></i>
+                      <div>
+                        <h6 class='mb-0'>Email Support</h6>
+                        <small class='text-muted'>support@shopaway.com</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-md-4'>
+                    <div class='d-flex align-items-center'>
+                      <i class='fa fa-clock text-primary me-3'></i>
+                      <div>
+                        <h6 class='mb-0'>Support Hours</h6>
+                        <small class='text-muted'>9 AM - 6 PM (Daily)</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

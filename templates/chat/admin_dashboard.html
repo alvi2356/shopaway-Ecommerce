@@ -1,9 +1,40 @@
-{% extends 'base.html' %}
 {% load static %}
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+  <title>Chat Admin Dashboard</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+  <link rel="apple-touch-icon" href="{% static 'favicon.svg' %}">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; }
+    .navbar { background-color: #1BAA9E !important; }
+    .navbar-brand { color: white !important; }
+  </style>
+</head>
+<body>
+  <!-- Simple Admin Navbar -->
+  <nav class='navbar navbar-expand-lg navbar-dark'>
+    <div class='container-fluid'>
+      <a class='navbar-brand fw-bold' href='/admin/'>
+        <i class="fa-solid fa-mountain-sun me-1"></i> 
+        <span>ShopAway Admin</span>
+      </a>
+      <div class='navbar-nav ms-auto'>
+        <a class='nav-link' href='/admin/'>
+          <i class='fa fa-arrow-left me-1'></i>Back to Admin
+        </a>
+      </div>
+    </div>
+  </nav>
 
-{% block title %}Chat Admin Dashboard{% endblock %}
-
-{% block content %}
+  <main class='container-fluid py-4'>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -282,4 +313,9 @@ if (Notification.permission === 'default') {
     Notification.requestPermission();
 }
 </script>
-{% endblock %}
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

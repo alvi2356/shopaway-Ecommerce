@@ -6,6 +6,11 @@
   <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
   <meta name='description' content='Shop Away - Your favorite online store'>
   <title>{% block title %}Shop Away{% endblock %}</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
+  <link rel="apple-touch-icon" href="{% static 'favicon.svg' %}">
+  
   <!-- SEO-friendly canonical, open graph placeholders -->
   <link rel='canonical' href='{{ request.build_absolute_uri }}' />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -742,7 +747,6 @@
         <ul class='list-unstyled small'>
           <li class='mb-1'><a class='text-white text-decoration-none' href='/about/'>About</a></li>
           <li class='mb-1'><a class='text-white text-decoration-none' href='/contact/'>Contact</a></li>
-          <li class='mb-1'><a class='text-white text-decoration-none' href='/blog/'>Blog</a></li>
         </ul>
       </div>
       <div class='col-12 col-sm-6 col-md-3'>
@@ -1304,6 +1308,42 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     /* Logos are duplicated in HTML for seamless scrolling */
+    
+    /* Clickable Product Cards Styling */
+    .product-card-link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .product-card-link:hover {
+      color: inherit;
+      text-decoration: none;
+      transform: translateY(-2px);
+    }
+    
+    .product-card-link:hover .product-card {
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+    }
+    
+    .product-card {
+      transition: box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+    
+    .product-card-link .product-card:hover {
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+    }
+    
+    /* Ensure buttons don't inherit card hover effects */
+    .product-card-link .btn {
+      transition: all 0.2s ease;
+    }
+    
+    .product-card-link:hover .btn {
+      transform: none;
+    }
   `;
   document.head.appendChild(style);
   

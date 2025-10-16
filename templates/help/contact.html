@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_header %}
+<h1 class='h3 fw-bold text-primary'>
+  <i class='fa fa-envelope me-2'></i>Contact Us
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+  <div class='row g-4'>
+    <!-- Contact Information -->
+    <div class='col-md-4'>
+      <div class='card border-0 shadow-sm h-100'>
+        <div class='card-body p-4'>
+          <h3 class='h5 text-primary mb-4'>Get in Touch</h3>
+          
+          <div class='mb-4'>
+            <div class='d-flex align-items-start mb-3'>
+              <i class='fa fa-phone text-primary me-3 mt-1'></i>
+              <div>
+                <h6 class='mb-1'>Phone Support</h6>
+                <p class='text-muted small mb-0'>01991095900</p>
+                <small class='text-success'>Available 9 AM - 6 PM (Daily)</small>
+              </div>
+            </div>
+            
+            <div class='d-flex align-items-start mb-3'>
+              <i class='fa fa-envelope text-primary me-3 mt-1'></i>
+              <div>
+                <h6 class='mb-1'>Email Support</h6>
+                <p class='text-muted small mb-0'>support@shopaway.com</p>
+                <small class='text-success'>We respond within 24 hours</small>
+              </div>
+            </div>
+            
+            <div class='d-flex align-items-start mb-3'>
+              <i class='fa fa-envelope text-primary me-3 mt-1'></i>
+              <div>
+                <h6 class='mb-1'>General Inquiries</h6>
+                <p class='text-muted small mb-0'>info@shopaway.com</p>
+                <small class='text-success'>For business partnerships</small>
+              </div>
+            </div>
+          </div>
+          
+          <hr>
+          
+          <h5 class='h6 text-dark mb-3'>Business Hours</h5>
+          <div class='small text-muted'>
+            <div class='d-flex justify-content-between'>
+              <span>Monday - Friday:</span>
+              <span>9:00 AM - 6:00 PM</span>
+            </div>
+            <div class='d-flex justify-content-between'>
+              <span>Saturday:</span>
+              <span>9:00 AM - 4:00 PM</span>
+            </div>
+            <div class='d-flex justify-content-between'>
+              <span>Sunday:</span>
+              <span>10:00 AM - 2:00 PM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Contact Form -->
+    <div class='col-md-8'>
+      <div class='card border-0 shadow-sm'>
+        <div class='card-body p-4'>
+          <h3 class='h5 text-primary mb-4'>Send us a Message</h3>
+          
+          <form>
+            <div class='row g-3'>
+              <div class='col-md-6'>
+                <label for='firstName' class='form-label'>First Name *</label>
+                <input type='text' class='form-control' id='firstName' required>
+              </div>
+              <div class='col-md-6'>
+                <label for='lastName' class='form-label'>Last Name *</label>
+                <input type='text' class='form-control' id='lastName' required>
+              </div>
+              <div class='col-md-6'>
+                <label for='email' class='form-label'>Email Address *</label>
+                <input type='email' class='form-control' id='email' required>
+              </div>
+              <div class='col-md-6'>
+                <label for='phone' class='form-label'>Phone Number</label>
+                <input type='tel' class='form-control' id='phone'>
+              </div>
+              <div class='col-12'>
+                <label for='subject' class='form-label'>Subject *</label>
+                <select class='form-select' id='subject' required>
+                  <option value=''>Select a subject</option>
+                  <option value='general'>General Inquiry</option>
+                  <option value='order'>Order Support</option>
+                  <option value='shipping'>Shipping Question</option>
+                  <option value='return'>Return/Refund</option>
+                  <option value='technical'>Technical Support</option>
+                  <option value='business'>Business Partnership</option>
+                  <option value='feedback'>Feedback</option>
+                </select>
+              </div>
+              <div class='col-12'>
+                <label for='message' class='form-label'>Message *</label>
+                <textarea class='form-control' id='message' rows='5' placeholder='Please describe your inquiry in detail...' required></textarea>
+              </div>
+              <div class='col-12'>
+                <div class='form-check'>
+                  <input class='form-check-input' type='checkbox' id='newsletter'>
+                  <label class='form-check-label' for='newsletter'>
+                    Subscribe to our newsletter for updates and offers
+                  </label>
+                </div>
+              </div>
+              <div class='col-12'>
+                <button type='submit' class='btn btn-primary'>
+                  <i class='fa fa-paper-plane me-2'></i>Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Additional Information -->
+  <div class='row mt-4'>
+    <div class='col-12'>
+      <div class='card border-0 shadow-sm'>
+        <div class='card-body p-4'>
+          <h3 class='h5 text-primary mb-4'>Frequently Asked Questions</h3>
+          <div class='row g-4'>
+            <div class='col-md-4'>
+              <div class='text-center'>
+                <i class='fa fa-question-circle text-primary fa-2x mb-3'></i>
+                <h6 class='mb-2'>Need Quick Answers?</h6>
+                <p class='text-muted small mb-3'>Check our comprehensive FAQ section for instant answers to common questions.</p>
+                <a href='/help/faq/' class='btn btn-outline-primary btn-sm'>View FAQ</a>
+              </div>
+            </div>
+            
+            <div class='col-md-4'>
+              <div class='text-center'>
+                <i class='fa fa-shipping-fast text-success fa-2x mb-3'></i>
+                <h6 class='mb-2'>Shipping Questions?</h6>
+                <p class='text-muted small mb-3'>Find detailed information about our shipping policies and delivery options.</p>
+                <a href='/help/shipping/' class='btn btn-outline-success btn-sm'>Shipping Info</a>
+              </div>
+            </div>
+            
+            <div class='col-md-4'>
+              <div class='text-center'>
+                <i class='fa fa-undo text-warning fa-2x mb-3'></i>
+                <h6 class='mb-2'>Return Policy</h6>
+                <p class='text-muted small mb-3'>Learn about our return and refund policies for your peace of mind.</p>
+                <a href='/help/returns/' class='btn btn-outline-warning btn-sm'>Return Policy</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
