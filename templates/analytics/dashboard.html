@@ -1,9 +1,604 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Analytics Dashboard - Shop Away{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'admin/css/custom-admin.css' %}">
+<style>
+    .analytics-dashboard {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
+    
+    .metric-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .metric-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2d3748;
+        margin: 0;
+    }
+    
+    .metric-label {
+        font-size: 0.9rem;
+        color: #718096;
+        margin: 0.5rem 0 0 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .metric-change {
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-top: 0.5rem;
+    }
+    
+    .metric-change.positive {
+        color: #38a169;
+    }
+    
+    .metric-change.negative {
+        color: #e53e3e;
+    }
+    
+    .chart-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .chart-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .chart-title i {
+        margin-right: 0.5rem;
+        color: #667eea;
+    }
+    
+    .table-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .table-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .table-title i {
+        margin-right: 0.5rem;
+        color: #667eea;
+    }
+    
+    .analytics-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .analytics-table th,
+    .analytics-table td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .analytics-table th {
+        background: #f7fafc;
+        font-weight: 600;
+        color: #4a5568;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .analytics-table td {
+        color: #2d3748;
+    }
+    
+    .analytics-table tbody tr:hover {
+        background: #f7fafc;
+    }
+    
+    .status-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .status-pending { background: #fef5e7; color: #d69e2e; }
+    .status-confirmed { background: #e6fffa; color: #319795; }
+    .status-shipped { background: #ebf8ff; color: #3182ce; }
+    .status-delivered { background: #f0fff4; color: #38a169; }
+    .status-cancelled { background: #fed7d7; color: #e53e3e; }
+    
+    .refresh-btn {
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .refresh-btn:hover {
+        background: #5a67d8;
+        transform: translateY(-2px);
+    }
+    
+    .loading {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+    
+    .real-time-indicator {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: #38a169;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<h2>Sales Dashboard</h2>
-<ul>
-  <li>Sales today: {{ total_sales_today }}</li>
-  <li>Sales this month: {{ total_sales_month }}</li>
-  <li>Orders today: {{ orders_today }}</li>
-</ul>
+<div class="analytics-dashboard">
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="text-white mb-2">
+                            <i class="fas fa-chart-line"></i> Analytics Dashboard
+                        </h1>
+                        <p class="text-white-50 mb-0">
+                            <span class="real-time-indicator"></span>
+                            Real-time business insights and performance metrics
+                        </p>
+                    </div>
+                    <div>
+                        <a href="/analytics/products/" class="refresh-btn me-2" style="text-decoration: none;">
+                            <i class="fas fa-chart-bar"></i> Products Analytics
+                        </a>
+                        <button class="refresh-btn" onclick="refreshDashboard()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Metrics Row -->
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="metric-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <p class="metric-value" id="total-sales-today">৳{{ total_sales_today|floatformat:0 }}</p>
+                            <p class="metric-label">Today's Sales</p>
+                            <p class="metric-change positive" id="sales-growth">+0%</p>
+                        </div>
+                        <div class="text-primary">
+                            <i class="fas fa-dollar-sign fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="metric-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <p class="metric-value" id="orders-today">{{ orders_today }}</p>
+                            <p class="metric-label">Today's Orders</p>
+                            <p class="metric-change positive" id="orders-growth">+0%</p>
+                        </div>
+                        <div class="text-success">
+                            <i class="fas fa-shopping-cart fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="metric-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <p class="metric-value" id="products-sold-today">{{ products_sold_today }}</p>
+                            <p class="metric-label">Products Sold</p>
+                            <p class="metric-change positive">+0%</p>
+                        </div>
+                        <div class="text-info">
+                            <i class="fas fa-box fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="metric-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <p class="metric-value" id="avg-order-value">৳{{ avg_order_value_today|floatformat:0 }}</p>
+                            <p class="metric-label">Avg Order Value</p>
+                            <p class="metric-change positive">+0%</p>
+                        </div>
+                        <div class="text-warning">
+                            <i class="fas fa-chart-bar fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="chart-container">
+                    <div class="chart-title">
+                        <i class="fas fa-chart-line"></i>
+                        Sales Trend (Last 30 Days)
+                    </div>
+                    <canvas id="salesChart" height="100"></canvas>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="chart-container">
+                    <div class="chart-title">
+                        <i class="fas fa-credit-card"></i>
+                        Payment Methods
+                    </div>
+                    <canvas id="paymentChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Chart and Status -->
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="chart-container">
+                    <div class="chart-title">
+                        <i class="fas fa-shopping-bag"></i>
+                        Orders Trend (Last 30 Days)
+                    </div>
+                    <canvas id="ordersChart" height="100"></canvas>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="chart-container">
+                    <div class="chart-title">
+                        <i class="fas fa-tasks"></i>
+                        Order Status
+                    </div>
+                    <canvas id="statusChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Tables Row -->
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="table-container">
+                    <div class="table-title">
+                        <i class="fas fa-star"></i>
+                        Top Products
+                    </div>
+                    <table class="analytics-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Revenue</th>
+                                <th>Units Sold</th>
+                                <th>Views</th>
+                            </tr>
+                        </thead>
+                        <tbody id="top-products-table">
+                            {% for product in top_products %}
+                            <tr>
+                                <td>{{ product.product__name|default:"N/A" }}</td>
+                                <td>৳{{ product.total_revenue|floatformat:0 }}</td>
+                                <td>{{ product.total_units }}</td>
+                                <td>{{ product.total_views }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">No data available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="table-container">
+                    <div class="table-title">
+                        <i class="fas fa-tags"></i>
+                        Top Categories
+                    </div>
+                    <table class="analytics-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Revenue</th>
+                                <th>Orders</th>
+                                <th>Products</th>
+                            </tr>
+                        </thead>
+                        <tbody id="top-categories-table">
+                            {% for category in top_categories %}
+                            <tr>
+                                <td>{{ category.product__category__name|default:"Uncategorized" }}</td>
+                                <td>৳{{ category.total_revenue|floatformat:0 }}</td>
+                                <td>{{ category.total_orders }}</td>
+                                <td>{{ category.total_products }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">No data available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity Row -->
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="table-container">
+                    <div class="table-title">
+                        <i class="fas fa-clock"></i>
+                        Recent Orders
+                    </div>
+                    <table class="analytics-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in recent_orders %}
+                            <tr>
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.name }}</td>
+                                <td>৳{{ order.total|floatformat:0 }}</td>
+                                <td>
+                                    <span class="status-badge status-{{ order.status }}">
+                                        {{ order.get_status_display }}
+                                    </span>
+                                </td>
+                                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">No recent orders</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="table-container">
+                    <div class="table-title">
+                        <i class="fas fa-user-plus"></i>
+                        Recent Activity
+                    </div>
+                    <table class="analytics-table">
+                        <thead>
+                            <tr>
+                                <th>Event</th>
+                                <th>User</th>
+                                <th>Product</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in recent_events %}
+                            <tr>
+                                <td>{{ event.get_event_type_display }}</td>
+                                <td>{{ event.user.username|default:"Guest" }}</td>
+                                <td>{{ event.product_name|default:"-" }}</td>
+                                <td>{{ event.created_at|timesince }} ago</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">No recent activity</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Chart configurations
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: 'rgba(0,0,0,0.1)'
+                }
+            },
+            x: {
+                grid: {
+                    color: 'rgba(0,0,0,0.1)'
+                }
+            }
+        }
+    };
+
+    // Sales Chart
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    const salesChart = new Chart(salesCtx, {
+        type: 'line',
+        data: {{ sales_chart_data|safe }},
+        options: chartOptions
+    });
+
+    // Orders Chart
+    const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+    const ordersChart = new Chart(ordersCtx, {
+        type: 'line',
+        data: {{ orders_chart_data|safe }},
+        options: chartOptions
+    });
+
+    // Payment Methods Chart
+    const paymentCtx = document.getElementById('paymentChart').getContext('2d');
+    const paymentChart = new Chart(paymentCtx, {
+        type: 'doughnut',
+        data: {{ payment_method_data|safe }},
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+            },
+        }
+    });
+
+    // Order Status Chart
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    const statusChart = new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {{ order_status_data|safe }},
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+            },
+        }
+    });
+
+    // Refresh dashboard function
+    function refreshDashboard() {
+        const refreshBtn = document.querySelector('.refresh-btn');
+        refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+        refreshBtn.classList.add('loading');
+        
+        // Fetch updated data
+        fetch('/analytics/api/?type=overview')
+            .then(response => response.json())
+            .then(data => {
+                // Update metrics
+                document.getElementById('total-sales-today').textContent = '৳' + data.today.sales.toLocaleString();
+                document.getElementById('orders-today').textContent = data.today.orders;
+                document.getElementById('products-sold-today').textContent = data.today.products_sold;
+                document.getElementById('avg-order-value').textContent = '৳' + data.today.avg_order_value.toLocaleString();
+                
+                // Update growth indicators
+                const salesGrowth = document.getElementById('sales-growth');
+                const ordersGrowth = document.getElementById('orders-growth');
+                
+                salesGrowth.textContent = (data.growth.sales_growth >= 0 ? '+' : '') + data.growth.sales_growth + '%';
+                salesGrowth.className = 'metric-change ' + (data.growth.sales_growth >= 0 ? 'positive' : 'negative');
+                
+                ordersGrowth.textContent = (data.growth.orders_growth >= 0 ? '+' : '') + data.growth.orders_growth + '%';
+                ordersGrowth.className = 'metric-change ' + (data.growth.orders_growth >= 0 ? 'positive' : 'negative');
+                
+                // Reset button
+                refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+                refreshBtn.classList.remove('loading');
+            })
+            .catch(error => {
+                console.error('Error refreshing dashboard:', error);
+                refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+                refreshBtn.classList.remove('loading');
+            });
+    }
+
+    // Auto-refresh every 5 minutes
+    setInterval(refreshDashboard, 300000);
+
+    // Track page view
+    fetch('/analytics/track/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || ''
+        },
+        body: JSON.stringify({
+            event_type: 'page_view',
+            page_url: window.location.href,
+            page_title: document.title
+        })
+    }).catch(error => console.log('Analytics tracking error:', error));
+</script>
 {% endblock %}

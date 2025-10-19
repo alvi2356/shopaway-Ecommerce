@@ -19,6 +19,102 @@
   <link href="/static/css/mobile-responsive.css" rel="stylesheet">
   <link href="/static/css/mobile-utilities.css" rel="stylesheet">
   <style>
+    /* Global input field styling - ensure white backgrounds */
+    input[type="text"], 
+    input[type="email"], 
+    input[type="number"], 
+    input[type="tel"], 
+    input[type="password"],
+    input[type="search"],
+    textarea, 
+    select {
+      background-color: white !important;
+      color: #333 !important;
+      border: 1px solid #ddd !important;
+    }
+    
+    input[type="text"]:focus, 
+    input[type="email"]:focus, 
+    input[type="number"]:focus, 
+    input[type="tel"]:focus, 
+    input[type="password"]:focus,
+    input[type="search"]:focus,
+    textarea:focus, 
+    select:focus {
+      background-color: white !important;
+      color: #333 !important;
+      border-color: #1baaae !important;
+      outline: none !important;
+      box-shadow: 0 0 0 2px rgba(27, 170, 174, 0.2) !important;
+    }
+    
+    /* Override any dark themes */
+    .dark input, .dark textarea, .dark select,
+    .dark-theme input, .dark-theme textarea, .dark-theme select,
+    [data-theme="dark"] input, [data-theme="dark"] textarea, [data-theme="dark"] select {
+      background-color: white !important;
+      color: #333 !important;
+    }
+    
+    /* Global button improvements */
+    .btn {
+      font-weight: 600;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-primary {
+      background: #007bff;
+      border-color: #007bff;
+    }
+    
+    .btn-primary:hover {
+      background: #0056b3;
+      border-color: #0056b3;
+    }
+    
+    .btn-success {
+      background: #28a745;
+      border-color: #28a745;
+    }
+    
+    .btn-success:hover {
+      background: #218838;
+      border-color: #1e7e34;
+    }
+    
+    .btn-danger {
+      background: #dc3545;
+      border-color: #dc3545;
+    }
+    
+    .btn-danger:hover {
+      background: #c82333;
+      border-color: #bd2130;
+    }
+    
+    .btn-outline-danger {
+      color: #dc3545;
+      border-color: #dc3545;
+    }
+    
+    .btn-outline-danger:hover {
+      background-color: #dc3545;
+      border-color: #dc3545;
+      color: white;
+    }
+    
     /* Critical mobile fixes */
     @media (max-width: 768px) {
       .page-hero {

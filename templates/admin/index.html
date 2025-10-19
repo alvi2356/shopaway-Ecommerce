@@ -1,65 +1,275 @@
 {% extends "admin/base_site.html" %}
 {% load static %}
 {% block title %}Dashboard | {{ block.super }}{% endblock %}
-{% block content %}
-<div class="container-fluid">
-  <div class="row g-3">
-    <div class="col-md-3">
-      <div class="card card-hover">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <div class="text-muted small">Total Products</div>
-              <div class="h4 fw-bold">{{ products_count }}</div>
-            </div>
-            <i class="fas fa-boxes fa-2x text-primary"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card card-hover">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <div class="text-muted small">Orders (30d)</div>
-              <div class="h4 fw-bold">{{ orders_last_30 }}</div>
-            </div>
-            <i class="fas fa-shopping-cart fa-2x text-success"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card card-hover">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <div class="text-muted small">Revenue (30d)</div>
-              <div class="h4 fw-bold">৳{{ revenue_last_30|default:"0.00" }}</div>
-            </div>
-            <i class="fas fa-sack-dollar fa-2x text-warning"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card card-hover">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <div class="text-muted small">Users</div>
-              <div class="h4 fw-bold">{{ users_count }}</div>
-            </div>
-            <i class="fas fa-users fa-2x text-info"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="mt-4">
-    {{ app_list|safe }}
-  </div>
-</div>
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'admin/css/custom-admin.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
 
+{% block content %}
+<div class="container-fluid">
+  <!-- Welcome Section -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="dashboard-widget">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <h2><i class="fas fa-tachometer-alt"></i> Welcome to ShopAway Admin</h2>
+            <p class="mb-0">Manage your e-commerce platform with powerful tools and insights</p>
+          </div>
+          <div class="col-md-4 text-end">
+            <div class="status-indicator status-online"></div>
+            <span>System Online</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real Analytics Metrics -->
+  <div class="row g-4 mb-4">
+    <div class="col-lg-3 col-md-6">
+      <div class="card card-hover">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="text-muted small mb-1 metric-label">Today's Sales</div>
+              <div class="h3 fw-bold text-primary metric-value">৳{{ today_sales|default:"0"|floatformat:0 }}</div>
+              <div class="small text-success metric-change">
+                <i class="fas fa-arrow-up"></i> +{{ sales_growth|default:"0" }}% vs yesterday
+              </div>
+            </div>
+            <div class="dashboard-icon">
+              <i class="fas fa-dollar-sign fa-3x text-primary"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent">
+          <a href="/analytics/" class="btn btn-sm btn-outline-primary">
+            <i class="fas fa-chart-line"></i> View Analytics
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+      <div class="card card-hover">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="text-muted small mb-1 metric-label">Today's Orders</div>
+              <div class="h3 fw-bold text-success metric-value">{{ today_orders|default:"0" }}</div>
+              <div class="small text-success metric-change">
+                <i class="fas fa-arrow-up"></i> +{{ orders_growth|default:"0" }}% vs yesterday
+              </div>
+            </div>
+            <div class="dashboard-icon">
+              <i class="fas fa-shopping-cart fa-3x text-success"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent">
+          <a href="/admin/orders/order/" class="btn btn-sm btn-outline-success">
+            <i class="fas fa-list"></i> View Orders
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+      <div class="card card-hover">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="text-muted small mb-1 metric-label">Products Sold</div>
+              <div class="h3 fw-bold text-info metric-value">{{ products_sold_today|default:"0" }}</div>
+              <div class="small text-info metric-change">
+                <i class="fas fa-box"></i> Today's sales
+              </div>
+            </div>
+            <div class="dashboard-icon">
+              <i class="fas fa-box fa-3x text-info"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent">
+          <a href="/admin/products/product/" class="btn btn-sm btn-outline-info">
+            <i class="fas fa-edit"></i> Manage Products
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+      <div class="card card-hover">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="text-muted small mb-1 metric-label">Avg Order Value</div>
+              <div class="h3 fw-bold text-warning metric-value">৳{{ avg_order_value|default:"0"|floatformat:0 }}</div>
+              <div class="small text-warning metric-change">
+                <i class="fas fa-chart-bar"></i> Today's average
+              </div>
+            </div>
+            <div class="dashboard-icon">
+              <i class="fas fa-chart-bar fa-3x text-warning"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent">
+          <a href="/analytics/" class="btn btn-sm btn-outline-warning">
+            <i class="fas fa-analytics"></i> View Reports
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="row g-4 mb-4">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0"><i class="fas fa-chart-line"></i> Sales Trend (Last 7 Days)</h5>
+        </div>
+        <div class="card-body">
+          <canvas id="salesChart" height="100"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0"><i class="fas fa-credit-card"></i> Payment Methods</h5>
+        </div>
+        <div class="card-body">
+          <canvas id="paymentChart" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Admin Modules -->
+  <div class="row g-4 mb-4">
+    <div class="col-12">
+      <div class="card admin-modules">
+        <div class="card-header">
+          <h5 class="mb-0"><i class="fas fa-cogs"></i> Admin Modules</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            {% for app in app_list %}
+            <div class="col-lg-4 col-md-6 mb-3">
+              <div class="admin-app-card">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h6 class="mb-0">
+                    <i class="fas fa-{{ app.icon|default:'folder' }}"></i>
+                    {{ app.name }}
+                  </h6>
+                  <span class="badge bg-secondary">{{ app.models|length }} models</span>
+                </div>
+                <div class="model-list">
+                  {% for model in app.models %}
+                  <div class="model-item">
+                    <a href="{{ model.admin_url }}" class="model-link">
+                      <i class="fas fa-{{ model.icon|default:'file' }}"></i>
+                      {{ model.name }}
+                    </a>
+                    {% if model.add_url %}
+                    <a href="{{ model.add_url }}" class="btn btn-sm btn-outline-primary ms-2">
+                      <i class="fas fa-plus"></i>
+                    </a>
+                    {% endif %}
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Sales Chart
+const salesCtx = document.getElementById('salesChart').getContext('2d');
+const salesChart = new Chart(salesCtx, {
+    type: 'line',
+    data: {
+        labels: ['{{ "7 days ago"|date:"M d" }}', '{{ "6 days ago"|date:"M d" }}', '{{ "5 days ago"|date:"M d" }}', '{{ "4 days ago"|date:"M d" }}', '{{ "3 days ago"|date:"M d" }}', '{{ "2 days ago"|date:"M d" }}', '{{ "1 day ago"|date:"M d" }}'],
+        datasets: [{
+            label: 'Daily Sales (৳)',
+            data: [{{ sales_data|default:"[0,0,0,0,0,0,0]"|safe }}],
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.1,
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: 'rgba(0,0,0,0.1)'
+                }
+            },
+            x: {
+                grid: {
+                    color: 'rgba(0,0,0,0.1)'
+                }
+            }
+        }
+    }
+});
+
+// Payment Methods Chart
+const paymentCtx = document.getElementById('paymentChart').getContext('2d');
+const paymentChart = new Chart(paymentCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Cash on Delivery', 'Online Payment'],
+        datasets: [{
+            data: [{{ cod_orders|default:"50" }}, {{ online_orders|default:"30" }}],
+            backgroundColor: ['#FF6384', '#36A2EB'],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+
+// Auto-refresh analytics data every 5 minutes
+setInterval(function() {
+    fetch('/analytics/api/?type=overview')
+        .then(response => response.json())
+        .then(data => {
+            // Update metrics
+            document.querySelector('.metric-value').textContent = '৳' + data.today.sales.toLocaleString();
+            // Update other metrics as needed
+        })
+        .catch(error => console.log('Analytics refresh error:', error));
+}, 300000);
+</script>
+{% endblock %}

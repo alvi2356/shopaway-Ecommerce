@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions','django.contrib.messages','django.contrib.staticfiles',
     'rest_framework','crispy_forms','django_filters',
     'channels',
-    'accounts','products','orders','inventory','blog','chat','analytics',
+    'accounts','products','orders','inventory','chat','analytics',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -98,28 +98,114 @@ CSRF_USE_SESSIONS = False
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-# Jazzmin branding for an eye-catching admin
+# Jazzmin branding for an eye-catching admin with modern theme
 JAZZMIN_SETTINGS = {
+    # General Settings
     "site_title": "ShopAway Admin",
     "site_header": "ShopAway",
-    "welcome_sign": "Welcome to ShopAway Admin",
     "site_brand": "ShopAway",
+    "welcome_sign": "Welcome to ShopAway Admin Dashboard",
+    "copyright": "ShopAway E-commerce Platform",
+    "search_model": ["auth.User", "products.Product", "orders.Order"],
+    
+    # UI Theme Configuration
+    "theme": "darkly",  # Modern dark theme
+    "dark_mode_theme": "darkly",
     "show_ui_builder": True,
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": ["blog"],  # Hide blog app from admin
+    "hide_models": [],
+    
+    # Custom CSS and JS
+    "custom_css": "admin/css/custom-admin.css",
+    "custom_js": "admin/js/custom-admin.js",
+    
+    # Color Scheme - Modern Purple/Blue Gradient
+    "brand_colors": {
+        "primary": "#6366f1",  # Indigo
+        "secondary": "#8b5cf6",  # Purple
+        "accent": "#06b6d4",  # Cyan
+        "success": "#10b981",  # Emerald
+        "warning": "#f59e0b",  # Amber
+        "danger": "#ef4444",  # Red
+        "info": "#3b82f6",  # Blue
+        "light": "#f8fafc",  # Slate 50
+        "dark": "#1e293b",  # Slate 800
+    },
+    
+    # Logo and Branding
+    "logo": None,  # Will use text logo
+    "logo_classes": "img-circle elevation-3",
+    "site_logo": None,
+    "site_logo_classes": "img-circle elevation-3",
+    
+    # Top Menu Links
     "topmenu_links": [
-        {"name": "Home", "url": "/", "permissions": ["auth.view_user"]},
+        {"name": "🏠 Home", "url": "/", "permissions": ["auth.view_user"]},
+        {"name": "📊 Analytics", "url": "/analytics/", "permissions": ["auth.view_user"]},
         {"app": "products"},
         {"app": "orders"},
-        {"name": "Live Chat", "url": "/chat/admin/", "permissions": ["auth.view_user"]},
+        {"name": "💬 Live Chat", "url": "/chat/admin/", "permissions": ["auth.view_user"]},
+        {"name": "📦 Inventory", "url": "/admin/inventory/", "permissions": ["auth.view_user"]},
     ],
+    
+    # Sidebar Configuration
+    "order_with_respect_to": ["auth", "products", "orders", "inventory", "analytics", "chat"],
+    "related_modal_active": True,
+    "use_google_fonts_cdn": True,
+    "changeform_format": "horizontal_tabs",
+    "changeform_format_overrides": {
+        "auth.user": "collapsible",
+        "auth.group": "vertical_tabs"
+    },
+    
+    # Icons with modern FontAwesome icons
     "icons": {
         "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.group": "fas fa-users",
         "products": "fas fa-boxes",
+        "products.product": "fas fa-box",
+        "products.category": "fas fa-tags",
         "orders": "fas fa-shopping-cart",
+        "orders.order": "fas fa-receipt",
+        "orders.orderitem": "fas fa-list",
         "inventory": "fas fa-warehouse",
-        "blog": "fas fa-blog",
+        "inventory.stocktransaction": "fas fa-exchange-alt",
         "analytics": "fas fa-chart-line",
+        "analytics.analyticsdashboard": "fas fa-tachometer-alt",
         "chat": "fas fa-comments",
+        "chat.chatmessage": "fas fa-comment",
     },
+    
+    # Custom Links
+    "custom_links": {
+        "products": [{
+            "name": "📈 Product Analytics",
+            "url": "/analytics/products/",
+            "icon": "fas fa-chart-bar",
+            "permissions": ["auth.view_user"]
+        }],
+        "orders": [{
+            "name": "📊 Order Reports",
+            "url": "/analytics/orders/",
+            "icon": "fas fa-chart-pie",
+            "permissions": ["auth.view_user"]
+        }],
+    },
+    
+    # UI Builder Settings
+    "show_ui_builder": True,
+    "ui_builder_on_top": True,
+    
+    # Language and Localization
+    "language_chooser": False,  # Disabled to avoid URL configuration issues
+    "default_ui_theme": "darkly",
+    
+    # Performance
+    "related_modal_active": True,
+    "related_modal_backdrop": True,
 }
 # Email & SMS placeholders
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
